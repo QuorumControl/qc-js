@@ -14,20 +14,22 @@
 // }
 
 
-forge = require('node-forge');
-pki = forge.pki;
-
+const forge = require('node-forge');
+const pki = forge.pki;
 
 class Simpcert {
-    constructor({orgName, commonName, isCa, parent}) {
-        this.orgName = orgName;
-        this.commonName = commonName;
-        this.isCa = isCa;
-        this.parent = parent;
+    constructor(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
     }
 
-    publicPemBytes() {
-        return pki.certificateToPem(this.certificate);
+    toPem() {
+        if (!this.certificateObject) {
+            throw new Error("Trying to call toPem on an empty certificate")
+        }
+        return pki.certificateToPem(this.certificateObject);
     }
 
     generate() {
@@ -71,14 +73,19 @@ class Simpcert {
         var signer = this.parent ? this.parent.privateKey : this.privateKey;
 
         cert.sign(signer)
-        this.certificate = cert;
+        this.certificateObject = cert;
+
+        if (typeof this.onUpdate == 'function') {
+            this.onUpdate();
+        }
     }
+
 
 }
 
 function notAfter() {
     "use strict";
     return new Date(new Date().setFullYear(new Date().getFullYear() + 5))
-};
+}
 
 module.exports = Simpcert;

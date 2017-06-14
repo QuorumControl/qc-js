@@ -2,10 +2,9 @@
  * Created by tbowers on 6/9/17.
  */
 
-identitypb = require('./identity_pb').identitypb;
+identitypb = require('./identity_with_cert').identitypb;
 Simpcert = require('./simpcert');
 deviceInfo = require('./device');
-
 
 function generateCurrentDevice(id) {
     "use strict";
@@ -15,7 +14,8 @@ function generateCurrentDevice(id) {
         orgName: id.organization,
         parent: id.certificateAuthority,
         isCa: false
-    })
+    });
+    deviceCert.generate();
     var now = new Date();
     return identitypb.Device.create({
         name: device.name,
@@ -44,16 +44,24 @@ function generate(name, orgName) {
     });
     authority.generate()
 
-    var id = identitypb.Identity.create({
+    var opts = {
         name: name,
         organization: orgName,
         certificateAuthority: authority,
         rootAuthority: rootAuthority
-    });
+    };
+
+    var err = identitypb.Identity.verify({message: opts});
+    if (err) {
+        throw Error(err);
+    }
+
+    var id = identitypb.Identity.create(opts);
 
     var device = generateCurrentDevice(id);
     id.devices[device.uuid] = device;
     return id;
 }
 
+module.exports.identitypb = identitypb;
 module.exports.generate = generate;
