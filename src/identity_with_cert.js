@@ -4,12 +4,12 @@ const ConvertString = require('convert-string').UTF8;
 const forge = require('node-forge');
 const pki = forge.pki;
 
-var identitypb = require('./identity_pb');
+var qcpb = require('./qc_pb');
 var $protobuf = require("protobufjs/minimal");
 
 // Common aliases
 var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
-var $root = identitypb;
+var $root = qcpb;
 
 
 // Take the methods from the identitypb.Certificate class and make it work like a regular SimpCert
@@ -58,16 +58,16 @@ SimpcertProxy.prototype.certificate = $util.newBuffer([]);
 
 /**
  * Creates a new Certificate instance using the specified properties.
- * @param {identitypb.Certificate$Properties=} [properties] Properties to set
- * @returns {identitypb.Certificate} Certificate instance
+ * @param {qcpb.Certificate$Properties=} [properties] Properties to set
+ * @returns {qcpb.Certificate} Certificate instance
  */
 SimpcertProxy.create = function create(properties) {
     return new SimpcertProxy(properties);
 };
 
 /**
- * Encodes the specified Certificate message. Does not implicitly {@link identitypb.Certificate.verify|verify} messages.
- * @param {identitypb.Certificate$Properties} message Certificate message or plain object to encode
+ * Encodes the specified Certificate message. Does not implicitly {@link qcpb.Certificate.verify|verify} messages.
+ * @param {qcpb.Certificate$Properties} message Certificate message or plain object to encode
  * @param {$protobuf.Writer} [writer] Writer to encode to
  * @returns {$protobuf.Writer} Writer
  */
@@ -86,8 +86,8 @@ SimpcertProxy.encode = function encode(message, writer) {
 };
 
 /**
- * Encodes the specified Certificate message, length delimited. Does not implicitly {@link identitypb.Certificate.verify|verify} messages.
- * @param {identitypb.Certificate$Properties} message Certificate message or plain object to encode
+ * Encodes the specified Certificate message, length delimited. Does not implicitly {@link qcpb.Certificate.verify|verify} messages.
+ * @param {qcpb.Certificate$Properties} message Certificate message or plain object to encode
  * @param {$protobuf.Writer} [writer] Writer to encode to
  * @returns {$protobuf.Writer} Writer
  */
@@ -99,7 +99,7 @@ SimpcertProxy.encodeDelimited = function encodeDelimited(message, writer) {
  * Decodes a Certificate message from the specified reader or buffer.
  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
  * @param {number} [length] Message length if known beforehand
- * @returns {identitypb.Certificate} Certificate
+ * @returns {qcpb.Certificate} Certificate
  * @throws {Error} If the payload is not a reader or valid buffer
  * @throws {$protobuf.util.ProtocolError} If required fields are missing
  */
@@ -126,7 +126,7 @@ SimpcertProxy.decode = function decode(reader, length) {
 /**
  * Decodes a Certificate message from the specified reader or buffer, length delimited.
  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
- * @returns {identitypb.Certificate} Certificate
+ * @returns {qcpb.Certificate} Certificate
  * @throws {Error} If the payload is not a reader or valid buffer
  * @throws {$protobuf.util.ProtocolError} If required fields are missing
  */
@@ -153,7 +153,7 @@ SimpcertProxy.verify = function verify(message) {
 /**
  * Creates a Certificate message from a plain object. Also converts values to their respective internal types.
  * @param {Object.<string,*>} object Plain object
- * @returns {identitypb.Certificate} Certificate
+ * @returns {qcpb.Certificate} Certificate
  */
 SimpcertProxy.fromObject = function fromObject(object) {
     if (object instanceof $root.identitypb.Certificate)
@@ -170,16 +170,16 @@ SimpcertProxy.fromObject = function fromObject(object) {
 
 /**
  * Creates a Certificate message from a plain object. Also converts values to their respective internal types.
- * This is an alias of {@link identitypb.Certificate.fromObject}.
+ * This is an alias of {@link qcpb.Certificate.fromObject}.
  * @function
  * @param {Object.<string,*>} object Plain object
- * @returns {identitypb.Certificate} Certificate
+ * @returns {qcpb.Certificate} Certificate
  */
 SimpcertProxy.from = SimpcertProxy.fromObject;
 
 /**
  * Creates a plain object from a Certificate message. Also converts values to other types if specified.
- * @param {identitypb.Certificate} message Certificate
+ * @param {qcpb.Certificate} message Certificate
  * @param {$protobuf.ConversionOptions} [options] Conversion options
  * @returns {Object.<string,*>} Plain object
  */
@@ -212,6 +212,6 @@ SimpcertProxy.prototype.toJSON = function toJSON() {
     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
 };
 
-identitypb.identitypb.Certificate = SimpcertProxy;
+qcpb.identitypb.Certificate = SimpcertProxy;
 
-module.exports = identitypb;
+module.exports = qcpb;
