@@ -16,6 +16,7 @@
 
 const forge = require('node-forge');
 const pki = forge.pki;
+const crypto = require('crypto-browserify');
 
 class Simpcert {
     constructor(properties) {
@@ -86,10 +87,10 @@ function notAfter() {
     return new Date(new Date().setFullYear(new Date().getFullYear() + 5))
 }
 
-Simpcert.Hash = function(bytes, encoding) {
-    var md = forge.md.sha512.create();
-    md.update(bytes, encoding);
-    return md.digest();
+Simpcert.Hash = function(bytes) {
+    var hash = crypto.createHash('sha512');
+    hash.update(bytes);
+    return hash.digest()
 };
 
 module.exports = Simpcert;

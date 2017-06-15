@@ -230,20 +230,7 @@ qcpb.ownershippb.ActionRequest.prototype.getSignable = function() {
 qcpb.ownershippb.ActionRequest.prototype.hash = function() {
     var signable = this.getSignable();
     var encoded = qcpb.ownershippb.ActionRequestSignable.encode(signable).finish();
-    console.log("signing: ", encoded.toString('utf8'));
-    return Simpcert.Hash(encoded.toString('utf8'));
+    return Simpcert.Hash(encoded);
 };
-
-function parseHexString(str) {
-    var result = [];
-    while (str.length >= 8) {
-        result.push(parseInt(str.substring(0, 8), 16));
-
-        str = str.substring(8, str.length);
-    }
-
-    return result;
-}
-
 
 module.exports = qcpb;

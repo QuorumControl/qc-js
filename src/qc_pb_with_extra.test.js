@@ -16,6 +16,9 @@ test('can generate same signable as golang', ()=> {
 
 test('can hash an action request', ()=> {
     var ar = qcpb.ownershippb.ActionRequest.decode(unapprovedBytes);
-    console.log(signableBytes.buffer);
-    expect(ar.hash().toHex()).toBe(expectedHashBytes.toString('hex'));
+    expect(buf2hex(ar.hash())).toBe(expectedHashBytes.toString('hex'));
 });
+
+function buf2hex(buffer) { // buffer is an ArrayBuffer
+    return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+}
