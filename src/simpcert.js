@@ -79,13 +79,17 @@ class Simpcert {
             this.onUpdate();
         }
     }
-
-
 }
 
 function notAfter() {
     "use strict";
     return new Date(new Date().setFullYear(new Date().getFullYear() + 5))
 }
+
+Simpcert.Hash = function(bytes, encoding) {
+    var md = forge.md.sha512.create();
+    md.update(bytes, encoding);
+    return md.digest();
+};
 
 module.exports = Simpcert;

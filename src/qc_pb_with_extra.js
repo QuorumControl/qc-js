@@ -214,4 +214,36 @@ SimpcertProxy.prototype.toJSON = function toJSON() {
 
 qcpb.identitypb.Certificate = SimpcertProxy;
 
+
+qcpb.ownershippb.ActionRequest.prototype.getSignable = function() {
+    var signable = new qcpb.ownershippb.ActionRequestSignable
+    var list = ['asset', 'action', 'organization', 'requester',
+        'additionalInformation', 'createdAt',
+        'notBefore', 'notAfter'
+    ];
+    list.forEach((key)=> {
+        signable[key] = this[key];
+    });
+    return signable;
+};
+
+qcpb.ownershippb.ActionRequest.prototype.hash = function() {
+    var signable = this.getSignable();
+    var encoded = qcpb.ownershippb.ActionRequestSignable.encode(signable).finish();
+    console.log("signing: ", encoded.toString('utf8'));
+    return Simpcert.Hash(encoded.toString('utf8'));
+};
+
+function parseHexString(str) {
+    var result = [];
+    while (str.length >= 8) {
+        result.push(parseInt(str.substring(0, 8), 16));
+
+        str = str.substring(8, str.length);
+    }
+
+    return result;
+}
+
+
 module.exports = qcpb;

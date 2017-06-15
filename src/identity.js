@@ -2,7 +2,7 @@
  * Created by tbowers on 6/9/17.
  */
 
-identitypb = require('./identity_with_cert').identitypb;
+identitypb = require('./qc_pb_with_extra').identitypb;
 Simpcert = require('./simpcert');
 deviceInfo = require('./device');
 
