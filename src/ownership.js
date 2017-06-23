@@ -1,24 +1,24 @@
-
 const qcpb = require('./qc_pb_with_extra');
 const device = require('./device');
-function newApproval(actionRequest, id) {
+const Identity = require('./identity');
+function newApproval(actionRequest, signingIdentity) {
     var hsh = actionRequest.hash();
     return qcpb.ownershippb.Approval.create({
-        owner: id.signingIdentity(),
+        owner: signingIdentity,
         actionRequestHash: hsh,
         createdAt: new Date(),
     });
 }
 
-module.exports.Approve = function(actionRequest, id) {
-    var approval = newApproval(actionRequest, id);
+module.exports.approve = function(actionRequest, signingIdentity) {
+    var approval = newApproval(actionRequest, signingIdentity);
     approval.device = device.getInfo().uuid;
-
+    signApproval(approval, signingIdentity);
     actionRequest.approvals = actionRequest.approvals.concat([approval]);
     return approval;
 };
 
-module.exports.SignApproval = function(approval, id) {
-
-
+var signApproval = module.exports.signApproval = function(approval, id) {
+    var signature = Identity.sign(id, approval);
+    approval.signature = signature;
 };
