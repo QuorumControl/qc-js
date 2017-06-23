@@ -1143,7 +1143,7 @@ $root.identitypb = (function() {
          * Properties of a Certificate.
          * @typedef identitypb.Certificate$Properties
          * @type {Object}
-         * @property {Uint8Array} [certificate] Certificate certificate.
+         * @property {Uint8Array} [pem] Certificate pem.
          */
 
         /**
@@ -1160,10 +1160,10 @@ $root.identitypb = (function() {
         }
 
         /**
-         * Certificate certificate.
+         * Certificate pem.
          * @type {Uint8Array}
          */
-        Certificate.prototype.certificate = $util.newBuffer([]);
+        Certificate.prototype.pem = $util.newBuffer([]);
 
         /**
          * Creates a new Certificate instance using the specified properties.
@@ -1183,8 +1183,8 @@ $root.identitypb = (function() {
         Certificate.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.certificate != null && message.hasOwnProperty("certificate"))
-                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.certificate);
+            if (message.pem != null && message.hasOwnProperty("pem"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.pem);
             return writer;
         };
 
@@ -1214,7 +1214,7 @@ $root.identitypb = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.certificate = reader.bytes();
+                    message.pem = reader.bytes();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1245,9 +1245,9 @@ $root.identitypb = (function() {
         Certificate.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.certificate != null && message.hasOwnProperty("certificate"))
-                if (!(message.certificate && typeof message.certificate.length === "number" || $util.isString(message.certificate)))
-                    return "certificate: buffer expected";
+            if (message.pem != null && message.hasOwnProperty("pem"))
+                if (!(message.pem && typeof message.pem.length === "number" || $util.isString(message.pem)))
+                    return "pem: buffer expected";
             return null;
         };
 
@@ -1260,11 +1260,11 @@ $root.identitypb = (function() {
             if (object instanceof $root.identitypb.Certificate)
                 return object;
             var message = new $root.identitypb.Certificate();
-            if (object.certificate != null)
-                if (typeof object.certificate === "string")
-                    $util.base64.decode(object.certificate, message.certificate = $util.newBuffer($util.base64.length(object.certificate)), 0);
-                else if (object.certificate.length)
-                    message.certificate = object.certificate;
+            if (object.pem != null)
+                if (typeof object.pem === "string")
+                    $util.base64.decode(object.pem, message.pem = $util.newBuffer($util.base64.length(object.pem)), 0);
+                else if (object.pem.length)
+                    message.pem = object.pem;
             return message;
         };
 
@@ -1288,9 +1288,9 @@ $root.identitypb = (function() {
                 options = {};
             var object = {};
             if (options.defaults)
-                object.certificate = options.bytes === String ? "" : [];
-            if (message.certificate != null && message.hasOwnProperty("certificate"))
-                object.certificate = options.bytes === String ? $util.base64.encode(message.certificate, 0, message.certificate.length) : options.bytes === Array ? Array.prototype.slice.call(message.certificate) : message.certificate;
+                object.pem = options.bytes === String ? "" : [];
+            if (message.pem != null && message.hasOwnProperty("pem"))
+                object.pem = options.bytes === String ? $util.base64.encode(message.pem, 0, message.pem.length) : options.bytes === Array ? Array.prototype.slice.call(message.pem) : message.pem;
             return object;
         };
 

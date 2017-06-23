@@ -12,7 +12,7 @@ function generateCurrentDevice(id) {
     var deviceCert = new Simpcert({
         commonName: id.name,
         orgName: id.organization,
-        parent: id.certificateAuthority,
+        parent: id.certificateAuthority.toSimpcert(),
         isCa: false
     });
     deviceCert.generate();
@@ -22,7 +22,7 @@ function generateCurrentDevice(id) {
         uuid: device.uuid,
         createdAt: now,
         description: device.description,
-        certificate: deviceCert,
+        certificate: identitypb.Certificate.fromSimpcert(deviceCert),
     })
 }
 
@@ -34,7 +34,7 @@ function generate(name, orgName) {
         orgName: orgName,
         isCa: true
     });
-    rootAuthority.generate()
+    rootAuthority.generate();
 
     var authority = new Simpcert({
         commonName: name,
@@ -42,13 +42,13 @@ function generate(name, orgName) {
         isCa: true,
         parent: rootAuthority
     });
-    authority.generate()
+    authority.generate();
 
     var opts = {
         name: name,
         organization: orgName,
-        certificateAuthority: authority,
-        rootAuthority: rootAuthority
+        certificateAuthority: identitypb.Certificate.fromSimpcert(authority),
+        rootAuthority: identitypb.Certificate.fromSimpcert(rootAuthority)
     };
 
     var err = identitypb.Identity.verify({message: opts});

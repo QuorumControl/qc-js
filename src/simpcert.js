@@ -75,10 +75,6 @@ class Simpcert {
 
         cert.sign(signer)
         this.certificateObject = cert;
-
-        if (typeof this.onUpdate == 'function') {
-            this.onUpdate();
-        }
     }
 }
 
@@ -91,6 +87,19 @@ Simpcert.Hash = function(bytes) {
     var hash = crypto.createHash('sha512');
     hash.update(bytes);
     return hash.digest()
+};
+
+Simpcert.fromPem = function(certString) {
+    "use strict";
+    var cert = pki.certificateFromPem(certString);
+    var simpcert = new Simpcert({
+        orgName: cert.subject.getField({name: 'organizationName'}).value,
+        commonName: cert.subject.getField({name: 'commonName'}).value,
+        isCa: cert.getExtension('basicConstraints').cA
+    });
+    simpcert.certificateObject = cert;
+    simpcert.publicKey = cert.publicKey;
+    return simpcert;
 };
 
 module.exports = Simpcert;

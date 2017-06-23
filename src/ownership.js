@@ -17,3 +17,8 @@ module.exports.Approve = function(actionRequest, id) {
     actionRequest.approvals = actionRequest.approvals.concat([approval]);
     return approval;
 };
+
+module.exports.SignApproval = function(approval, id) {
+
+
+};
