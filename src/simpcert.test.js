@@ -1,4 +1,5 @@
 const Simpcert = require("./simpcert");
+const forge = require('node-forge');
 
 test('Can generate a new cert', () => {
    var cert = new Simpcert({
@@ -6,7 +7,7 @@ test('Can generate a new cert', () => {
        commonName: "alice",
        isCa: false
    });
-   cert.generate()
+   cert.generate();
    expect(cert.commonName).toBe("alice");
 });
 
@@ -26,4 +27,18 @@ test('can convert from pem', ()=> {
     expect(reconstituted.commonName).toBe(simpcert.commonName);
     expect(reconstituted.orgName).toBe(simpcert.orgName);
     expect(reconstituted.isCa).toBe(simpcert.isCa);
+});
+
+test('can sign', ()=> {
+    "use strict";
+    var data = "I am some data";
+    var cert = new Simpcert({
+        orgName: "insaasity",
+        commonName: "alice",
+        isCa: false
+    });
+    cert.generate();
+
+    var sig = cert.sign(data);
+    expect(sig.length).toBe(256);
 });

@@ -76,6 +76,24 @@ class Simpcert {
         cert.sign(signer)
         this.certificateObject = cert;
     }
+
+    sign(data) {
+        if (!this.privateKey) {
+            throw new Error("Error, privateKey cannot be null when signing");
+        }
+
+        var hash = forge.md.sha512.create();
+        hash.update(data, 'utf8');
+
+        var pss = forge.pss.create({
+            md: forge.md.sha512.create(),
+            mgf: forge.mgf.mgf1.create(forge.md.sha1.create()),
+            saltLength: (this.privateKey.n.bitLength())/8 - 2 - 64 // 64 is digest size of sha512
+        });
+
+        return this.privateKey.sign(hash, pss);
+    }
+
 }
 
 function notAfter() {

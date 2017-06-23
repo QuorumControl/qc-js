@@ -1,3 +1,4 @@
+var savedDeviceInfo;
 
 function getInfo() {
     if (typeof Exponent !== 'undefined') {
@@ -7,11 +8,14 @@ function getInfo() {
             description: Exponent.Constants.deviceId,
         }
     } else {
-        return {
-            name: "unknown javascript device",
-            uuid: guid(),
-            description: "Unknown javascript device"
+        if (!savedDeviceInfo) {
+            savedDeviceInfo = {
+                name: "unknown javascript device",
+                uuid: guid(),
+                description: "Unknown javascript device"
+            }
         }
+        return savedDeviceInfo;
     }
 }
 

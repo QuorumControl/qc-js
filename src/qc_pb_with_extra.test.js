@@ -2,12 +2,17 @@ const qcpb = require('./qc_pb_with_extra');
 const fs = require('fs');
 const forge = require('node-forge');
 const Simpcert = require('./simpcert');
+const Identity = require('./identity');
+const Device = require('./device');
 
 var unapprovedBytes = fs.readFileSync("./fixtures/unapproved.protobuf");
 var approvedBytes = fs.readFileSync("./fixtures/approved.protobuf");
 var expectedHashBytes = fs.readFileSync("./fixtures/unapproved_expected_hash.bytes");
 var signableBytes = fs.readFileSync("./fixtures/signable.protobuf");
 var aliceSigningBytes = fs.readFileSync('./fixtures/alice_signing.protobuf');
+var aliceBytes = fs.readFileSync('./fixtures/alice.protobuf');
+
+var alice = Identity.generate("alice", "insaasity");
 
 test('can generate same signable as golang', ()=> {
     var ar = qcpb.ownershippb.ActionRequest.decode(unapprovedBytes);
@@ -46,6 +51,18 @@ test('can convert form simpcert and to simpcert for identitypb.Certificate', ()=
     var converted = cert.toSimpcert();
 
     expect(converted.commonName).toBe(simpcert.commonName);
+});
+
+test('can convert identity to signing identity', ()=> {
+    "use strict";
+    var id = alice;
+    var signing = id.signingIdentity();
+    expect(signing.currentCertificate).toBe(id.devices[Device.getInfo().uuid].certificate);
+});
+
+test('can get currentDevice from id', ()=> {
+    "use strict";
+     expect(alice.currentDevice().uuid).toBe(Device.getInfo().uuid);
 });
 
 function buf2hex(buffer) { // buffer is an ArrayBuffer

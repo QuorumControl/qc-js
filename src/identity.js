@@ -24,10 +24,9 @@ function generateCurrentDevice(id) {
         description: device.description,
         certificate: identitypb.Certificate.fromSimpcert(deviceCert),
     })
-}
+};
 
-
-function generate(name, orgName) {
+module.exports.generate = function(name, orgName) {
     "use strict";
     var rootAuthority = new Simpcert({
         commonName: name,
@@ -61,7 +60,13 @@ function generate(name, orgName) {
     var device = generateCurrentDevice(id);
     id.devices[device.uuid] = device;
     return id;
-}
+};
 
-module.exports.identitypb = identitypb;
-module.exports.generate = generate;
+module.exports.sign = function(signingIdentity, objectToSign) {
+    "use strict";
+    if (typeof objectToSign.hash != 'function') {
+        throw new Error("the object your signing must have a hash() method");
+    }
+
+    return signingIdentity.currentCertificate.toSimpcert().sign(objectToSign.hash());
+};

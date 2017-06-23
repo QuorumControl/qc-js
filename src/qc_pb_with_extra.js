@@ -1,5 +1,6 @@
 const Simpcert = require('./simpcert');
 const ConvertString = require('convert-string').UTF8;
+const Device = require('./device');
 
 const forge = require('node-forge');
 
@@ -56,6 +57,30 @@ qcpb.ownershippb.Approval.prototype.hash = function() {
     var signable = this.getSignable();
     var encoded = qcpb.ownershippb.ApprovalSignable.encode(signable).finish();
     return Simpcert.Hash(encoded);
+};
+
+qcpb.identitypb.Identity.prototype.currentDevice = function() {
+    "use strict";
+    return this.devices[Device.getInfo().uuid];
+};
+
+qcpb.identitypb.Identity.prototype.signingIdentity = function() {
+    return qcpb.identitypb.SigningIdentity.create({
+        name: this.name,
+        organization: this.organization,
+        rootAuthority: this.rootAuthority,
+        certificateAuthority: this.certificateAuthority,
+        currentCertificate: this.currentDevice().certificate,
+    });
+};
+
+qcpb.identitypb.Identity.prototype.owningIdentity = function() {
+    return qcpb.identitypb.OwningIdentity.create({
+        name: this.name,
+        organization: this.organization,
+        rootAuthority: this.rootAuthority,
+        certificateAuthority: this.certificateAuthority,
+    });
 };
 
 module.exports = qcpb;
