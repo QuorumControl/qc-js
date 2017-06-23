@@ -2,15 +2,16 @@
   "name": "qc",
   "version": "0.0.1",
   "description": "Javascript compiled library for quorum control actions",
-  "main": "main.js",
+  "main": "index.js",
   "dependencies": {
     "convert-string": "^0.1.0",
     "crypto-browserify": "^3.11.0",
-    "jest": "^20.0.4",
     "node-forge": "^0.7.1",
     "protobufjs": "^6.7.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^20.0.4"
+  },
   "scripts": {
     "test": "jest"
   },
