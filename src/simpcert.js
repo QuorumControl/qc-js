@@ -14,7 +14,7 @@
 // }
 
 
-const forge = require('node-forge');
+const forge = require('./forge');
 const pki = forge.pki;
 const crypto = require('crypto-browserify');
 

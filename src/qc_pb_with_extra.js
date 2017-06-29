@@ -2,8 +2,6 @@ const Simpcert = require('./simpcert');
 const ConvertString = require('convert-string').UTF8;
 const Device = require('./device');
 
-const forge = require('node-forge');
-
 var qcpb = require('./qc_pb');
 var $util = require("protobufjs/minimal").util;
 

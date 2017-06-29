@@ -1,5 +1,5 @@
 const Simpcert = require("./simpcert");
-const forge = require('node-forge');
+const forge = require('./forge');
 
 test('Can generate a new cert', () => {
    var cert = new Simpcert({

@@ -1,7 +1,5 @@
 const qcpb = require('./qc_pb_with_extra');
 const fs = require('fs');
-// const forge = require('node-forge');
-// const Simpcert = require('./simpcert');
 const Identity = require('./identity');
 const Ownership = require('./ownership');
 

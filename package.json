@@ -6,8 +6,6 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "convert-string": "^0.1.0",
-    "crypto-browserify": "^3.11.0",
-    "node-forge": "^0.7.1",
     "protobufjs": "^6.7.3"
   },
   "devDependencies": {
