@@ -1,6 +1,9 @@
 const Simpcert = require('./simpcert');
-const ConvertString = require('convert-string').UTF8;
 const Device = require('./device');
+
+if (typeof Buffer === 'undefined') {
+    const Buffer = require('buffer').Buffer;
+}
 
 var qcpb = require('./qc_pb');
 var $util = require("protobufjs/minimal").util;
@@ -17,8 +20,9 @@ qcpb.identitypb.Certificate.prototype.toSimpcert = function() {
 };
 
 qcpb.identitypb.Certificate.fromSimpcert = function(simpcert) {
+    var intermediateBuffer = new Buffer(simpcert.toPem(), 'utf8');
     var cert = qcpb.identitypb.Certificate.create({
-        pem: $util.newBuffer(ConvertString.stringToBytes(simpcert.toPem()))
+        pem: $util.newBuffer(intermediateBuffer)
     });
     cert.privateKey = simpcert.privateKey;
     return cert;

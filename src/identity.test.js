@@ -4,7 +4,7 @@ const identitypb = qcpb.identitypb;
 const fs = require('fs');
 
 var unapprovedBytes = fs.readFileSync("./fixtures/unapproved.protobuf");
-var alice = identity.generate("alice", "insaasity")
+var alice = identity.generate("alice", "insaasity");
 
 test('Can generate a new identity', () => {
     var id = alice;
