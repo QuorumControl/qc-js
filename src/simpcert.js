@@ -16,7 +16,9 @@
 
 const forge = require('./forge');
 const pki = forge.pki;
-const crypto = require('crypto-browserify');
+if (typeof Buffer === 'undefined') {
+    const Buffer = require('buffer').Buffer;
+}
 
 class Simpcert {
     constructor(properties) {
@@ -102,9 +104,11 @@ function notAfter() {
 }
 
 Simpcert.Hash = function(bytes) {
-    var hash = crypto.createHash('sha512');
-    hash.update(bytes);
-    return hash.digest()
+    var binaryStr = String.fromCharCode.apply(null, bytes)
+
+    var md = forge.md.sha512.create();
+    md.update(binaryStr, 'raw');
+    return new Buffer(md.digest().bytes(), 'binary');
 };
 
 Simpcert.fromPem = function(certString) {
