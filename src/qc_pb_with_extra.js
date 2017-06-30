@@ -8,7 +8,8 @@ var $util = require("protobufjs/minimal").util;
 
 qcpb.identitypb.Certificate.prototype.toSimpcert = function() {
     if (this.pem.length > 0) {
-        var cert = Simpcert.fromPem(this.pem.toString("utf-8", 0, this.pem.length - 1));
+        console.log("toSimpcert string: ", this.pem.toString() )
+        var cert = Simpcert.fromPem(this.pem.toString());
         cert.privateKey = this.privateKey;
         return cert;
     } else {
@@ -17,9 +18,12 @@ qcpb.identitypb.Certificate.prototype.toSimpcert = function() {
 };
 
 qcpb.identitypb.Certificate.fromSimpcert = function(simpcert) {
-    var intermediateBuffer = new Buffer(simpcert.toPem(), 'utf8');
+    var intermediateBuffer = new Buffer(simpcert.toPem());
+    var pemBuffer = $util.newBuffer(intermediateBuffer.length);
+    intermediateBuffer.copy(pemBuffer);
+    console.log("from simpcert String: ", pemBuffer.toString());
     var cert = qcpb.identitypb.Certificate.create({
-        pem: $util.newBuffer(intermediateBuffer)
+        pem: pemBuffer
     });
     cert.privateKey = simpcert.privateKey;
     return cert;
