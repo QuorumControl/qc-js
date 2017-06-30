@@ -1,13 +1,10 @@
 const Simpcert = require('./simpcert');
 const Device = require('./device');
 
-if (typeof Buffer === 'undefined') {
-    const Buffer = require('buffer').Buffer;
-}
+const Buffer = require('buffer').Buffer;
 
 var qcpb = require('./qc_pb');
 var $util = require("protobufjs/minimal").util;
-
 
 qcpb.identitypb.Certificate.prototype.toSimpcert = function() {
     if (this.pem.length > 0) {

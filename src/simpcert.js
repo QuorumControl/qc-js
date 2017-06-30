@@ -16,9 +16,7 @@
 
 const forge = require('./forge');
 const pki = forge.pki;
-if (typeof Buffer === 'undefined') {
-    const Buffer = require('buffer').Buffer;
-}
+const Buffer = require('buffer').Buffer;
 
 class Simpcert {
     constructor(properties) {
