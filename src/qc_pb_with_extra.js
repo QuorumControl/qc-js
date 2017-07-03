@@ -84,4 +84,8 @@ qcpb.identitypb.Identity.prototype.owningIdentity = function() {
     });
 };
 
+qcpb.buf2hex = function(buffer) { // buffer is an ArrayBuffer
+    return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+};
+
 module.exports = qcpb;

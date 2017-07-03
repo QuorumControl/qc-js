@@ -22,7 +22,7 @@ test('can generate same signable as golang', ()=> {
 
 test('can hash an action request', ()=> {
     var ar = qcpb.ownershippb.ActionRequest.decode(unapprovedBytes);
-    expect(buf2hex(ar.hash())).toBe(expectedHashBytes.toString('hex'));
+    expect(qcpb.buf2hex(ar.hash())).toBe(expectedHashBytes.toString('hex'));
 });
 
 test('can load an identity', ()=> {
@@ -34,7 +34,7 @@ test('can load an identity', ()=> {
 
 test('can hash an approved action request', ()=> {
     var ar = qcpb.ownershippb.ActionRequest.decode(approvedBytes);
-    expect(buf2hex(ar.hash())).toBe(expectedHashBytes.toString('hex'));
+    expect(qcpb.buf2hex(ar.hash())).toBe(expectedHashBytes.toString('hex'));
 });
 
 test('can convert form simpcert and to simpcert for identitypb.Certificate', ()=> {
@@ -63,7 +63,3 @@ test('can get currentDevice from id', ()=> {
     "use strict";
      expect(alice.currentDevice().uuid).toBe(Device.getInfo().uuid);
 });
-
-function buf2hex(buffer) { // buffer is an ArrayBuffer
-    return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
-}

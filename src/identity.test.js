@@ -13,8 +13,7 @@ test('Can generate a new identity', () => {
 
 test('It encodes without any errors', ()=> {
     "use strict";
-    var id = identity.generate("alice", "insaasity");
-    var buffer = identitypb.Identity.encode(id).finish();
+    var buffer = identitypb.Identity.encode(alice).finish();
     var decodedMessage = identitypb.Identity.decode(buffer);
     expect(decodedMessage.name).toBe("alice");
     expect(decodedMessage.rootAuthority.toSimpcert().commonName).toBe("alice");
@@ -26,3 +25,11 @@ test('it can sign an action request', ()=> {
     var sig = identity.sign(alice.signingIdentity(), ar);
     expect(sig.length).toBe(256);
 });
+
+test('can encode to string and decode', ()=> {
+    "use strict";
+    var encoded = qcpb.buf2hex(identitypb.Identity.encode(alice).finish());
+    var buf = new Buffer(encoded, 'hex');
+    var decoded = identitypb.Identity.decode(buf);
+    expect(decoded.name).toBe("alice");
+})
