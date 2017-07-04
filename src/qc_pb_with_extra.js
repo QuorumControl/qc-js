@@ -42,7 +42,7 @@ qcpb.ownershippb.ActionRequest.prototype.getSignable = function() {
 qcpb.ownershippb.ActionRequest.prototype.hash = function() {
     var signable = this.getSignable();
     var encoded = qcpb.ownershippb.ActionRequestSignable.encode(signable).finish();
-    return Simpcert.Hash(encoded);
+    return Simpcert.hash(encoded);
 };
 
 qcpb.ownershippb.Approval.prototype.getSignable = function() {
@@ -57,7 +57,7 @@ qcpb.ownershippb.Approval.prototype.getSignable = function() {
 qcpb.ownershippb.Approval.prototype.hash = function() {
     var signable = this.getSignable();
     var encoded = qcpb.ownershippb.ApprovalSignable.encode(signable).finish();
-    return Simpcert.Hash(encoded);
+    return Simpcert.hash(encoded);
 };
 
 qcpb.identitypb.Identity.prototype.currentDevice = function() {

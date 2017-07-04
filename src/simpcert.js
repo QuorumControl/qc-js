@@ -101,7 +101,7 @@ function notAfter() {
     return new Date(new Date().setFullYear(new Date().getFullYear() + 5))
 }
 
-Simpcert.Hash = function(bytes) {
+Simpcert.hash = function(bytes) {
     var binaryStr = String.fromCharCode.apply(null, bytes)
 
     var md = forge.md.sha512.create();
