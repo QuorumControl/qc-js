@@ -91,7 +91,7 @@ class Simpcert {
             saltLength: (this.privateKey.n.bitLength())/8 - 2 - 64 // 64 is digest size of sha512
         });
 
-        return this.privateKey.sign(hash, pss);
+        return new Buffer(this.privateKey.sign(hash, pss), 'binary');
     }
 
 }
