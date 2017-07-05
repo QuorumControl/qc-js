@@ -30,6 +30,7 @@ $root.identitypb = (function() {
          * @property {identitypb.Certificate$Properties} [certificateAuthority] Identity certificateAuthority.
          * @property {Object.<string,identitypb.Device$Properties>} [devices] Identity devices.
          * @property {google.protobuf.Timestamp$Properties} [createdAt] Identity createdAt.
+         * @property {Object.<string,string>} [metadata] Identity metadata.
          */
 
         /**
@@ -40,6 +41,7 @@ $root.identitypb = (function() {
          */
         function Identity(properties) {
             this.devices = {};
+            this.metadata = {};
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -83,6 +85,12 @@ $root.identitypb = (function() {
         Identity.prototype.createdAt = null;
 
         /**
+         * Identity metadata.
+         * @type {Object.<string,string>}
+         */
+        Identity.prototype.metadata = $util.emptyObject;
+
+        /**
          * Creates a new Identity instance using the specified properties.
          * @param {identitypb.Identity$Properties=} [properties] Properties to set
          * @returns {identitypb.Identity} Identity instance
@@ -115,6 +123,9 @@ $root.identitypb = (function() {
                 }
             if (message.createdAt != null && message.hasOwnProperty("createdAt"))
                 $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+            if (message.metadata != null && message.hasOwnProperty("metadata"))
+                for (var keys = Object.keys(message.metadata), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 7, wireType 2 =*/58).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.metadata[keys[i]]).ldelim();
             return writer;
         };
 
@@ -165,6 +176,14 @@ $root.identitypb = (function() {
                     break;
                 case 6:
                     message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 7:
+                    reader.skip().pos++;
+                    if (message.metadata === $util.emptyObject)
+                        message.metadata = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.metadata[key] = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -226,6 +245,14 @@ $root.identitypb = (function() {
                 if (error)
                     return "createdAt." + error;
             }
+            if (message.metadata != null && message.hasOwnProperty("metadata")) {
+                if (!$util.isObject(message.metadata))
+                    return "metadata: object expected";
+                var key = Object.keys(message.metadata);
+                for (var i = 0; i < key.length; ++i)
+                    if (!$util.isString(message.metadata[key[i]]))
+                        return "metadata: string{k:string} expected";
+            }
             return null;
         };
 
@@ -267,6 +294,13 @@ $root.identitypb = (function() {
                     throw TypeError(".identitypb.Identity.createdAt: object expected");
                 message.createdAt = $root.google.protobuf.Timestamp.fromObject(object.createdAt);
             }
+            if (object.metadata) {
+                if (typeof object.metadata !== "object")
+                    throw TypeError(".identitypb.Identity.metadata: object expected");
+                message.metadata = {};
+                for (var keys = Object.keys(object.metadata), i = 0; i < keys.length; ++i)
+                    message.metadata[keys[i]] = String(object.metadata[keys[i]]);
+            }
             return message;
         };
 
@@ -289,8 +323,10 @@ $root.identitypb = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.objects || options.defaults)
+            if (options.objects || options.defaults) {
                 object.devices = {};
+                object.metadata = {};
+            }
             if (options.defaults) {
                 object.name = "";
                 object.organization = "";
@@ -314,6 +350,11 @@ $root.identitypb = (function() {
             }
             if (message.createdAt != null && message.hasOwnProperty("createdAt"))
                 object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
+            if (message.metadata && (keys2 = Object.keys(message.metadata)).length) {
+                object.metadata = {};
+                for (var j = 0; j < keys2.length; ++j)
+                    object.metadata[keys2[j]] = message.metadata[keys2[j]];
+            }
             return object;
         };
 
