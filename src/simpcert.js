@@ -2,17 +2,6 @@
  * Created by tbowers on 6/9/17.
  */
 
-// type Certificate struct {
-//     certificate x509.Certificate
-//     PrivateKey  *rsa.PrivateKey
-//     PublicKey   *rsa.PublicKey
-//     Parent      *Certificate
-//     OrgName     string
-//     CommonName  string
-//     IsCA        bool
-//     Filesystem  afero.Fs
-// }
-
 
 const forge = require('./forge');
 const pki = forge.pki;
@@ -94,6 +83,14 @@ class Simpcert {
         return new Buffer(this.privateKey.sign(hash, pss), 'binary');
     }
 
+    encryptedPrivateKey(passphrase) {
+        return new Buffer(pki.encryptRsaPrivateKey(this.privateKey, passphrase), 'binary');
+    }
+
+    attachEncryptedPrivatekey(pem, passphrase) {
+        this.privateKey = pki.decryptRsaPrivateKey(pem, passphrase);
+
+    }
 }
 
 function notAfter() {

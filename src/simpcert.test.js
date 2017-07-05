@@ -1,37 +1,38 @@
 const Simpcert = require("./simpcert");
 const forge = require('./forge');
 
+const cert = new Simpcert({
+    orgName: "insaasity",
+    commonName: "alice",
+    isCa: false
+});
+cert.generate();
+
 test('Can generate a new cert', () => {
-   var cert = new Simpcert({
-       orgName: "insaasity",
-       commonName: "alice",
-       isCa: false
-   });
-   cert.generate();
    expect(cert.commonName).toBe("alice");
 });
 
 test('can convert from pem', ()=> {
     "use strict";
-    var simpcert = new Simpcert({
-        orgName: "insaasity",
-        commonName: "alice",
-        isCa: false
-    });
-    simpcert.generate();
 
-    var pem = simpcert.toPem()
+    var pem = cert.toPem();
 
     var reconstituted = Simpcert.fromPem(pem);
 
-    expect(reconstituted.commonName).toBe(simpcert.commonName);
-    expect(reconstituted.orgName).toBe(simpcert.orgName);
-    expect(reconstituted.isCa).toBe(simpcert.isCa);
+    expect(reconstituted.commonName).toBe(cert.commonName);
+    expect(reconstituted.orgName).toBe(cert.orgName);
+    expect(reconstituted.isCa).toBe(cert.isCa);
 });
 
 test('can sign', ()=> {
     "use strict";
     var data = "I am some data";
+    var sig = cert.sign(data);
+    expect(sig.length).toBe(256);
+});
+
+test('can encrypt and decrypt', ()=> {
+    "use strict";
     var cert = new Simpcert({
         orgName: "insaasity",
         commonName: "alice",
@@ -39,6 +40,10 @@ test('can sign', ()=> {
     });
     cert.generate();
 
-    var sig = cert.sign(data);
-    expect(sig.length).toBe(256);
+    var privateKey = cert.privateKey;
+    var encrypted = cert.encryptedPrivateKey("password");
+
+    cert.privateKey = null;
+    cert.attachEncryptedPrivatekey(encrypted, "password");
+    expect(cert.privateKey.decrypt(cert.publicKey.encrypt("test"))).toBe("test");
 });
