@@ -31,7 +31,7 @@ test('can sign', ()=> {
     expect(sig.length).toBe(256);
 });
 
-test('can encrypt and decrypt', ()=> {
+test('can encrypt and decrypt private key', ()=> {
     "use strict";
     var cert = new Simpcert({
         orgName: "insaasity",
@@ -45,5 +45,7 @@ test('can encrypt and decrypt', ()=> {
 
     cert.privateKey = null;
     cert.attachEncryptedPrivatekey(encrypted, "password");
+
+    // verify that the private key is usable by using it to decrypt from the original public key
     expect(cert.privateKey.decrypt(cert.publicKey.encrypt("test"))).toBe("test");
 });
