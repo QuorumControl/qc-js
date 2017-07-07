@@ -1,11 +1,17 @@
+try {
+    const expo = require("expo");
+} catch(e) {
+    console.log("Error requiring: ", e);
+}
+
 var savedDeviceInfo;
 
 function getInfo() {
-    if (typeof Exponent !== 'undefined') {
+    if (typeof expo !== 'undefined') {
         return {
-            name: Exponent.Constants.deviceId,
-            uuid: Exponent.Constants.deviceName,
-            description: Exponent.Constants.deviceId,
+            name: expo.Constants.deviceName,
+            uuid: expo.Constants.deviceId,
+            description: expo.Constants.deviceName
         }
     } else {
         if (!savedDeviceInfo) {
