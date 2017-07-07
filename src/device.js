@@ -1,12 +1,11 @@
-try {
-    const expo = require("expo");
-} catch(e) {
-    console.log("Error requiring: ", e);
-}
-
 var savedDeviceInfo;
 
 function getInfo() {
+    try {
+        var expo = require("expo");
+    } catch(e) {
+        console.log("Error requiring: ", e);
+    }
     if (typeof expo !== 'undefined') {
         return {
             name: expo.Constants.deviceName,
