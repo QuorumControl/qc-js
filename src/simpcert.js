@@ -92,6 +92,10 @@ class Simpcert {
 
     }
 
+    attachUnencryptedPrivatekey(pem) {
+        this.privateKey = pki.privateKeyFromPem(pem);
+    }
+
     unencryptedPrivateKey() {
         return pki.privateKeyToPem(this.privateKey)
     }

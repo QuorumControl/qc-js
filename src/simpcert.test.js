@@ -54,3 +54,18 @@ test('unencrypted private key', ()=> {
     "use strict";
     expect(cert.unencryptedPrivateKey()).toContain('-BEGIN RSA PRIVATE KEY-');
 });
+
+test('can attach unencrypted private key', ()=> {
+    "use strict";
+    var mutableCert = new Simpcert({
+        orgName: "insaasity",
+        commonName: "alice",
+        isCa: false
+    });
+    mutableCert.generate();
+
+    var pem = mutableCert.unencryptedPrivateKey();
+    mutableCert.privateKey = null;
+    mutableCert.attachUnencryptedPrivatekey(pem);
+    expect(typeof mutableCert.privateKey).toBe('object');
+});
