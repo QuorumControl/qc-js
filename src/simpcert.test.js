@@ -33,19 +33,24 @@ test('can sign', ()=> {
 
 test('can encrypt and decrypt private key', ()=> {
     "use strict";
-    var cert = new Simpcert({
+    var mutableCert = new Simpcert({
         orgName: "insaasity",
         commonName: "alice",
         isCa: false
     });
-    cert.generate();
+    mutableCert.generate();
 
-    var privateKey = cert.privateKey;
-    var encrypted = cert.encryptedPrivateKey("password");
+    var privateKey = mutableCert.privateKey;
+    var encrypted = mutableCert.encryptedPrivateKey("password");
 
-    cert.privateKey = null;
-    cert.attachEncryptedPrivatekey(encrypted, "password");
+    mutableCert.privateKey = null;
+    mutableCert.attachEncryptedPrivatekey(encrypted, "password");
 
     // verify that the private key is usable by using it to decrypt from the original public key
-    expect(cert.privateKey.decrypt(cert.publicKey.encrypt("test"))).toBe("test");
+    expect(mutableCert.privateKey.decrypt(mutableCert.publicKey.encrypt("test"))).toBe("test");
+});
+
+test('unencrypted private key', ()=> {
+    "use strict";
+    expect(cert.unencryptedPrivateKey()).toContain('-BEGIN RSA PRIVATE KEY-');
 });

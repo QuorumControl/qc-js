@@ -84,12 +84,16 @@ class Simpcert {
     }
 
     encryptedPrivateKey(passphrase) {
-        return new Buffer(pki.encryptRsaPrivateKey(this.privateKey, passphrase), 'binary');
+        return pki.encryptRsaPrivateKey(this.privateKey, passphrase);
     }
 
     attachEncryptedPrivatekey(pem, passphrase) {
         this.privateKey = pki.decryptRsaPrivateKey(pem, passphrase);
 
+    }
+
+    unencryptedPrivateKey() {
+        return pki.privateKeyToPem(this.privateKey)
     }
 }
 
