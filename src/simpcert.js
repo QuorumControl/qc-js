@@ -66,18 +66,20 @@ class Simpcert {
         this.certificateObject = cert;
     }
 
-    sign(data) {
+    sign(dataBuffer) {
         if (!this.privateKey) {
             throw new Error("Error, privateKey cannot be null when signing");
         }
 
-        var hash = forge.md.sha512.create();
-        hash.update(data, 'utf8');
+        var binaryStr = String.fromCharCode.apply(null, dataBuffer);
 
+        var hash = forge.md.sha512.create();
+        hash.update(binaryStr);
+        
         var pss = forge.pss.create({
             md: forge.md.sha512.create(),
-            mgf: forge.mgf.mgf1.create(forge.md.sha1.create()),
-            saltLength: (this.privateKey.n.bitLength())/8 - 2 - 64 // 64 is digest size of sha512
+            mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
+            saltLength: (this.privateKey.n.bitLength())/8 - 2 - 64 // 64 is digest size of sha512 and this matches golangs auto-salt algorithm
         });
 
         return new Buffer(this.privateKey.sign(hash, pss), 'binary');
@@ -107,7 +109,7 @@ function notAfter() {
 }
 
 Simpcert.hash = function(bytes) {
-    var binaryStr = String.fromCharCode.apply(null, bytes)
+    var binaryStr = String.fromCharCode.apply(null, bytes);
 
     var md = forge.md.sha512.create();
     md.update(binaryStr, 'raw');

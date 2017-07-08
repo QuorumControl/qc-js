@@ -26,7 +26,7 @@ test('can convert from pem', ()=> {
 
 test('can sign', ()=> {
     "use strict";
-    var data = "I am some data";
+    var data = new Buffer("I am some data");
     var sig = cert.sign(data);
     expect(sig.length).toBe(256);
 });
