@@ -3,6 +3,7 @@ const fs = require('fs');
 const Simpcert = require('./simpcert');
 const Identity = require('./identity');
 const Device = require('./device');
+const pki = require('./forge').pki;
 
 var unapprovedBytes = fs.readFileSync("./fixtures/unapproved.protobuf");
 var approvedBytes = fs.readFileSync("./fixtures/approved.protobuf");
@@ -50,6 +51,22 @@ test('can convert form simpcert and to simpcert for identitypb.Certificate', ()=
     var converted = cert.toSimpcert();
 
     expect(converted.commonName).toBe(simpcert.commonName);
+});
+
+test('can use a pem encoded private key on identitypb.Certificate', ()=> {
+    "use strict";
+    var simpcert = new Simpcert({
+        orgName: "insaasity",
+        commonName: "alice",
+        isCa: false
+    });
+    simpcert.generate();
+    var privatePem = simpcert.unencryptedPrivateKey();
+
+    var cert = qcpb.identitypb.Certificate.fromSimpcert(simpcert);
+    cert.privateKey = privatePem;
+    var converted = cert.toSimpcert();
+    expect(pki.privateKeyToPem(converted.privateKey)).toEqual(pki.privateKeyToPem(simpcert.privateKey));
 });
 
 test('can convert identity to signing identity', ()=> {

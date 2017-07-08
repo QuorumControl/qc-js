@@ -5,11 +5,17 @@ const Buffer = require('buffer').Buffer;
 
 var qcpb = require('./qc_pb');
 var $util = require("protobufjs/minimal").util;
+var forge = require('./forge');
+var pki = forge.pki;
 
 qcpb.identitypb.Certificate.prototype.toSimpcert = function() {
     if (this.pem.length > 0) {
         var cert = Simpcert.fromPem((new Buffer(this.pem).toString('utf8'))); // we need this additional buffer because in some envs thi.pem can be a uint8 byte array
-        cert.privateKey = this.privateKey;
+        if (typeof this.privateKey === 'string') {
+            cert.privateKey = pki.privateKeyFromPem(this.privateKey);
+        } else {
+            cert.privateKey = this.privateKey;
+        }
         return cert;
     } else {
         return new Simpcert();
