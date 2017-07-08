@@ -4,7 +4,7 @@ function getInfo() {
     try {
         var expo = require("expo");
     } catch(e) {
-        console.log("Error requiring: ", e);
+        console.log("expo is not defined, using internal guid");
     }
     if (typeof expo !== 'undefined') {
         return {
