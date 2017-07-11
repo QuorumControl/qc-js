@@ -10,15 +10,15 @@ function newApproval(actionRequest, signingIdentity) {
     });
 }
 
+var signApproval = module.exports.signApproval = function(approval, id) {
+    var signature = Identity.sign(id, approval);
+    approval.signature = signature;
+};
+
 module.exports.approve = function(actionRequest, signingIdentity) {
     var approval = newApproval(actionRequest, signingIdentity);
     approval.device = device.getInfo().uuid;
     signApproval(approval, signingIdentity);
     actionRequest.approvals = actionRequest.approvals.concat([approval]);
     return approval;
-};
-
-var signApproval = module.exports.signApproval = function(approval, id) {
-    var signature = Identity.sign(id, approval);
-    approval.signature = signature;
 };
