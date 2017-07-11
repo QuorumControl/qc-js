@@ -1355,6 +1355,470 @@ $root.identitypb = (function() {
         return Certificate;
     })();
 
+    identitypb.MailboxMessage = (function() {
+
+        /**
+         * Properties of a MailboxMessage.
+         * @typedef identitypb.MailboxMessage$Properties
+         * @type {Object}
+         * @property {Uint8Array} [body] MailboxMessage body.
+         * @property {string} [type] MailboxMessage type.
+         * @property {string} [subject] MailboxMessage subject.
+         * @property {google.protobuf.Timestamp$Properties} [sentOn] MailboxMessage sentOn.
+         */
+
+        /**
+         * Constructs a new MailboxMessage.
+         * @exports identitypb.MailboxMessage
+         * @constructor
+         * @param {identitypb.MailboxMessage$Properties=} [properties] Properties to set
+         */
+        function MailboxMessage(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MailboxMessage body.
+         * @type {Uint8Array}
+         */
+        MailboxMessage.prototype.body = $util.newBuffer([]);
+
+        /**
+         * MailboxMessage type.
+         * @type {string}
+         */
+        MailboxMessage.prototype.type = "";
+
+        /**
+         * MailboxMessage subject.
+         * @type {string}
+         */
+        MailboxMessage.prototype.subject = "";
+
+        /**
+         * MailboxMessage sentOn.
+         * @type {(google.protobuf.Timestamp$Properties|null)}
+         */
+        MailboxMessage.prototype.sentOn = null;
+
+        /**
+         * Creates a new MailboxMessage instance using the specified properties.
+         * @param {identitypb.MailboxMessage$Properties=} [properties] Properties to set
+         * @returns {identitypb.MailboxMessage} MailboxMessage instance
+         */
+        MailboxMessage.create = function create(properties) {
+            return new MailboxMessage(properties);
+        };
+
+        /**
+         * Encodes the specified MailboxMessage message. Does not implicitly {@link identitypb.MailboxMessage.verify|verify} messages.
+         * @param {identitypb.MailboxMessage$Properties} message MailboxMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MailboxMessage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.body != null && message.hasOwnProperty("body"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.body);
+            if (message.type != null && message.hasOwnProperty("type"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.type);
+            if (message.subject != null && message.hasOwnProperty("subject"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.subject);
+            if (message.sentOn != null && message.hasOwnProperty("sentOn"))
+                $root.google.protobuf.Timestamp.encode(message.sentOn, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MailboxMessage message, length delimited. Does not implicitly {@link identitypb.MailboxMessage.verify|verify} messages.
+         * @param {identitypb.MailboxMessage$Properties} message MailboxMessage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MailboxMessage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MailboxMessage message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {identitypb.MailboxMessage} MailboxMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MailboxMessage.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.MailboxMessage();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.body = reader.bytes();
+                    break;
+                case 2:
+                    message.type = reader.string();
+                    break;
+                case 3:
+                    message.subject = reader.string();
+                    break;
+                case 4:
+                    message.sentOn = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a MailboxMessage message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {identitypb.MailboxMessage} MailboxMessage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MailboxMessage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MailboxMessage message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        MailboxMessage.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.body != null && message.hasOwnProperty("body"))
+                if (!(message.body && typeof message.body.length === "number" || $util.isString(message.body)))
+                    return "body: buffer expected";
+            if (message.type != null && message.hasOwnProperty("type"))
+                if (!$util.isString(message.type))
+                    return "type: string expected";
+            if (message.subject != null && message.hasOwnProperty("subject"))
+                if (!$util.isString(message.subject))
+                    return "subject: string expected";
+            if (message.sentOn != null && message.hasOwnProperty("sentOn")) {
+                var error = $root.google.protobuf.Timestamp.verify(message.sentOn);
+                if (error)
+                    return "sentOn." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MailboxMessage message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.MailboxMessage} MailboxMessage
+         */
+        MailboxMessage.fromObject = function fromObject(object) {
+            if (object instanceof $root.identitypb.MailboxMessage)
+                return object;
+            var message = new $root.identitypb.MailboxMessage();
+            if (object.body != null)
+                if (typeof object.body === "string")
+                    $util.base64.decode(object.body, message.body = $util.newBuffer($util.base64.length(object.body)), 0);
+                else if (object.body.length)
+                    message.body = object.body;
+            if (object.type != null)
+                message.type = String(object.type);
+            if (object.subject != null)
+                message.subject = String(object.subject);
+            if (object.sentOn != null) {
+                if (typeof object.sentOn !== "object")
+                    throw TypeError(".identitypb.MailboxMessage.sentOn: object expected");
+                message.sentOn = $root.google.protobuf.Timestamp.fromObject(object.sentOn);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a MailboxMessage message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link identitypb.MailboxMessage.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.MailboxMessage} MailboxMessage
+         */
+        MailboxMessage.from = MailboxMessage.fromObject;
+
+        /**
+         * Creates a plain object from a MailboxMessage message. Also converts values to other types if specified.
+         * @param {identitypb.MailboxMessage} message MailboxMessage
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MailboxMessage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.body = options.bytes === String ? "" : [];
+                object.type = "";
+                object.subject = "";
+                object.sentOn = null;
+            }
+            if (message.body != null && message.hasOwnProperty("body"))
+                object.body = options.bytes === String ? $util.base64.encode(message.body, 0, message.body.length) : options.bytes === Array ? Array.prototype.slice.call(message.body) : message.body;
+            if (message.type != null && message.hasOwnProperty("type"))
+                object.type = message.type;
+            if (message.subject != null && message.hasOwnProperty("subject"))
+                object.subject = message.subject;
+            if (message.sentOn != null && message.hasOwnProperty("sentOn"))
+                object.sentOn = $root.google.protobuf.Timestamp.toObject(message.sentOn, options);
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this MailboxMessage message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MailboxMessage.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this MailboxMessage to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        MailboxMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return MailboxMessage;
+    })();
+
+    identitypb.MailboxMessageSet = (function() {
+
+        /**
+         * Properties of a MailboxMessageSet.
+         * @typedef identitypb.MailboxMessageSet$Properties
+         * @type {Object}
+         * @property {google.protobuf.Timestamp$Properties} [startsAt] MailboxMessageSet startsAt.
+         * @property {Array.<identitypb.MailboxMessage$Properties>} [messages] MailboxMessageSet messages.
+         */
+
+        /**
+         * Constructs a new MailboxMessageSet.
+         * @exports identitypb.MailboxMessageSet
+         * @constructor
+         * @param {identitypb.MailboxMessageSet$Properties=} [properties] Properties to set
+         */
+        function MailboxMessageSet(properties) {
+            this.messages = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * MailboxMessageSet startsAt.
+         * @type {(google.protobuf.Timestamp$Properties|null)}
+         */
+        MailboxMessageSet.prototype.startsAt = null;
+
+        /**
+         * MailboxMessageSet messages.
+         * @type {Array.<identitypb.MailboxMessage$Properties>}
+         */
+        MailboxMessageSet.prototype.messages = $util.emptyArray;
+
+        /**
+         * Creates a new MailboxMessageSet instance using the specified properties.
+         * @param {identitypb.MailboxMessageSet$Properties=} [properties] Properties to set
+         * @returns {identitypb.MailboxMessageSet} MailboxMessageSet instance
+         */
+        MailboxMessageSet.create = function create(properties) {
+            return new MailboxMessageSet(properties);
+        };
+
+        /**
+         * Encodes the specified MailboxMessageSet message. Does not implicitly {@link identitypb.MailboxMessageSet.verify|verify} messages.
+         * @param {identitypb.MailboxMessageSet$Properties} message MailboxMessageSet message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MailboxMessageSet.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.startsAt != null && message.hasOwnProperty("startsAt"))
+                $root.google.protobuf.Timestamp.encode(message.startsAt, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.messages != null && message.messages.length)
+                for (var i = 0; i < message.messages.length; ++i)
+                    $root.identitypb.MailboxMessage.encode(message.messages[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified MailboxMessageSet message, length delimited. Does not implicitly {@link identitypb.MailboxMessageSet.verify|verify} messages.
+         * @param {identitypb.MailboxMessageSet$Properties} message MailboxMessageSet message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        MailboxMessageSet.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a MailboxMessageSet message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {identitypb.MailboxMessageSet} MailboxMessageSet
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MailboxMessageSet.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.MailboxMessageSet();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.startsAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    if (!(message.messages && message.messages.length))
+                        message.messages = [];
+                    message.messages.push($root.identitypb.MailboxMessage.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a MailboxMessageSet message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {identitypb.MailboxMessageSet} MailboxMessageSet
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        MailboxMessageSet.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a MailboxMessageSet message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        MailboxMessageSet.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.startsAt != null && message.hasOwnProperty("startsAt")) {
+                var error = $root.google.protobuf.Timestamp.verify(message.startsAt);
+                if (error)
+                    return "startsAt." + error;
+            }
+            if (message.messages != null && message.hasOwnProperty("messages")) {
+                if (!Array.isArray(message.messages))
+                    return "messages: array expected";
+                for (var i = 0; i < message.messages.length; ++i) {
+                    var error = $root.identitypb.MailboxMessage.verify(message.messages[i]);
+                    if (error)
+                        return "messages." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a MailboxMessageSet message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.MailboxMessageSet} MailboxMessageSet
+         */
+        MailboxMessageSet.fromObject = function fromObject(object) {
+            if (object instanceof $root.identitypb.MailboxMessageSet)
+                return object;
+            var message = new $root.identitypb.MailboxMessageSet();
+            if (object.startsAt != null) {
+                if (typeof object.startsAt !== "object")
+                    throw TypeError(".identitypb.MailboxMessageSet.startsAt: object expected");
+                message.startsAt = $root.google.protobuf.Timestamp.fromObject(object.startsAt);
+            }
+            if (object.messages) {
+                if (!Array.isArray(object.messages))
+                    throw TypeError(".identitypb.MailboxMessageSet.messages: array expected");
+                message.messages = [];
+                for (var i = 0; i < object.messages.length; ++i) {
+                    if (typeof object.messages[i] !== "object")
+                        throw TypeError(".identitypb.MailboxMessageSet.messages: object expected");
+                    message.messages[i] = $root.identitypb.MailboxMessage.fromObject(object.messages[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a MailboxMessageSet message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link identitypb.MailboxMessageSet.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.MailboxMessageSet} MailboxMessageSet
+         */
+        MailboxMessageSet.from = MailboxMessageSet.fromObject;
+
+        /**
+         * Creates a plain object from a MailboxMessageSet message. Also converts values to other types if specified.
+         * @param {identitypb.MailboxMessageSet} message MailboxMessageSet
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MailboxMessageSet.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.messages = [];
+            if (options.defaults)
+                object.startsAt = null;
+            if (message.startsAt != null && message.hasOwnProperty("startsAt"))
+                object.startsAt = $root.google.protobuf.Timestamp.toObject(message.startsAt, options);
+            if (message.messages && message.messages.length) {
+                object.messages = [];
+                for (var j = 0; j < message.messages.length; ++j)
+                    object.messages[j] = $root.identitypb.MailboxMessage.toObject(message.messages[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this MailboxMessageSet message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        MailboxMessageSet.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this MailboxMessageSet to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        MailboxMessageSet.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return MailboxMessageSet;
+    })();
+
     return identitypb;
 })();
 
