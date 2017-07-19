@@ -924,6 +924,7 @@ $root.identitypb = (function() {
          * @property {identitypb.Certificate$Properties} [certificate] Device certificate.
          * @property {google.protobuf.Timestamp$Properties} [createdAt] Device createdAt.
          * @property {string} [description] Device description.
+         * @property {Object.<string,string>} [metadata] Device metadata.
          */
 
         /**
@@ -933,6 +934,7 @@ $root.identitypb = (function() {
          * @param {identitypb.Device$Properties=} [properties] Properties to set
          */
         function Device(properties) {
+            this.metadata = {};
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -970,6 +972,12 @@ $root.identitypb = (function() {
         Device.prototype.description = "";
 
         /**
+         * Device metadata.
+         * @type {Object.<string,string>}
+         */
+        Device.prototype.metadata = $util.emptyObject;
+
+        /**
          * Creates a new Device instance using the specified properties.
          * @param {identitypb.Device$Properties=} [properties] Properties to set
          * @returns {identitypb.Device} Device instance
@@ -997,6 +1005,9 @@ $root.identitypb = (function() {
                 $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             if (message.description != null && message.hasOwnProperty("description"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.description);
+            if (message.metadata != null && message.hasOwnProperty("metadata"))
+                for (var keys = Object.keys(message.metadata), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.metadata[keys[i]]).ldelim();
             return writer;
         };
 
@@ -1021,7 +1032,7 @@ $root.identitypb = (function() {
         Device.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.Device();
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.Device(), key;
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -1039,6 +1050,14 @@ $root.identitypb = (function() {
                     break;
                 case 5:
                     message.description = reader.string();
+                    break;
+                case 6:
+                    reader.skip().pos++;
+                    if (message.metadata === $util.emptyObject)
+                        message.metadata = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.metadata[key] = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1088,6 +1107,14 @@ $root.identitypb = (function() {
             if (message.description != null && message.hasOwnProperty("description"))
                 if (!$util.isString(message.description))
                     return "description: string expected";
+            if (message.metadata != null && message.hasOwnProperty("metadata")) {
+                if (!$util.isObject(message.metadata))
+                    return "metadata: object expected";
+                var key = Object.keys(message.metadata);
+                for (var i = 0; i < key.length; ++i)
+                    if (!$util.isString(message.metadata[key[i]]))
+                        return "metadata: string{k:string} expected";
+            }
             return null;
         };
 
@@ -1116,6 +1143,13 @@ $root.identitypb = (function() {
             }
             if (object.description != null)
                 message.description = String(object.description);
+            if (object.metadata) {
+                if (typeof object.metadata !== "object")
+                    throw TypeError(".identitypb.Device.metadata: object expected");
+                message.metadata = {};
+                for (var keys = Object.keys(object.metadata), i = 0; i < keys.length; ++i)
+                    message.metadata[keys[i]] = String(object.metadata[keys[i]]);
+            }
             return message;
         };
 
@@ -1138,6 +1172,8 @@ $root.identitypb = (function() {
             if (!options)
                 options = {};
             var object = {};
+            if (options.objects || options.defaults)
+                object.metadata = {};
             if (options.defaults) {
                 object.name = "";
                 object.UUID = "";
@@ -1155,6 +1191,12 @@ $root.identitypb = (function() {
                 object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
             if (message.description != null && message.hasOwnProperty("description"))
                 object.description = message.description;
+            var keys2;
+            if (message.metadata && (keys2 = Object.keys(message.metadata)).length) {
+                object.metadata = {};
+                for (var j = 0; j < keys2.length; ++j)
+                    object.metadata[keys2[j]] = message.metadata[keys2[j]];
+            }
             return object;
         };
 
@@ -1176,6 +1218,206 @@ $root.identitypb = (function() {
         };
 
         return Device;
+    })();
+
+    identitypb.AddDeviceRequest = (function() {
+
+        /**
+         * Properties of an AddDeviceRequest.
+         * @typedef identitypb.AddDeviceRequest$Properties
+         * @type {Object}
+         * @property {identitypb.Device$Properties} [device] AddDeviceRequest device.
+         * @property {string} [csr] AddDeviceRequest csr.
+         */
+
+        /**
+         * Constructs a new AddDeviceRequest.
+         * @exports identitypb.AddDeviceRequest
+         * @constructor
+         * @param {identitypb.AddDeviceRequest$Properties=} [properties] Properties to set
+         */
+        function AddDeviceRequest(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * AddDeviceRequest device.
+         * @type {(identitypb.Device$Properties|null)}
+         */
+        AddDeviceRequest.prototype.device = null;
+
+        /**
+         * AddDeviceRequest csr.
+         * @type {string}
+         */
+        AddDeviceRequest.prototype.csr = "";
+
+        /**
+         * Creates a new AddDeviceRequest instance using the specified properties.
+         * @param {identitypb.AddDeviceRequest$Properties=} [properties] Properties to set
+         * @returns {identitypb.AddDeviceRequest} AddDeviceRequest instance
+         */
+        AddDeviceRequest.create = function create(properties) {
+            return new AddDeviceRequest(properties);
+        };
+
+        /**
+         * Encodes the specified AddDeviceRequest message. Does not implicitly {@link identitypb.AddDeviceRequest.verify|verify} messages.
+         * @param {identitypb.AddDeviceRequest$Properties} message AddDeviceRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddDeviceRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.device != null && message.hasOwnProperty("device"))
+                $root.identitypb.Device.encode(message.device, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.csr != null && message.hasOwnProperty("csr"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.csr);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified AddDeviceRequest message, length delimited. Does not implicitly {@link identitypb.AddDeviceRequest.verify|verify} messages.
+         * @param {identitypb.AddDeviceRequest$Properties} message AddDeviceRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddDeviceRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an AddDeviceRequest message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {identitypb.AddDeviceRequest} AddDeviceRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddDeviceRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.AddDeviceRequest();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.device = $root.identitypb.Device.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.csr = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an AddDeviceRequest message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {identitypb.AddDeviceRequest} AddDeviceRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddDeviceRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an AddDeviceRequest message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        AddDeviceRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.device != null && message.hasOwnProperty("device")) {
+                var error = $root.identitypb.Device.verify(message.device);
+                if (error)
+                    return "device." + error;
+            }
+            if (message.csr != null && message.hasOwnProperty("csr"))
+                if (!$util.isString(message.csr))
+                    return "csr: string expected";
+            return null;
+        };
+
+        /**
+         * Creates an AddDeviceRequest message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.AddDeviceRequest} AddDeviceRequest
+         */
+        AddDeviceRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.identitypb.AddDeviceRequest)
+                return object;
+            var message = new $root.identitypb.AddDeviceRequest();
+            if (object.device != null) {
+                if (typeof object.device !== "object")
+                    throw TypeError(".identitypb.AddDeviceRequest.device: object expected");
+                message.device = $root.identitypb.Device.fromObject(object.device);
+            }
+            if (object.csr != null)
+                message.csr = String(object.csr);
+            return message;
+        };
+
+        /**
+         * Creates an AddDeviceRequest message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link identitypb.AddDeviceRequest.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.AddDeviceRequest} AddDeviceRequest
+         */
+        AddDeviceRequest.from = AddDeviceRequest.fromObject;
+
+        /**
+         * Creates a plain object from an AddDeviceRequest message. Also converts values to other types if specified.
+         * @param {identitypb.AddDeviceRequest} message AddDeviceRequest
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        AddDeviceRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.device = null;
+                object.csr = "";
+            }
+            if (message.device != null && message.hasOwnProperty("device"))
+                object.device = $root.identitypb.Device.toObject(message.device, options);
+            if (message.csr != null && message.hasOwnProperty("csr"))
+                object.csr = message.csr;
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this AddDeviceRequest message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        AddDeviceRequest.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this AddDeviceRequest to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        AddDeviceRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return AddDeviceRequest;
     })();
 
     identitypb.Certificate = (function() {
