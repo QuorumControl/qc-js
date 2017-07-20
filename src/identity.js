@@ -6,24 +6,38 @@ identitypb = require('./qc_pb_with_extra').identitypb;
 Simpcert = require('./simpcert');
 deviceInfo = require('./device');
 
-function generateCurrentDevice(id) {
+var generateCurrentDevice = module.exports.generateCurrentDevice = function (id) {
     "use strict";
     var device = deviceInfo.getInfo();
+
+    return generateDevice({
+        name: id.name,
+        organization: id.organization,
+        deviceName: device.name,
+        deviceUUID: device.uuid,
+        deviceDescription: device.description,
+        parentCert: id.certificateAuthority.toSimpcert(),
+    });
+};
+
+var generateDevice = module.exports.generateDevice = function({name, organization, deviceName, deviceUUID, deviceDescription, parentCert}) {
     var deviceCert = new Simpcert({
-        commonName: id.name,
-        orgName: id.organization,
-        parent: id.certificateAuthority.toSimpcert(),
+        commonName: name,
+        orgName: organization,
         isCa: false
     });
+    if (parentCert) {
+        deviceCert.parent = parentCert;
+    }
     deviceCert.generate();
     var now = new Date();
     return identitypb.Device.create({
-        name: device.name,
-        uuid: device.uuid,
+        name: deviceName,
+        uuid: deviceUUID,
         createdAt: now,
-        description: device.description,
+        description: deviceDescription,
         certificate: identitypb.Certificate.fromSimpcert(deviceCert),
-    })
+    });
 };
 
 module.exports.generate = function(name, orgName) {

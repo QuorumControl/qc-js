@@ -33,3 +33,16 @@ test('can encode to string and decode', ()=> {
     var decoded = identitypb.Identity.decode(buf);
     expect(decoded.name).toBe("alice");
 })
+
+test('it can generate a device without an id', ()=> {
+    "use strict";
+    var device = identity.generateDevice({
+        name: "alice",
+        organization: "insaasity",
+        deviceName: "myname",
+        deviceUUID: "uuid",
+        deviceDescription: "description",
+    });
+
+    expect(device.certificate.pem).not.toBeNull();
+});
