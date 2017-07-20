@@ -6,6 +6,19 @@ identitypb = require('./qc_pb_with_extra').identitypb;
 Simpcert = require('./simpcert');
 deviceInfo = require('./device');
 
+var currentDeviceForDeviceAdd = module.exports.currentDeviceForDeviceAdd = function (id) {
+    "use strict";
+    var device = deviceInfo.getInfo();
+
+    return generateDevice({
+        name: id.name,
+        organization: id.organization,
+        deviceName: device.name,
+        deviceUUID: device.uuid,
+        deviceDescription: device.description,
+    });
+};
+
 var generateCurrentDevice = module.exports.generateCurrentDevice = function (id) {
     "use strict";
     var device = deviceInfo.getInfo();

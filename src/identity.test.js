@@ -46,3 +46,12 @@ test('it can generate a device without an id', ()=> {
 
     expect(device.certificate.pem).not.toBeNull();
 });
+
+test('it can create a standalone currentDevice', ()=> {
+    "use strict";
+    var id = identity.generate("bob", "insaasity");
+    id.certificateAuthority.pem.privateKey = null;
+    id.rootAuthority.pem.privateKey = null;
+
+    expect(identity.currentDeviceForDeviceAdd(id).certificate.toSimpcert().commonName).toBe(id.name)
+});
