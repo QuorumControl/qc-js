@@ -69,3 +69,10 @@ test('can attach unencrypted private key', ()=> {
     mutableCert.attachUnencryptedPrivatekey(pem);
     expect(typeof mutableCert.privateKey).toBe('object');
 });
+
+test('can return a valid csr', ()=> {
+    "use strict";
+    var csr = cert.toCSR();
+    expect(csr.verify()).toBeTruthy();
+    expect(csr.subject.getField({name: 'commonName'}).value).toBe("alice");
+});

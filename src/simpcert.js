@@ -101,6 +101,15 @@ class Simpcert {
     unencryptedPrivateKey() {
         return pki.privateKeyToPem(this.privateKey)
     }
+
+    toCSR() {
+        var csr = pki.createCertificationRequest();
+        csr.publicKey = this.publicKey;
+        csr.setSubject(this.certificateObject.subject.attributes);
+        csr.setAttributes([{name: "extensionRequest", extensions: this.certificateObject.extensions}]);
+        csr.sign(this.privateKey);
+        return csr;
+    }
 }
 
 function notAfter() {
