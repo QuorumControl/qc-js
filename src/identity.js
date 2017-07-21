@@ -14,7 +14,7 @@ var currentDeviceForDeviceAdd = module.exports.currentDeviceForDeviceAdd = funct
         name: id.name,
         organization: id.organization,
         deviceName: device.name,
-        deviceUUID: device.uuid,
+        deviceUUID: device.UUID,
         deviceDescription: device.description,
     });
 };
@@ -27,7 +27,7 @@ var generateCurrentDevice = module.exports.generateCurrentDevice = function (id)
         name: id.name,
         organization: id.organization,
         deviceName: device.name,
-        deviceUUID: device.uuid,
+        deviceUUID: device.UUID,
         deviceDescription: device.description,
         parentCert: id.certificateAuthority.toSimpcert(),
     });

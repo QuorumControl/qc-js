@@ -73,10 +73,10 @@ test('can convert identity to signing identity', ()=> {
     "use strict";
     var id = alice;
     var signing = id.signingIdentity();
-    expect(signing.currentCertificate).toBe(id.devices[Device.getInfo().uuid].certificate);
+    expect(signing.currentCertificate).toBe(id.devices[Device.getInfo().UUID].certificate);
 });
 
 test('can get currentDevice from id', ()=> {
     "use strict";
-     expect(alice.currentDevice().UUID).toBe(Device.getInfo().uuid);
+     expect(alice.currentDevice().UUID).toBe(Device.getInfo().UUID);
 });

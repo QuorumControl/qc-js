@@ -60,5 +60,5 @@ test('it can create a standalone currentDevice', ()=> {
     var device = identity.currentDeviceForDeviceAdd(id);
 
     expect(device.certificate.toSimpcert().commonName).toBe(id.name);
-    expect(device.UUID).toBe(currentDevice.uuid);
+    expect(device.UUID).toBe(currentDevice.UUID);
 });

@@ -17,7 +17,7 @@ var signApproval = module.exports.signApproval = function(approval, id) {
 
 module.exports.approve = function(actionRequest, signingIdentity) {
     var approval = newApproval(actionRequest, signingIdentity);
-    approval.device = device.getInfo().uuid;
+    approval.device = device.getInfo().UUID;
     signApproval(approval, signingIdentity);
     actionRequest.approvals = actionRequest.approvals.concat([approval]);
     return approval;

@@ -68,7 +68,7 @@ qcpb.ownershippb.Approval.prototype.hash = function() {
 
 qcpb.identitypb.Identity.prototype.currentDevice = function() {
     "use strict";
-    return this.devices[Device.getInfo().uuid];
+    return this.devices[Device.getInfo().UUID];
 };
 
 qcpb.identitypb.Identity.prototype.signingIdentity = function() {

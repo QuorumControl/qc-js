@@ -9,14 +9,14 @@ function getInfo() {
     if (typeof expo !== 'undefined') {
         return {
             name: expo.Constants.deviceName,
-            uuid: expo.Constants.deviceId,
+            UUID: expo.Constants.deviceId,
             description: expo.Constants.deviceName
         }
     } else {
         if (!savedDeviceInfo) {
             savedDeviceInfo = {
                 name: "unknown javascript device",
-                uuid: guid(),
+                UUID: guid(),
                 description: "Unknown javascript device"
             }
         }
