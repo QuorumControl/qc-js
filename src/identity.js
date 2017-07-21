@@ -46,7 +46,7 @@ var generateDevice = module.exports.generateDevice = function({name, organizatio
     var now = new Date();
     return identitypb.Device.create({
         name: deviceName,
-        uuid: deviceUUID,
+        UUID: deviceUUID,
         createdAt: now,
         description: deviceDescription,
         certificate: identitypb.Certificate.fromSimpcert(deviceCert),
@@ -85,7 +85,7 @@ module.exports.generate = function(name, orgName) {
     var id = identitypb.Identity.create(opts);
 
     var device = generateCurrentDevice(id);
-    id.devices[device.uuid] = device;
+    id.devices[device.UUID] = device;
     return id;
 };
 

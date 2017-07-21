@@ -47,6 +47,7 @@ test('it can generate a device without an id', ()=> {
     });
 
     expect(device.certificate.pem).not.toBeNull();
+    expect(device.UUID).toBe("uuid");
 });
 
 test('it can create a standalone currentDevice', ()=> {
@@ -59,5 +60,5 @@ test('it can create a standalone currentDevice', ()=> {
     var device = identity.currentDeviceForDeviceAdd(id);
 
     expect(device.certificate.toSimpcert().commonName).toBe(id.name);
-    expect(device.uuid).toBe(currentDevice.uuid);
+    expect(device.UUID).toBe(currentDevice.uuid);
 });

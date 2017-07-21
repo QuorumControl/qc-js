@@ -78,5 +78,5 @@ test('can convert identity to signing identity', ()=> {
 
 test('can get currentDevice from id', ()=> {
     "use strict";
-     expect(alice.currentDevice().uuid).toBe(Device.getInfo().uuid);
+     expect(alice.currentDevice().UUID).toBe(Device.getInfo().uuid);
 });
