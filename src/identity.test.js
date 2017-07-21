@@ -2,6 +2,8 @@ const identity = require("./identity");
 const qcpb = require('./qc_pb_with_extra');
 const identitypb = qcpb.identitypb;
 const fs = require('fs');
+const deviceInfo = require('./device');
+
 
 var unapprovedBytes = fs.readFileSync("./fixtures/unapproved.protobuf");
 var alice = identity.generate("alice", "insaasity");
@@ -50,8 +52,12 @@ test('it can generate a device without an id', ()=> {
 test('it can create a standalone currentDevice', ()=> {
     "use strict";
     var id = identity.generate("bob", "insaasity");
+    var currentDevice = deviceInfo.getInfo();
     id.certificateAuthority.pem.privateKey = null;
     id.rootAuthority.pem.privateKey = null;
 
-    expect(identity.currentDeviceForDeviceAdd(id).certificate.toSimpcert().commonName).toBe(id.name)
+    var device = identity.currentDeviceForDeviceAdd(id);
+
+    expect(device.certificate.toSimpcert().commonName).toBe(id.name);
+    expect(device.uuid).toBe(currentDevice.uuid);
 });

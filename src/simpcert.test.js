@@ -1,5 +1,6 @@
 const Simpcert = require("./simpcert");
 const forge = require('./forge');
+const pki = forge.pki;
 
 const cert = new Simpcert({
     orgName: "insaasity",
@@ -72,7 +73,8 @@ test('can attach unencrypted private key', ()=> {
 
 test('can return a valid csr', ()=> {
     "use strict";
-    var csr = cert.toCSR();
+    var csrPem = cert.toCSR();
+    var csr = pki.certificationRequestFromPem(csrPem);
     expect(csr.verify()).toBeTruthy();
     expect(csr.subject.getField({name: 'commonName'}).value).toBe("alice");
 });

@@ -108,7 +108,7 @@ class Simpcert {
         csr.setSubject(this.certificateObject.subject.attributes);
         csr.setAttributes([{name: "extensionRequest", extensions: this.certificateObject.extensions}]);
         csr.sign(this.privateKey);
-        return csr;
+        return pki.certificationRequestToPem(csr);
     }
 }
 
