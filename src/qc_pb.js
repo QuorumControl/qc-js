@@ -13420,7 +13420,7 @@ $root.ownershippb = (function() {
          * @property {google.protobuf.Timestamp$Properties} [createdAt] ActionRequest createdAt.
          * @property {google.protobuf.Timestamp$Properties} [notBefore] ActionRequest notBefore.
          * @property {google.protobuf.Timestamp$Properties} [notAfter] ActionRequest notAfter.
-         * @property {google.protobuf.Timestamp$Properties} [maxUsages] ActionRequest maxUsages.
+         * @property {number} [maxUsages] ActionRequest maxUsages.
          * @property {Array.<ownershippb.Approval$Properties>} [approvals] ActionRequest approvals.
          */
 
@@ -13489,9 +13489,9 @@ $root.ownershippb = (function() {
 
         /**
          * ActionRequest maxUsages.
-         * @type {(google.protobuf.Timestamp$Properties|null)}
+         * @type {number}
          */
-        ActionRequest.prototype.maxUsages = null;
+        ActionRequest.prototype.maxUsages = 0;
 
         /**
          * ActionRequest approvals.
@@ -13537,7 +13537,7 @@ $root.ownershippb = (function() {
             if (message.notAfter != null && message.hasOwnProperty("notAfter"))
                 $root.google.protobuf.Timestamp.encode(message.notAfter, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
             if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
-                $root.google.protobuf.Timestamp.encode(message.maxUsages, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                writer.uint32(/* id 9, wireType 0 =*/72).int32(message.maxUsages);
             if (message.approvals != null && message.approvals.length)
                 for (var i = 0; i < message.approvals.length; ++i)
                     $root.ownershippb.Approval.encode(message.approvals[i], writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
@@ -13599,7 +13599,7 @@ $root.ownershippb = (function() {
                     message.notAfter = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                     break;
                 case 9:
-                    message.maxUsages = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    message.maxUsages = reader.int32();
                     break;
                 case 10:
                     if (!(message.approvals && message.approvals.length))
@@ -13672,11 +13672,9 @@ $root.ownershippb = (function() {
                 if (error)
                     return "notAfter." + error;
             }
-            if (message.maxUsages != null && message.hasOwnProperty("maxUsages")) {
-                var error = $root.google.protobuf.Timestamp.verify(message.maxUsages);
-                if (error)
-                    return "maxUsages." + error;
-            }
+            if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
+                if (!$util.isInteger(message.maxUsages))
+                    return "maxUsages: integer expected";
             if (message.approvals != null && message.hasOwnProperty("approvals")) {
                 if (!Array.isArray(message.approvals))
                     return "approvals: array expected";
@@ -13731,11 +13729,8 @@ $root.ownershippb = (function() {
                     throw TypeError(".ownershippb.ActionRequest.notAfter: object expected");
                 message.notAfter = $root.google.protobuf.Timestamp.fromObject(object.notAfter);
             }
-            if (object.maxUsages != null) {
-                if (typeof object.maxUsages !== "object")
-                    throw TypeError(".ownershippb.ActionRequest.maxUsages: object expected");
-                message.maxUsages = $root.google.protobuf.Timestamp.fromObject(object.maxUsages);
-            }
+            if (object.maxUsages != null)
+                message.maxUsages = object.maxUsages | 0;
             if (object.approvals) {
                 if (!Array.isArray(object.approvals))
                     throw TypeError(".ownershippb.ActionRequest.approvals: array expected");
@@ -13780,7 +13775,7 @@ $root.ownershippb = (function() {
                 object.createdAt = null;
                 object.notBefore = null;
                 object.notAfter = null;
-                object.maxUsages = null;
+                object.maxUsages = 0;
             }
             if (message.asset != null && message.hasOwnProperty("asset"))
                 object.asset = message.asset;
@@ -13803,7 +13798,7 @@ $root.ownershippb = (function() {
             if (message.notAfter != null && message.hasOwnProperty("notAfter"))
                 object.notAfter = $root.google.protobuf.Timestamp.toObject(message.notAfter, options);
             if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
-                object.maxUsages = $root.google.protobuf.Timestamp.toObject(message.maxUsages, options);
+                object.maxUsages = message.maxUsages;
             if (message.approvals && message.approvals.length) {
                 object.approvals = [];
                 for (var j = 0; j < message.approvals.length; ++j)
@@ -14214,6 +14209,180 @@ $root.ownershippb = (function() {
         };
 
         return ActionRequestSignable;
+    })();
+
+    ownershippb.StringInfo = (function() {
+
+        /**
+         * Properties of a StringInfo.
+         * @typedef ownershippb.StringInfo$Properties
+         * @type {Object}
+         * @property {string} [content] StringInfo content.
+         */
+
+        /**
+         * Constructs a new StringInfo.
+         * @exports ownershippb.StringInfo
+         * @constructor
+         * @param {ownershippb.StringInfo$Properties=} [properties] Properties to set
+         */
+        function StringInfo(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * StringInfo content.
+         * @type {string}
+         */
+        StringInfo.prototype.content = "";
+
+        /**
+         * Creates a new StringInfo instance using the specified properties.
+         * @param {ownershippb.StringInfo$Properties=} [properties] Properties to set
+         * @returns {ownershippb.StringInfo} StringInfo instance
+         */
+        StringInfo.create = function create(properties) {
+            return new StringInfo(properties);
+        };
+
+        /**
+         * Encodes the specified StringInfo message. Does not implicitly {@link ownershippb.StringInfo.verify|verify} messages.
+         * @param {ownershippb.StringInfo$Properties} message StringInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StringInfo.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.content != null && message.hasOwnProperty("content"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.content);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified StringInfo message, length delimited. Does not implicitly {@link ownershippb.StringInfo.verify|verify} messages.
+         * @param {ownershippb.StringInfo$Properties} message StringInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StringInfo.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a StringInfo message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {ownershippb.StringInfo} StringInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StringInfo.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ownershippb.StringInfo();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.content = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a StringInfo message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {ownershippb.StringInfo} StringInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StringInfo.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a StringInfo message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        StringInfo.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.content != null && message.hasOwnProperty("content"))
+                if (!$util.isString(message.content))
+                    return "content: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a StringInfo message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.StringInfo} StringInfo
+         */
+        StringInfo.fromObject = function fromObject(object) {
+            if (object instanceof $root.ownershippb.StringInfo)
+                return object;
+            var message = new $root.ownershippb.StringInfo();
+            if (object.content != null)
+                message.content = String(object.content);
+            return message;
+        };
+
+        /**
+         * Creates a StringInfo message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link ownershippb.StringInfo.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.StringInfo} StringInfo
+         */
+        StringInfo.from = StringInfo.fromObject;
+
+        /**
+         * Creates a plain object from a StringInfo message. Also converts values to other types if specified.
+         * @param {ownershippb.StringInfo} message StringInfo
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        StringInfo.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.content = "";
+            if (message.content != null && message.hasOwnProperty("content"))
+                object.content = message.content;
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this StringInfo message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        StringInfo.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this StringInfo to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        StringInfo.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return StringInfo;
     })();
 
     ownershippb.Approval = (function() {
