@@ -1607,6 +1607,9 @@ $root.identitypb = (function() {
          * @property {string} [type] MailboxMessage type.
          * @property {string} [subject] MailboxMessage subject.
          * @property {google.protobuf.Timestamp$Properties} [sentOn] MailboxMessage sentOn.
+         * @property {boolean} [read] MailboxMessage read.
+         * @property {string} [id] MailboxMessage id.
+         * @property {string} [to] MailboxMessage to.
          */
 
         /**
@@ -1647,6 +1650,24 @@ $root.identitypb = (function() {
         MailboxMessage.prototype.sentOn = null;
 
         /**
+         * MailboxMessage read.
+         * @type {boolean}
+         */
+        MailboxMessage.prototype.read = false;
+
+        /**
+         * MailboxMessage id.
+         * @type {string}
+         */
+        MailboxMessage.prototype.id = "";
+
+        /**
+         * MailboxMessage to.
+         * @type {string}
+         */
+        MailboxMessage.prototype.to = "";
+
+        /**
          * Creates a new MailboxMessage instance using the specified properties.
          * @param {identitypb.MailboxMessage$Properties=} [properties] Properties to set
          * @returns {identitypb.MailboxMessage} MailboxMessage instance
@@ -1672,6 +1693,12 @@ $root.identitypb = (function() {
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.subject);
             if (message.sentOn != null && message.hasOwnProperty("sentOn"))
                 $root.google.protobuf.Timestamp.encode(message.sentOn, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.read != null && message.hasOwnProperty("read"))
+                writer.uint32(/* id 5, wireType 0 =*/40).bool(message.read);
+            if (message.id != null && message.hasOwnProperty("id"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.id);
+            if (message.to != null && message.hasOwnProperty("to"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.to);
             return writer;
         };
 
@@ -1711,6 +1738,15 @@ $root.identitypb = (function() {
                     break;
                 case 4:
                     message.sentOn = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 5:
+                    message.read = reader.bool();
+                    break;
+                case 6:
+                    message.id = reader.string();
+                    break;
+                case 7:
+                    message.to = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1755,6 +1791,15 @@ $root.identitypb = (function() {
                 if (error)
                     return "sentOn." + error;
             }
+            if (message.read != null && message.hasOwnProperty("read"))
+                if (typeof message.read !== "boolean")
+                    return "read: boolean expected";
+            if (message.id != null && message.hasOwnProperty("id"))
+                if (!$util.isString(message.id))
+                    return "id: string expected";
+            if (message.to != null && message.hasOwnProperty("to"))
+                if (!$util.isString(message.to))
+                    return "to: string expected";
             return null;
         };
 
@@ -1781,6 +1826,12 @@ $root.identitypb = (function() {
                     throw TypeError(".identitypb.MailboxMessage.sentOn: object expected");
                 message.sentOn = $root.google.protobuf.Timestamp.fromObject(object.sentOn);
             }
+            if (object.read != null)
+                message.read = Boolean(object.read);
+            if (object.id != null)
+                message.id = String(object.id);
+            if (object.to != null)
+                message.to = String(object.to);
             return message;
         };
 
@@ -1808,6 +1859,9 @@ $root.identitypb = (function() {
                 object.type = "";
                 object.subject = "";
                 object.sentOn = null;
+                object.read = false;
+                object.id = "";
+                object.to = "";
             }
             if (message.body != null && message.hasOwnProperty("body"))
                 object.body = options.bytes === String ? $util.base64.encode(message.body, 0, message.body.length) : options.bytes === Array ? Array.prototype.slice.call(message.body) : message.body;
@@ -1817,6 +1871,12 @@ $root.identitypb = (function() {
                 object.subject = message.subject;
             if (message.sentOn != null && message.hasOwnProperty("sentOn"))
                 object.sentOn = $root.google.protobuf.Timestamp.toObject(message.sentOn, options);
+            if (message.read != null && message.hasOwnProperty("read"))
+                object.read = message.read;
+            if (message.id != null && message.hasOwnProperty("id"))
+                object.id = message.id;
+            if (message.to != null && message.hasOwnProperty("to"))
+                object.to = message.to;
             return object;
         };
 
