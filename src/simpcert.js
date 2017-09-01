@@ -138,4 +138,19 @@ Simpcert.fromPem = function(certString) {
     return simpcert;
 };
 
+Simpcert.encodeBytes = function(buf) {
+    "use strict";
+    return buf.toString('base64')
+        .replace(/\+/g, '-') // Convert '+' to '-'
+        .replace(/\//g, '_'); // Convert '/' to '_'
+};
+
+Simpcert.decodeString = function(base64) {
+    "use strict";
+    base64
+        .replace(/\-/g, '+') // Convert '-' to '+'
+        .replace(/\_/g, '/'); // Convert '_' to '/'
+    return new Buffer(base64, 'base64');
+};
+
 module.exports = Simpcert;

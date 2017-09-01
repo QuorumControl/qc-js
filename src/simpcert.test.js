@@ -78,3 +78,22 @@ test('can return a valid csr', ()=> {
     expect(csr.verify()).toBeTruthy();
     expect(csr.subject.getField({name: 'commonName'}).value).toBe("alice");
 });
+
+test('encode string', ()=> {
+    var stdEncoding = "LLZwHUFLVU94sZWz3J15PxoLqgR9ZyrbBXvTdk/p9UR0VNvduT8LHV2ePfzYWpmdj+mjh1Er1NfnkOC2FozZOA==";
+    var urlEncoding = "LLZwHUFLVU94sZWz3J15PxoLqgR9ZyrbBXvTdk_p9UR0VNvduT8LHV2ePfzYWpmdj-mjh1Er1NfnkOC2FozZOA==";
+
+    var buffer = new Buffer(stdEncoding, 'base64');
+
+    expect(Simpcert.encodeBytes(buffer)).toBe(urlEncoding);
+});
+
+test('decode string', ()=> {
+    "use strict";
+    var stdEncoding = "LLZwHUFLVU94sZWz3J15PxoLqgR9ZyrbBXvTdk/p9UR0VNvduT8LHV2ePfzYWpmdj+mjh1Er1NfnkOC2FozZOA==";
+
+    var buf = new Buffer(stdEncoding, 'base64');
+    var urlEncoding = Simpcert.encodeBytes(buf);
+
+    expect(Simpcert.decodeString(urlEncoding).toString('hex')).toBe(buf.toString('hex'));
+});
