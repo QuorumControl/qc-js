@@ -7,6 +7,27 @@ const forge = require('./forge');
 const pki = forge.pki;
 const Buffer = require('buffer').Buffer;
 
+class Pool {
+    constructor() {
+        this._pool = forge.pki.createCaStore();
+    }
+
+    addCert(simpcert) {
+        this._pool.addCertificate(simpcert.certificateObject);
+    }
+
+    verify(simpcert) {
+        console.log("verifying");
+        try {
+            forge.pki.verifyCertificateChain(this._pool, [simpcert.certificateObject]);
+        } catch(e) {
+            console.error("Error validating chain: ", e);
+            return false;
+        }
+        return true;
+    }
+}
+
 class Simpcert {
     constructor(properties) {
         if (properties)
@@ -85,6 +106,20 @@ class Simpcert {
         return new Buffer(this.privateKey.sign(hash, pss), 'binary');
     }
 
+    verifySignature(signatureBuffer, dataBuffer) {
+        var pss = forge.pss.create({
+            md: forge.md.sha512.create(),
+            mgf: forge.mgf.mgf1.create(forge.md.sha512.create()),
+            saltLength: (this.publicKey.n.bitLength())/8 - 2 - 64 // 64 is digest size of sha512 and this matches golangs auto-salt algorithm
+        });
+        var md = forge.md.sha512.create();
+        md.update(String.fromCharCode.apply(null, dataBuffer));
+
+        var signature = String.fromCharCode.apply(null, signatureBuffer)
+
+        return this.publicKey.verify(md.digest().getBytes(), signature, pss);
+    }
+
     encryptedPrivateKey(passphrase) {
         return pki.encryptRsaPrivateKey(this.privateKey, passphrase);
     }
@@ -152,5 +187,7 @@ Simpcert.decodeString = function(base64) {
         .replace(/\_/g, '/'); // Convert '_' to '/'
     return new Buffer(base64, 'base64');
 };
+
+Simpcert.Pool = Pool;
 
 module.exports = Simpcert;

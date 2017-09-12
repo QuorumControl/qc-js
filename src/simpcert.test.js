@@ -30,6 +30,16 @@ test('can sign', ()=> {
     var data = new Buffer("I am some data");
     var sig = cert.sign(data);
     expect(sig.length).toBe(256);
+    expect(cert.verifySignature(sig, data)).toBeTruthy();
+});
+
+test('catches invalid signatures', ()=> {
+    "use strict";
+    var data = new Buffer("I am some data");
+    var sig = cert.sign(data);
+    expect(sig.length).toBe(256);
+
+    expect(cert.verifySignature(sig, new Buffer("some data that wasn't that"))).not.toBeTruthy();
 });
 
 test('can encrypt and decrypt private key', ()=> {
@@ -96,4 +106,32 @@ test('decode string', ()=> {
     var urlEncoding = Simpcert.encodeBytes(buf);
 
     expect(Simpcert.decodeString(urlEncoding).toString('hex')).toBe(buf.toString('hex'));
+});
+
+test('pool verification', ()=> {
+    "use strict";
+    var name = "bob";
+    var orgName = "insaasity";
+    var rootAuthority = new Simpcert({
+        commonName: name,
+        orgName: orgName,
+        isCa: true
+    });
+    rootAuthority.generate();
+
+    var authority = new Simpcert({
+        commonName: name,
+        orgName: orgName,
+        isCa: true,
+        parent: rootAuthority
+    });
+    authority.generate();
+
+    console.log("testing the pool");
+
+    var pool = new Simpcert.Pool();
+    expect(pool.verify(authority)).not.toBeTruthy();
+
+    pool.addCert(rootAuthority);
+    expect(pool.verify(authority)).toBeTruthy();
 });
