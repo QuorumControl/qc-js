@@ -134,7 +134,40 @@ class Simpcert {
     }
 
     unencryptedPrivateKey() {
-        return pki.privateKeyToPem(this.privateKey)
+        return pki.privateKeyToPem(this.privateKey);
+    }
+
+    signCSR(csrBytes) {
+        var csr = forge.pki.certificationRequestFromPem(csrBytes);
+        if (!csr.verify()) {
+            throw new Error("invalid CSR");
+        }
+        if (!this.isCa) {
+            throw new Error("trying to sign a CSR with a cert that cannot sign");
+        }
+        var cert = forge.pki.createCertificate();
+        cert.serialNumber = new Buffer(forge.random.getBytesSync(16), 'binary').toString('hex');
+        cert.publicKey = csr.publicKey;
+        cert.validity.notBefore = new Date();
+        cert.validity.notAfter = notAfter();
+        cert.setSubject(csr.subject.attributes);
+
+        cert.setIssuer(this.certificateObject.subject.attributes);
+        cert.setExtensions([{
+            name: 'basicConstraints',
+            cA: false
+        }, {
+            name: 'keyUsage',
+            digitalSignature: true,
+            keyEncipherment: true,
+        }, {
+            name: 'extKeyUsage',
+            serverAuth: true,
+        }]);
+        cert.sign(this.privateKey);
+
+        var pem = pki.certificateToPem(cert);
+        return Simpcert.fromPem(pem);
     }
 
     toCSR() {

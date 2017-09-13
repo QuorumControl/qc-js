@@ -135,3 +135,27 @@ test('pool verification', ()=> {
     pool.addCert(rootAuthority);
     expect(pool.verify(authority)).toBeTruthy();
 });
+
+test('can sign a CSR', ()=> {
+    "use strict";
+    var name = "bob";
+    var orgName = "insaasity";
+    var authority = new Simpcert({
+        commonName: name,
+        orgName: orgName,
+        isCa: true,
+    });
+    authority.generate();
+
+    var deviceCert = new Simpcert({
+        commonName: name,
+        orgName: orgName,
+        isCa: false,
+    });
+    deviceCert.generate();
+
+    var csr = deviceCert.toCSR();
+
+    var signedCert = authority.signCSR(csr);
+    expect(signedCert.commonName).toEqual(deviceCert.commonName);
+});
