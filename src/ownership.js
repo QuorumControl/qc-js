@@ -2,13 +2,14 @@ const qcpb = require('./qc_pb_with_extra');
 const device = require('./device');
 const Identity = require('./identity');
 const Simpcert = require('./simpcert');
+const utils = require('./utils');
 
 function newApproval(actionRequest, signingIdentity) {
     var hsh = actionRequest.hash();
     return qcpb.ownershippb.Approval.create({
         owner: signingIdentity,
         actionRequestHash: hsh,
-        createdAt: new Date(),
+        createdAt: utils.dateToTimestamp(new Date()),
     });
 }
 

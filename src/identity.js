@@ -5,6 +5,7 @@
 identitypb = require('./qc_pb_with_extra').identitypb;
 Simpcert = require('./simpcert');
 deviceInfo = require('./device');
+utils = require('./utils');
 
 var currentDeviceForDeviceAdd = module.exports.currentDeviceForDeviceAdd = function (id) {
     "use strict";
@@ -47,7 +48,7 @@ var generateDevice = module.exports.generateDevice = function({name, organizatio
     return identitypb.Device.create({
         name: deviceName,
         UUID: deviceUUID,
-        createdAt: now,
+        createdAt: utils.dateToTimestamp(now),
         description: deviceDescription,
         certificate: identitypb.Certificate.fromSimpcert(deviceCert),
     });
