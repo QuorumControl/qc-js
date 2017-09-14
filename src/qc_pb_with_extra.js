@@ -53,10 +53,12 @@ qcpb.ownershippb.ActionRequest.prototype.hash = function() {
 
 qcpb.ownershippb.Approval.prototype.getSignable = function() {
     var signable = new qcpb.ownershippb.ApprovalSignable;
-    var list = ['actionRequestHash', 'owner', 'additionalInformation', 'createdAt'];
+    var list = ['actionRequestHash', 'additionalInformation', 'createdAt'];
     list.forEach((key) => {
         signable[key] = this[key];
     });
+    signable.ownerName = this.owner.name;
+    signable.ownerOrganization = this.owner.organization;
     return signable;
 };
 

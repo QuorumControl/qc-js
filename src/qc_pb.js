@@ -14772,7 +14772,8 @@ $root.ownershippb = (function() {
          * @typedef ownershippb.ApprovalSignable$Properties
          * @type {Object}
          * @property {Uint8Array} [actionRequestHash] ApprovalSignable actionRequestHash.
-         * @property {identitypb.SigningIdentity$Properties} [owner] ApprovalSignable owner.
+         * @property {string} [ownerName] ApprovalSignable ownerName.
+         * @property {string} [ownerOrganization] ApprovalSignable ownerOrganization.
          * @property {google.protobuf.Timestamp$Properties} [createdAt] ApprovalSignable createdAt.
          * @property {Object.<string,google.protobuf.Any$Properties>} [additionalInformation] ApprovalSignable additionalInformation.
          * @property {string} [device] ApprovalSignable device.
@@ -14799,10 +14800,16 @@ $root.ownershippb = (function() {
         ApprovalSignable.prototype.actionRequestHash = $util.newBuffer([]);
 
         /**
-         * ApprovalSignable owner.
-         * @type {(identitypb.SigningIdentity$Properties|null)}
+         * ApprovalSignable ownerName.
+         * @type {string}
          */
-        ApprovalSignable.prototype.owner = null;
+        ApprovalSignable.prototype.ownerName = "";
+
+        /**
+         * ApprovalSignable ownerOrganization.
+         * @type {string}
+         */
+        ApprovalSignable.prototype.ownerOrganization = "";
 
         /**
          * ApprovalSignable createdAt.
@@ -14842,17 +14849,19 @@ $root.ownershippb = (function() {
                 writer = $Writer.create();
             if (message.actionRequestHash != null && message.hasOwnProperty("actionRequestHash"))
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.actionRequestHash);
-            if (message.owner != null && message.hasOwnProperty("owner"))
-                $root.identitypb.SigningIdentity.encode(message.owner, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.ownerName != null && message.hasOwnProperty("ownerName"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.ownerName);
+            if (message.ownerOrganization != null && message.hasOwnProperty("ownerOrganization"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.ownerOrganization);
             if (message.createdAt != null && message.hasOwnProperty("createdAt"))
-                $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             if (message.additionalInformation != null && message.hasOwnProperty("additionalInformation"))
                 for (var keys = Object.keys(message.additionalInformation), i = 0; i < keys.length; ++i) {
-                    writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                    writer.uint32(/* id 5, wireType 2 =*/42).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
                     $root.google.protobuf.Any.encode(message.additionalInformation[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
             if (message.device != null && message.hasOwnProperty("device"))
-                writer.uint32(/* id 5, wireType 2 =*/42).string(message.device);
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.device);
             return writer;
         };
 
@@ -14885,12 +14894,15 @@ $root.ownershippb = (function() {
                     message.actionRequestHash = reader.bytes();
                     break;
                 case 2:
-                    message.owner = $root.identitypb.SigningIdentity.decode(reader, reader.uint32());
+                    message.ownerName = reader.string();
                     break;
                 case 3:
-                    message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    message.ownerOrganization = reader.string();
                     break;
                 case 4:
+                    message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 5:
                     reader.skip().pos++;
                     if (message.additionalInformation === $util.emptyObject)
                         message.additionalInformation = {};
@@ -14898,7 +14910,7 @@ $root.ownershippb = (function() {
                     reader.pos++;
                     message.additionalInformation[key] = $root.google.protobuf.Any.decode(reader, reader.uint32());
                     break;
-                case 5:
+                case 6:
                     message.device = reader.string();
                     break;
                 default:
@@ -14933,11 +14945,12 @@ $root.ownershippb = (function() {
             if (message.actionRequestHash != null && message.hasOwnProperty("actionRequestHash"))
                 if (!(message.actionRequestHash && typeof message.actionRequestHash.length === "number" || $util.isString(message.actionRequestHash)))
                     return "actionRequestHash: buffer expected";
-            if (message.owner != null && message.hasOwnProperty("owner")) {
-                var error = $root.identitypb.SigningIdentity.verify(message.owner);
-                if (error)
-                    return "owner." + error;
-            }
+            if (message.ownerName != null && message.hasOwnProperty("ownerName"))
+                if (!$util.isString(message.ownerName))
+                    return "ownerName: string expected";
+            if (message.ownerOrganization != null && message.hasOwnProperty("ownerOrganization"))
+                if (!$util.isString(message.ownerOrganization))
+                    return "ownerOrganization: string expected";
             if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
                 var error = $root.google.protobuf.Timestamp.verify(message.createdAt);
                 if (error)
@@ -14973,11 +14986,10 @@ $root.ownershippb = (function() {
                     $util.base64.decode(object.actionRequestHash, message.actionRequestHash = $util.newBuffer($util.base64.length(object.actionRequestHash)), 0);
                 else if (object.actionRequestHash.length)
                     message.actionRequestHash = object.actionRequestHash;
-            if (object.owner != null) {
-                if (typeof object.owner !== "object")
-                    throw TypeError(".ownershippb.ApprovalSignable.owner: object expected");
-                message.owner = $root.identitypb.SigningIdentity.fromObject(object.owner);
-            }
+            if (object.ownerName != null)
+                message.ownerName = String(object.ownerName);
+            if (object.ownerOrganization != null)
+                message.ownerOrganization = String(object.ownerOrganization);
             if (object.createdAt != null) {
                 if (typeof object.createdAt !== "object")
                     throw TypeError(".ownershippb.ApprovalSignable.createdAt: object expected");
@@ -15021,14 +15033,17 @@ $root.ownershippb = (function() {
                 object.additionalInformation = {};
             if (options.defaults) {
                 object.actionRequestHash = options.bytes === String ? "" : [];
-                object.owner = null;
+                object.ownerName = "";
+                object.ownerOrganization = "";
                 object.createdAt = null;
                 object.device = "";
             }
             if (message.actionRequestHash != null && message.hasOwnProperty("actionRequestHash"))
                 object.actionRequestHash = options.bytes === String ? $util.base64.encode(message.actionRequestHash, 0, message.actionRequestHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.actionRequestHash) : message.actionRequestHash;
-            if (message.owner != null && message.hasOwnProperty("owner"))
-                object.owner = $root.identitypb.SigningIdentity.toObject(message.owner, options);
+            if (message.ownerName != null && message.hasOwnProperty("ownerName"))
+                object.ownerName = message.ownerName;
+            if (message.ownerOrganization != null && message.hasOwnProperty("ownerOrganization"))
+                object.ownerOrganization = message.ownerOrganization;
             if (message.createdAt != null && message.hasOwnProperty("createdAt"))
                 object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
             var keys2;
