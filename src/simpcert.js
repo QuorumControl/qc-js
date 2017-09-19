@@ -44,7 +44,7 @@ class Simpcert {
     }
 
     generate() {
-        var keys = pki.rsa.generateKeyPair(2048);
+        var keys = Simpcert.keyGeneratorFunc(2048);
         var cert = pki.createCertificate();
         cert.publicKey = keys.publicKey;
 
@@ -179,6 +179,12 @@ class Simpcert {
         return pki.certificationRequestToPem(csr);
     }
 }
+
+// This is an overridable function that should return forge RSA keypairs given a number of bits.
+// Called like: `Simpcert.keyGeneratorFunc(2048)`;
+// It's useful to override this function in cases where a native implementation will be much faster.
+// For example: mobile devices.
+Simpcert.keyGeneratorFunc = pki.rsa.generateKeyPair;
 
 function notAfter() {
     "use strict";
