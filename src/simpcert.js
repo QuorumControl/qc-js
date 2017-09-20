@@ -121,7 +121,7 @@ class Simpcert {
     }
 
     encryptedPrivateKey(passphrase) {
-        return pki.encryptRsaPrivateKey(this.privateKey, passphrase);
+        return pki.encryptRsaPrivateKey(this.privateKey, passphrase, {algorithm: 'aes256'});
     }
 
     attachEncryptedPrivatekey(pem, passphrase) {
