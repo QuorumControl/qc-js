@@ -13482,6 +13482,7 @@ $root.ownershippb = (function() {
          * @property {google.protobuf.Timestamp$Properties} [notAfter] ActionRequest notAfter.
          * @property {number} [maxUsages] ActionRequest maxUsages.
          * @property {Array.<ownershippb.Approval$Properties>} [approvals] ActionRequest approvals.
+         * @property {string} [requesterOrganization] ActionRequest requesterOrganization.
          */
 
         /**
@@ -13560,6 +13561,12 @@ $root.ownershippb = (function() {
         ActionRequest.prototype.approvals = $util.emptyArray;
 
         /**
+         * ActionRequest requesterOrganization.
+         * @type {string}
+         */
+        ActionRequest.prototype.requesterOrganization = "";
+
+        /**
          * Creates a new ActionRequest instance using the specified properties.
          * @param {ownershippb.ActionRequest$Properties=} [properties] Properties to set
          * @returns {ownershippb.ActionRequest} ActionRequest instance
@@ -13601,6 +13608,8 @@ $root.ownershippb = (function() {
             if (message.approvals != null && message.approvals.length)
                 for (var i = 0; i < message.approvals.length; ++i)
                     $root.ownershippb.Approval.encode(message.approvals[i], writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
+            if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
+                writer.uint32(/* id 11, wireType 2 =*/90).string(message.requesterOrganization);
             return writer;
         };
 
@@ -13665,6 +13674,9 @@ $root.ownershippb = (function() {
                     if (!(message.approvals && message.approvals.length))
                         message.approvals = [];
                     message.approvals.push($root.ownershippb.Approval.decode(reader, reader.uint32()));
+                    break;
+                case 11:
+                    message.requesterOrganization = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -13744,6 +13756,9 @@ $root.ownershippb = (function() {
                         return "approvals." + error;
                 }
             }
+            if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
+                if (!$util.isString(message.requesterOrganization))
+                    return "requesterOrganization: string expected";
             return null;
         };
 
@@ -13801,6 +13816,8 @@ $root.ownershippb = (function() {
                     message.approvals[i] = $root.ownershippb.Approval.fromObject(object.approvals[i]);
                 }
             }
+            if (object.requesterOrganization != null)
+                message.requesterOrganization = String(object.requesterOrganization);
             return message;
         };
 
@@ -13836,6 +13853,7 @@ $root.ownershippb = (function() {
                 object.notBefore = null;
                 object.notAfter = null;
                 object.maxUsages = 0;
+                object.requesterOrganization = "";
             }
             if (message.asset != null && message.hasOwnProperty("asset"))
                 object.asset = message.asset;
@@ -13864,6 +13882,8 @@ $root.ownershippb = (function() {
                 for (var j = 0; j < message.approvals.length; ++j)
                     object.approvals[j] = $root.ownershippb.Approval.toObject(message.approvals[j], options);
             }
+            if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
+                object.requesterOrganization = message.requesterOrganization;
             return object;
         };
 
@@ -13902,6 +13922,7 @@ $root.ownershippb = (function() {
          * @property {google.protobuf.Timestamp$Properties} [notBefore] ActionRequestSignable notBefore.
          * @property {google.protobuf.Timestamp$Properties} [notAfter] ActionRequestSignable notAfter.
          * @property {google.protobuf.Timestamp$Properties} [maxUsages] ActionRequestSignable maxUsages.
+         * @property {string} [requesterOrganization] ActionRequestSignable requesterOrganization.
          */
 
         /**
@@ -13973,6 +13994,12 @@ $root.ownershippb = (function() {
         ActionRequestSignable.prototype.maxUsages = null;
 
         /**
+         * ActionRequestSignable requesterOrganization.
+         * @type {string}
+         */
+        ActionRequestSignable.prototype.requesterOrganization = "";
+
+        /**
          * Creates a new ActionRequestSignable instance using the specified properties.
          * @param {ownershippb.ActionRequestSignable$Properties=} [properties] Properties to set
          * @returns {ownershippb.ActionRequestSignable} ActionRequestSignable instance
@@ -14011,6 +14038,8 @@ $root.ownershippb = (function() {
                 $root.google.protobuf.Timestamp.encode(message.notAfter, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
             if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
                 $root.google.protobuf.Timestamp.encode(message.maxUsages, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+            if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
+                writer.uint32(/* id 10, wireType 2 =*/82).string(message.requesterOrganization);
             return writer;
         };
 
@@ -14070,6 +14099,9 @@ $root.ownershippb = (function() {
                     break;
                 case 9:
                     message.maxUsages = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 10:
+                    message.requesterOrganization = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -14142,6 +14174,9 @@ $root.ownershippb = (function() {
                 if (error)
                     return "maxUsages." + error;
             }
+            if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
+                if (!$util.isString(message.requesterOrganization))
+                    return "requesterOrganization: string expected";
             return null;
         };
 
@@ -14192,6 +14227,8 @@ $root.ownershippb = (function() {
                     throw TypeError(".ownershippb.ActionRequestSignable.maxUsages: object expected");
                 message.maxUsages = $root.google.protobuf.Timestamp.fromObject(object.maxUsages);
             }
+            if (object.requesterOrganization != null)
+                message.requesterOrganization = String(object.requesterOrganization);
             return message;
         };
 
@@ -14225,6 +14262,7 @@ $root.ownershippb = (function() {
                 object.notBefore = null;
                 object.notAfter = null;
                 object.maxUsages = null;
+                object.requesterOrganization = "";
             }
             if (message.asset != null && message.hasOwnProperty("asset"))
                 object.asset = message.asset;
@@ -14248,6 +14286,8 @@ $root.ownershippb = (function() {
                 object.notAfter = $root.google.protobuf.Timestamp.toObject(message.notAfter, options);
             if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
                 object.maxUsages = $root.google.protobuf.Timestamp.toObject(message.maxUsages, options);
+            if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
+                object.requesterOrganization = message.requesterOrganization;
             return object;
         };
 
