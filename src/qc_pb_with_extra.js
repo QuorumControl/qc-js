@@ -37,7 +37,7 @@ qcpb.ownershippb.ActionRequest.prototype.getSignable = function() {
     var signable = new qcpb.ownershippb.ActionRequestSignable;
     var list = ['asset', 'action', 'organization', 'requester',
         'additionalInformation', 'createdAt',
-        'notBefore', 'notAfter'
+        'notBefore', 'notAfter', 'requesterOrganization',
     ];
     list.forEach((key)=> {
         signable[key] = this[key];
