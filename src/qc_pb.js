@@ -2121,6 +2121,654 @@ $root.identitypb = (function() {
         return MailboxMessageSet;
     })();
 
+    identitypb.Permission = (function() {
+
+        /**
+         * Properties of a Permission.
+         * @typedef identitypb.Permission$Properties
+         * @type {Object}
+         * @property {string} [asset] Permission asset.
+         * @property {string} [action] Permission action.
+         */
+
+        /**
+         * Constructs a new Permission.
+         * @exports identitypb.Permission
+         * @constructor
+         * @param {identitypb.Permission$Properties=} [properties] Properties to set
+         */
+        function Permission(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Permission asset.
+         * @type {string}
+         */
+        Permission.prototype.asset = "";
+
+        /**
+         * Permission action.
+         * @type {string}
+         */
+        Permission.prototype.action = "";
+
+        /**
+         * Creates a new Permission instance using the specified properties.
+         * @param {identitypb.Permission$Properties=} [properties] Properties to set
+         * @returns {identitypb.Permission} Permission instance
+         */
+        Permission.create = function create(properties) {
+            return new Permission(properties);
+        };
+
+        /**
+         * Encodes the specified Permission message. Does not implicitly {@link identitypb.Permission.verify|verify} messages.
+         * @param {identitypb.Permission$Properties} message Permission message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Permission.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.asset != null && message.hasOwnProperty("asset"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.asset);
+            if (message.action != null && message.hasOwnProperty("action"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.action);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Permission message, length delimited. Does not implicitly {@link identitypb.Permission.verify|verify} messages.
+         * @param {identitypb.Permission$Properties} message Permission message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Permission.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Permission message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {identitypb.Permission} Permission
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Permission.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.Permission();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.asset = reader.string();
+                    break;
+                case 2:
+                    message.action = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Permission message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {identitypb.Permission} Permission
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Permission.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Permission message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        Permission.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.asset != null && message.hasOwnProperty("asset"))
+                if (!$util.isString(message.asset))
+                    return "asset: string expected";
+            if (message.action != null && message.hasOwnProperty("action"))
+                if (!$util.isString(message.action))
+                    return "action: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a Permission message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.Permission} Permission
+         */
+        Permission.fromObject = function fromObject(object) {
+            if (object instanceof $root.identitypb.Permission)
+                return object;
+            var message = new $root.identitypb.Permission();
+            if (object.asset != null)
+                message.asset = String(object.asset);
+            if (object.action != null)
+                message.action = String(object.action);
+            return message;
+        };
+
+        /**
+         * Creates a Permission message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link identitypb.Permission.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.Permission} Permission
+         */
+        Permission.from = Permission.fromObject;
+
+        /**
+         * Creates a plain object from a Permission message. Also converts values to other types if specified.
+         * @param {identitypb.Permission} message Permission
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Permission.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.asset = "";
+                object.action = "";
+            }
+            if (message.asset != null && message.hasOwnProperty("asset"))
+                object.asset = message.asset;
+            if (message.action != null && message.hasOwnProperty("action"))
+                object.action = message.action;
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this Permission message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Permission.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this Permission to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        Permission.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Permission;
+    })();
+
+    identitypb.Challenge = (function() {
+
+        /**
+         * Properties of a Challenge.
+         * @typedef identitypb.Challenge$Properties
+         * @type {Object}
+         * @property {string} [id] Challenge id.
+         * @property {Uint8Array} [challenge] Challenge challenge.
+         * @property {string} [name] Challenge name.
+         * @property {string} [organization] Challenge organization.
+         * @property {google.protobuf.Timestamp$Properties} [sentOn] Challenge sentOn.
+         * @property {Array.<identitypb.Permission$Properties>} [permissions] Challenge permissions.
+         * @property {string} [endpoint] Challenge endpoint.
+         * @property {Uint8Array} [signature] Challenge signature.
+         * @property {google.protobuf.Timestamp$Properties} [completedOn] Challenge completedOn.
+         * @property {identitypb.SigningIdentity$Properties} [signer] Challenge signer.
+         * @property {identitypb.Challenge.Status} [status] Challenge status.
+         */
+
+        /**
+         * Constructs a new Challenge.
+         * @exports identitypb.Challenge
+         * @constructor
+         * @param {identitypb.Challenge$Properties=} [properties] Properties to set
+         */
+        function Challenge(properties) {
+            this.permissions = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Challenge id.
+         * @type {string}
+         */
+        Challenge.prototype.id = "";
+
+        /**
+         * Challenge challenge.
+         * @type {Uint8Array}
+         */
+        Challenge.prototype.challenge = $util.newBuffer([]);
+
+        /**
+         * Challenge name.
+         * @type {string}
+         */
+        Challenge.prototype.name = "";
+
+        /**
+         * Challenge organization.
+         * @type {string}
+         */
+        Challenge.prototype.organization = "";
+
+        /**
+         * Challenge sentOn.
+         * @type {(google.protobuf.Timestamp$Properties|null)}
+         */
+        Challenge.prototype.sentOn = null;
+
+        /**
+         * Challenge permissions.
+         * @type {Array.<identitypb.Permission$Properties>}
+         */
+        Challenge.prototype.permissions = $util.emptyArray;
+
+        /**
+         * Challenge endpoint.
+         * @type {string}
+         */
+        Challenge.prototype.endpoint = "";
+
+        /**
+         * Challenge signature.
+         * @type {Uint8Array}
+         */
+        Challenge.prototype.signature = $util.newBuffer([]);
+
+        /**
+         * Challenge completedOn.
+         * @type {(google.protobuf.Timestamp$Properties|null)}
+         */
+        Challenge.prototype.completedOn = null;
+
+        /**
+         * Challenge signer.
+         * @type {(identitypb.SigningIdentity$Properties|null)}
+         */
+        Challenge.prototype.signer = null;
+
+        /**
+         * Challenge status.
+         * @type {identitypb.Challenge.Status}
+         */
+        Challenge.prototype.status = 0;
+
+        /**
+         * Creates a new Challenge instance using the specified properties.
+         * @param {identitypb.Challenge$Properties=} [properties] Properties to set
+         * @returns {identitypb.Challenge} Challenge instance
+         */
+        Challenge.create = function create(properties) {
+            return new Challenge(properties);
+        };
+
+        /**
+         * Encodes the specified Challenge message. Does not implicitly {@link identitypb.Challenge.verify|verify} messages.
+         * @param {identitypb.Challenge$Properties} message Challenge message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Challenge.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.id != null && message.hasOwnProperty("id"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+            if (message.challenge != null && message.hasOwnProperty("challenge"))
+                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.challenge);
+            if (message.name != null && message.hasOwnProperty("name"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
+            if (message.organization != null && message.hasOwnProperty("organization"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.organization);
+            if (message.sentOn != null && message.hasOwnProperty("sentOn"))
+                $root.google.protobuf.Timestamp.encode(message.sentOn, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            if (message.permissions != null && message.permissions.length)
+                for (var i = 0; i < message.permissions.length; ++i)
+                    $root.identitypb.Permission.encode(message.permissions[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+            if (message.endpoint != null && message.hasOwnProperty("endpoint"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.endpoint);
+            if (message.signature != null && message.hasOwnProperty("signature"))
+                writer.uint32(/* id 8, wireType 2 =*/66).bytes(message.signature);
+            if (message.completedOn != null && message.hasOwnProperty("completedOn"))
+                $root.google.protobuf.Timestamp.encode(message.completedOn, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+            if (message.signer != null && message.hasOwnProperty("signer"))
+                $root.identitypb.SigningIdentity.encode(message.signer, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
+            if (message.status != null && message.hasOwnProperty("status"))
+                writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Challenge message, length delimited. Does not implicitly {@link identitypb.Challenge.verify|verify} messages.
+         * @param {identitypb.Challenge$Properties} message Challenge message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Challenge.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Challenge message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {identitypb.Challenge} Challenge
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Challenge.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.identitypb.Challenge();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.id = reader.string();
+                    break;
+                case 2:
+                    message.challenge = reader.bytes();
+                    break;
+                case 3:
+                    message.name = reader.string();
+                    break;
+                case 4:
+                    message.organization = reader.string();
+                    break;
+                case 5:
+                    message.sentOn = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 6:
+                    if (!(message.permissions && message.permissions.length))
+                        message.permissions = [];
+                    message.permissions.push($root.identitypb.Permission.decode(reader, reader.uint32()));
+                    break;
+                case 7:
+                    message.endpoint = reader.string();
+                    break;
+                case 8:
+                    message.signature = reader.bytes();
+                    break;
+                case 9:
+                    message.completedOn = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 10:
+                    message.signer = $root.identitypb.SigningIdentity.decode(reader, reader.uint32());
+                    break;
+                case 11:
+                    message.status = reader.uint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Challenge message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {identitypb.Challenge} Challenge
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Challenge.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Challenge message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        Challenge.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.id != null && message.hasOwnProperty("id"))
+                if (!$util.isString(message.id))
+                    return "id: string expected";
+            if (message.challenge != null && message.hasOwnProperty("challenge"))
+                if (!(message.challenge && typeof message.challenge.length === "number" || $util.isString(message.challenge)))
+                    return "challenge: buffer expected";
+            if (message.name != null && message.hasOwnProperty("name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.organization != null && message.hasOwnProperty("organization"))
+                if (!$util.isString(message.organization))
+                    return "organization: string expected";
+            if (message.sentOn != null && message.hasOwnProperty("sentOn")) {
+                var error = $root.google.protobuf.Timestamp.verify(message.sentOn);
+                if (error)
+                    return "sentOn." + error;
+            }
+            if (message.permissions != null && message.hasOwnProperty("permissions")) {
+                if (!Array.isArray(message.permissions))
+                    return "permissions: array expected";
+                for (var i = 0; i < message.permissions.length; ++i) {
+                    var error = $root.identitypb.Permission.verify(message.permissions[i]);
+                    if (error)
+                        return "permissions." + error;
+                }
+            }
+            if (message.endpoint != null && message.hasOwnProperty("endpoint"))
+                if (!$util.isString(message.endpoint))
+                    return "endpoint: string expected";
+            if (message.signature != null && message.hasOwnProperty("signature"))
+                if (!(message.signature && typeof message.signature.length === "number" || $util.isString(message.signature)))
+                    return "signature: buffer expected";
+            if (message.completedOn != null && message.hasOwnProperty("completedOn")) {
+                var error = $root.google.protobuf.Timestamp.verify(message.completedOn);
+                if (error)
+                    return "completedOn." + error;
+            }
+            if (message.signer != null && message.hasOwnProperty("signer")) {
+                var error = $root.identitypb.SigningIdentity.verify(message.signer);
+                if (error)
+                    return "signer." + error;
+            }
+            if (message.status != null && message.hasOwnProperty("status"))
+                switch (message.status) {
+                default:
+                    return "status: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a Challenge message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.Challenge} Challenge
+         */
+        Challenge.fromObject = function fromObject(object) {
+            if (object instanceof $root.identitypb.Challenge)
+                return object;
+            var message = new $root.identitypb.Challenge();
+            if (object.id != null)
+                message.id = String(object.id);
+            if (object.challenge != null)
+                if (typeof object.challenge === "string")
+                    $util.base64.decode(object.challenge, message.challenge = $util.newBuffer($util.base64.length(object.challenge)), 0);
+                else if (object.challenge.length)
+                    message.challenge = object.challenge;
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.organization != null)
+                message.organization = String(object.organization);
+            if (object.sentOn != null) {
+                if (typeof object.sentOn !== "object")
+                    throw TypeError(".identitypb.Challenge.sentOn: object expected");
+                message.sentOn = $root.google.protobuf.Timestamp.fromObject(object.sentOn);
+            }
+            if (object.permissions) {
+                if (!Array.isArray(object.permissions))
+                    throw TypeError(".identitypb.Challenge.permissions: array expected");
+                message.permissions = [];
+                for (var i = 0; i < object.permissions.length; ++i) {
+                    if (typeof object.permissions[i] !== "object")
+                        throw TypeError(".identitypb.Challenge.permissions: object expected");
+                    message.permissions[i] = $root.identitypb.Permission.fromObject(object.permissions[i]);
+                }
+            }
+            if (object.endpoint != null)
+                message.endpoint = String(object.endpoint);
+            if (object.signature != null)
+                if (typeof object.signature === "string")
+                    $util.base64.decode(object.signature, message.signature = $util.newBuffer($util.base64.length(object.signature)), 0);
+                else if (object.signature.length)
+                    message.signature = object.signature;
+            if (object.completedOn != null) {
+                if (typeof object.completedOn !== "object")
+                    throw TypeError(".identitypb.Challenge.completedOn: object expected");
+                message.completedOn = $root.google.protobuf.Timestamp.fromObject(object.completedOn);
+            }
+            if (object.signer != null) {
+                if (typeof object.signer !== "object")
+                    throw TypeError(".identitypb.Challenge.signer: object expected");
+                message.signer = $root.identitypb.SigningIdentity.fromObject(object.signer);
+            }
+            switch (object.status) {
+            case "PENDING":
+            case 0:
+                message.status = 0;
+                break;
+            case "APPROVED":
+            case 1:
+                message.status = 1;
+                break;
+            case "DENIED":
+            case 2:
+                message.status = 2;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a Challenge message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link identitypb.Challenge.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {identitypb.Challenge} Challenge
+         */
+        Challenge.from = Challenge.fromObject;
+
+        /**
+         * Creates a plain object from a Challenge message. Also converts values to other types if specified.
+         * @param {identitypb.Challenge} message Challenge
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Challenge.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.permissions = [];
+            if (options.defaults) {
+                object.id = "";
+                object.challenge = options.bytes === String ? "" : [];
+                object.name = "";
+                object.organization = "";
+                object.sentOn = null;
+                object.endpoint = "";
+                object.signature = options.bytes === String ? "" : [];
+                object.completedOn = null;
+                object.signer = null;
+                object.status = options.enums === String ? "PENDING" : 0;
+            }
+            if (message.id != null && message.hasOwnProperty("id"))
+                object.id = message.id;
+            if (message.challenge != null && message.hasOwnProperty("challenge"))
+                object.challenge = options.bytes === String ? $util.base64.encode(message.challenge, 0, message.challenge.length) : options.bytes === Array ? Array.prototype.slice.call(message.challenge) : message.challenge;
+            if (message.name != null && message.hasOwnProperty("name"))
+                object.name = message.name;
+            if (message.organization != null && message.hasOwnProperty("organization"))
+                object.organization = message.organization;
+            if (message.sentOn != null && message.hasOwnProperty("sentOn"))
+                object.sentOn = $root.google.protobuf.Timestamp.toObject(message.sentOn, options);
+            if (message.permissions && message.permissions.length) {
+                object.permissions = [];
+                for (var j = 0; j < message.permissions.length; ++j)
+                    object.permissions[j] = $root.identitypb.Permission.toObject(message.permissions[j], options);
+            }
+            if (message.endpoint != null && message.hasOwnProperty("endpoint"))
+                object.endpoint = message.endpoint;
+            if (message.signature != null && message.hasOwnProperty("signature"))
+                object.signature = options.bytes === String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.signature) : message.signature;
+            if (message.completedOn != null && message.hasOwnProperty("completedOn"))
+                object.completedOn = $root.google.protobuf.Timestamp.toObject(message.completedOn, options);
+            if (message.signer != null && message.hasOwnProperty("signer"))
+                object.signer = $root.identitypb.SigningIdentity.toObject(message.signer, options);
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = options.enums === String ? $root.identitypb.Challenge.Status[message.status] : message.status;
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this Challenge message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Challenge.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this Challenge to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        Challenge.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Status enum.
+         * @name Status
+         * @memberof identitypb.Challenge
+         * @enum {number}
+         * @property {number} PENDING=0 PENDING value
+         * @property {number} APPROVED=1 APPROVED value
+         * @property {number} DENIED=2 DENIED value
+         */
+        Challenge.Status = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "PENDING"] = 0;
+            values[valuesById[1] = "APPROVED"] = 1;
+            values[valuesById[2] = "DENIED"] = 2;
+            return values;
+        })();
+
+        return Challenge;
+    })();
+
     return identitypb;
 })();
 
