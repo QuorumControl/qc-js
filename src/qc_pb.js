@@ -2322,7 +2322,7 @@ $root.identitypb = (function() {
          * Properties of a Challenge.
          * @typedef identitypb.Challenge$Properties
          * @type {Object}
-         * @property {string} [id] Challenge id.
+         * @property {string} [description] Challenge description.
          * @property {Uint8Array} [challenge] Challenge challenge.
          * @property {string} [name] Challenge name.
          * @property {string} [organization] Challenge organization.
@@ -2350,10 +2350,10 @@ $root.identitypb = (function() {
         }
 
         /**
-         * Challenge id.
+         * Challenge description.
          * @type {string}
          */
-        Challenge.prototype.id = "";
+        Challenge.prototype.description = "";
 
         /**
          * Challenge challenge.
@@ -2433,8 +2433,8 @@ $root.identitypb = (function() {
         Challenge.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.id != null && message.hasOwnProperty("id"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+            if (message.description != null && message.hasOwnProperty("description"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.description);
             if (message.challenge != null && message.hasOwnProperty("challenge"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.challenge);
             if (message.name != null && message.hasOwnProperty("name"))
@@ -2485,7 +2485,7 @@ $root.identitypb = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.id = reader.string();
+                    message.description = reader.string();
                     break;
                 case 2:
                     message.challenge = reader.bytes();
@@ -2548,9 +2548,9 @@ $root.identitypb = (function() {
         Challenge.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.id != null && message.hasOwnProperty("id"))
-                if (!$util.isString(message.id))
-                    return "id: string expected";
+            if (message.description != null && message.hasOwnProperty("description"))
+                if (!$util.isString(message.description))
+                    return "description: string expected";
             if (message.challenge != null && message.hasOwnProperty("challenge"))
                 if (!(message.challenge && typeof message.challenge.length === "number" || $util.isString(message.challenge)))
                     return "challenge: buffer expected";
@@ -2611,8 +2611,8 @@ $root.identitypb = (function() {
             if (object instanceof $root.identitypb.Challenge)
                 return object;
             var message = new $root.identitypb.Challenge();
-            if (object.id != null)
-                message.id = String(object.id);
+            if (object.description != null)
+                message.description = String(object.description);
             if (object.challenge != null)
                 if (typeof object.challenge === "string")
                     $util.base64.decode(object.challenge, message.challenge = $util.newBuffer($util.base64.length(object.challenge)), 0);
@@ -2693,7 +2693,7 @@ $root.identitypb = (function() {
             if (options.arrays || options.defaults)
                 object.permissions = [];
             if (options.defaults) {
-                object.id = "";
+                object.description = "";
                 object.challenge = options.bytes === String ? "" : [];
                 object.name = "";
                 object.organization = "";
@@ -2704,8 +2704,8 @@ $root.identitypb = (function() {
                 object.signer = null;
                 object.status = options.enums === String ? "PENDING" : 0;
             }
-            if (message.id != null && message.hasOwnProperty("id"))
-                object.id = message.id;
+            if (message.description != null && message.hasOwnProperty("description"))
+                object.description = message.description;
             if (message.challenge != null && message.hasOwnProperty("challenge"))
                 object.challenge = options.bytes === String ? $util.base64.encode(message.challenge, 0, message.challenge.length) : options.bytes === Array ? Array.prototype.slice.call(message.challenge) : message.challenge;
             if (message.name != null && message.hasOwnProperty("name"))

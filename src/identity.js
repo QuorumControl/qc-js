@@ -119,10 +119,7 @@ module.exports.completeChallenge = function(challenge, signingIdentity) {
 module.exports.newChallenge = function(name, organization) {
     "use strict";
     var randomValue = new Buffer(forge.random.getBytesSync(128), 'binary');
-    var idBytes = Buffer.concat([randomValue, new Buffer(name + organization, 'utf8')]);
-    var id = Simpcert.hash(idBytes);
     return new Challenge({
-        id: id.toString('utf8'),
         challenge: randomValue,
         name: name,
         organization: organization,
