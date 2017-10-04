@@ -62,3 +62,15 @@ test('it can create a standalone currentDevice', ()=> {
     expect(device.certificate.toSimpcert().commonName).toBe(id.name);
     expect(device.UUID).toBe(currentDevice.UUID);
 });
+
+test('it can create a uid', ()=> {
+    "use strict";
+    expect(alice.uid()).toBe("alice-at-org-insaasity");
+    expect(identity.uid("alice", "insaasity")).toBe("alice-at-org-insaasity");
+});
+
+test('can complete challenges', () => {
+    var challenge = identity.newChallenge("alice", "insaasity");
+    identity.completeChallenge(challenge, alice.signingIdentity());
+    expect(challenge.signature).not.toBeNull();
+});

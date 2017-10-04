@@ -2,10 +2,13 @@
  * Created by tbowers on 6/9/17.
  */
 
-identitypb = require('./qc_pb_with_extra').identitypb;
-Simpcert = require('./simpcert');
-deviceInfo = require('./device');
-utils = require('./utils');
+const identitypb = require('./qc_pb_with_extra').identitypb;
+const Simpcert = require('./simpcert');
+const deviceInfo = require('./device');
+const utils = require('./utils');
+const Challenge = identitypb.Challenge;
+const Buffer = require('buffer').Buffer;
+const forge = require('./forge');
 
 var currentDeviceForDeviceAdd = module.exports.currentDeviceForDeviceAdd = function (id) {
     "use strict";
@@ -98,3 +101,33 @@ module.exports.sign = function(signingIdentity, objectToSign) {
 
     return signingIdentity.currentCertificate.toSimpcert().sign(objectToSign.hash());
 };
+
+module.exports.uid = identitypb.uid;
+
+module.exports.completeChallenge = function(challenge, signingIdentity) {
+    "use strict";
+    if (identitypb.uid(challenge.name, challenge.organization) != signingIdentity.uid()) {
+        throw new Error("challenge is not for id " + signingIdentity.uid());
+    }
+
+    challenge.signer = signingIdentity;
+    challenge.signature = signingIdentity.currentCertificate.toSimpcert().sign(challenge.challenge);
+    challenge.completedOn = utils.dateToTimestamp(new Date());
+    return challenge;
+};
+
+module.exports.newChallenge = function(name, organization) {
+    "use strict";
+    var randomValue = new Buffer(forge.random.getBytesSync(128), 'binary');
+    var idBytes = Buffer.concat([randomValue, new Buffer(name + organization, 'utf8')]);
+    var id = Simpcert.hash(idBytes);
+    return new Challenge({
+        id: id.toString('utf8'),
+        challenge: randomValue,
+        name: name,
+        organization: organization,
+        sentOn: utils.dateToTimestamp(new Date())
+    });
+};
+
+

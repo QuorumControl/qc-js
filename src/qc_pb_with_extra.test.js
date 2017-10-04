@@ -80,3 +80,11 @@ test('can get currentDevice from id', ()=> {
     "use strict";
      expect(alice.currentDevice().UUID).toBe(Device.getInfo().UUID);
 });
+
+test('it can create uids', ()=> {
+    "use strict";
+    let uid = "alice-at-org-insaasity";
+    expect(alice.uid()).toBe(uid);
+    expect(alice.signingIdentity().uid()).toBe(uid);
+    expect(alice.owningIdentity().uid()).toBe(uid);
+});

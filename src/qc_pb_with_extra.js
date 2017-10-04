@@ -92,6 +92,26 @@ qcpb.identitypb.Identity.prototype.owningIdentity = function() {
     });
 };
 
+const uid = function(name, organization) {
+    "use strict";
+    return name + "-at-org-" + organization;
+};
+
+qcpb.identitypb.uid = uid;
+
+qcpb.identitypb.Identity.prototype.uid = function() {
+    return uid(this.name, this.organization);
+};
+
+qcpb.identitypb.SigningIdentity.prototype.uid = function() {
+    return uid(this.name, this.organization);
+};
+
+qcpb.identitypb.OwningIdentity.prototype.uid = function() {
+    return uid(this.name, this.organization);
+};
+
+
 qcpb.buf2hex = function(buffer) { // buffer is an ArrayBuffer
     return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
 };
