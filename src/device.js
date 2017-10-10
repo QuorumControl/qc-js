@@ -1,14 +1,14 @@
 var savedDeviceInfo;
 
 module.exports.getInfo = function getInfo() {
+    if (savedDeviceInfo) {
+        return savedDeviceInfo;
+    }
+
     try {
         var expo = require("expo");
     } catch(e) {
         console.log("expo is not defined, using internal guid");
-    }
-
-    if (savedDeviceInfo) {
-        return savedDeviceInfo;
     }
 
     if (typeof expo !== 'undefined') {
