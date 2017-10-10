@@ -50,6 +50,10 @@ test('it can generate a device without an id', ()=> {
     expect(device.UUID).toBe("uuid");
 });
 
+test('can encrypt keys', ()=> {
+    expect(alice.certificateAuthority.toSimpcert().encryptedPrivateKey("test")).not.toBeNull();
+});
+
 test('it can create a standalone currentDevice', ()=> {
     "use strict";
     var id = identity.generate("bob", "insaasity");
