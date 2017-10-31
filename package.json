@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/QuorumControl/qc-js.git"
+    "url": "https://github.com/QuorumControl/qc-js.git"
   },
   "author": "Topper Bowers",
-  "license": "UNLICENSED",
+  "license": "All Rights Reserved",
   "bugs": {
     "url": "https://github.com/QuorumControl/qc-js/issues"
   },
