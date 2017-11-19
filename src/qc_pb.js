@@ -13971,6 +13971,7 @@ $root.ownershippb = (function() {
                 case 0:
                 case 1:
                 case 2:
+                case 3:
                     break;
                 }
             if (message.usages != null && message.hasOwnProperty("usages"))
@@ -14010,6 +14011,10 @@ $root.ownershippb = (function() {
             case "DENIED":
             case 2:
                 message.status = 2;
+                break;
+            case "EXHAUSTED":
+            case 3:
+                message.status = 3;
                 break;
             }
             if (object.usages != null)
@@ -14102,12 +14107,14 @@ $root.ownershippb = (function() {
          * @property {number} PENDING=0 PENDING value
          * @property {number} APPROVED=1 APPROVED value
          * @property {number} DENIED=2 DENIED value
+         * @property {number} EXHAUSTED=3 EXHAUSTED value
          */
         ActionRequestMetadata.Status = (function() {
             var valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "PENDING"] = 0;
             values[valuesById[1] = "APPROVED"] = 1;
             values[valuesById[2] = "DENIED"] = 2;
+            values[valuesById[3] = "EXHAUSTED"] = 3;
             return values;
         })();
 
@@ -14957,6 +14964,319 @@ $root.ownershippb = (function() {
         };
 
         return ActionRequestSignable;
+    })();
+
+    ownershippb.ActionRequestBundle = (function() {
+
+        /**
+         * Properties of an ActionRequestBundle.
+         * @typedef ownershippb.ActionRequestBundle$Properties
+         * @type {Object}
+         * @property {string} [name] ActionRequestBundle name.
+         * @property {Object.<string,google.protobuf.Any$Properties>} [additionalInformation] ActionRequestBundle additionalInformation.
+         * @property {Array.<ownershippb.ActionRequest$Properties>} [actionRequests] ActionRequestBundle actionRequests.
+         * @property {Object.<string,ownershippb.ActionRequestMetadata$Properties>} [metadata] ActionRequestBundle metadata.
+         */
+
+        /**
+         * Constructs a new ActionRequestBundle.
+         * @exports ownershippb.ActionRequestBundle
+         * @constructor
+         * @param {ownershippb.ActionRequestBundle$Properties=} [properties] Properties to set
+         */
+        function ActionRequestBundle(properties) {
+            this.additionalInformation = {};
+            this.actionRequests = [];
+            this.metadata = {};
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ActionRequestBundle name.
+         * @type {string}
+         */
+        ActionRequestBundle.prototype.name = "";
+
+        /**
+         * ActionRequestBundle additionalInformation.
+         * @type {Object.<string,google.protobuf.Any$Properties>}
+         */
+        ActionRequestBundle.prototype.additionalInformation = $util.emptyObject;
+
+        /**
+         * ActionRequestBundle actionRequests.
+         * @type {Array.<ownershippb.ActionRequest$Properties>}
+         */
+        ActionRequestBundle.prototype.actionRequests = $util.emptyArray;
+
+        /**
+         * ActionRequestBundle metadata.
+         * @type {Object.<string,ownershippb.ActionRequestMetadata$Properties>}
+         */
+        ActionRequestBundle.prototype.metadata = $util.emptyObject;
+
+        /**
+         * Creates a new ActionRequestBundle instance using the specified properties.
+         * @param {ownershippb.ActionRequestBundle$Properties=} [properties] Properties to set
+         * @returns {ownershippb.ActionRequestBundle} ActionRequestBundle instance
+         */
+        ActionRequestBundle.create = function create(properties) {
+            return new ActionRequestBundle(properties);
+        };
+
+        /**
+         * Encodes the specified ActionRequestBundle message. Does not implicitly {@link ownershippb.ActionRequestBundle.verify|verify} messages.
+         * @param {ownershippb.ActionRequestBundle$Properties} message ActionRequestBundle message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ActionRequestBundle.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.name != null && message.hasOwnProperty("name"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            if (message.additionalInformation != null && message.hasOwnProperty("additionalInformation"))
+                for (var keys = Object.keys(message.additionalInformation), i = 0; i < keys.length; ++i) {
+                    writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                    $root.google.protobuf.Any.encode(message.additionalInformation[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                }
+            if (message.actionRequests != null && message.actionRequests.length)
+                for (var i = 0; i < message.actionRequests.length; ++i)
+                    $root.ownershippb.ActionRequest.encode(message.actionRequests[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.metadata != null && message.hasOwnProperty("metadata"))
+                for (var keys = Object.keys(message.metadata), i = 0; i < keys.length; ++i) {
+                    writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                    $root.ownershippb.ActionRequestMetadata.encode(message.metadata[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                }
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ActionRequestBundle message, length delimited. Does not implicitly {@link ownershippb.ActionRequestBundle.verify|verify} messages.
+         * @param {ownershippb.ActionRequestBundle$Properties} message ActionRequestBundle message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ActionRequestBundle.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an ActionRequestBundle message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {ownershippb.ActionRequestBundle} ActionRequestBundle
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ActionRequestBundle.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ownershippb.ActionRequestBundle(), key;
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.name = reader.string();
+                    break;
+                case 2:
+                    reader.skip().pos++;
+                    if (message.additionalInformation === $util.emptyObject)
+                        message.additionalInformation = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.additionalInformation[key] = $root.google.protobuf.Any.decode(reader, reader.uint32());
+                    break;
+                case 3:
+                    if (!(message.actionRequests && message.actionRequests.length))
+                        message.actionRequests = [];
+                    message.actionRequests.push($root.ownershippb.ActionRequest.decode(reader, reader.uint32()));
+                    break;
+                case 4:
+                    reader.skip().pos++;
+                    if (message.metadata === $util.emptyObject)
+                        message.metadata = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.metadata[key] = $root.ownershippb.ActionRequestMetadata.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an ActionRequestBundle message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {ownershippb.ActionRequestBundle} ActionRequestBundle
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ActionRequestBundle.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an ActionRequestBundle message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        ActionRequestBundle.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.name != null && message.hasOwnProperty("name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.additionalInformation != null && message.hasOwnProperty("additionalInformation")) {
+                if (!$util.isObject(message.additionalInformation))
+                    return "additionalInformation: object expected";
+                var key = Object.keys(message.additionalInformation);
+                for (var i = 0; i < key.length; ++i) {
+                    var error = $root.google.protobuf.Any.verify(message.additionalInformation[key[i]]);
+                    if (error)
+                        return "additionalInformation." + error;
+                }
+            }
+            if (message.actionRequests != null && message.hasOwnProperty("actionRequests")) {
+                if (!Array.isArray(message.actionRequests))
+                    return "actionRequests: array expected";
+                for (var i = 0; i < message.actionRequests.length; ++i) {
+                    var error = $root.ownershippb.ActionRequest.verify(message.actionRequests[i]);
+                    if (error)
+                        return "actionRequests." + error;
+                }
+            }
+            if (message.metadata != null && message.hasOwnProperty("metadata")) {
+                if (!$util.isObject(message.metadata))
+                    return "metadata: object expected";
+                var key = Object.keys(message.metadata);
+                for (var i = 0; i < key.length; ++i) {
+                    var error = $root.ownershippb.ActionRequestMetadata.verify(message.metadata[key[i]]);
+                    if (error)
+                        return "metadata." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates an ActionRequestBundle message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.ActionRequestBundle} ActionRequestBundle
+         */
+        ActionRequestBundle.fromObject = function fromObject(object) {
+            if (object instanceof $root.ownershippb.ActionRequestBundle)
+                return object;
+            var message = new $root.ownershippb.ActionRequestBundle();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.additionalInformation) {
+                if (typeof object.additionalInformation !== "object")
+                    throw TypeError(".ownershippb.ActionRequestBundle.additionalInformation: object expected");
+                message.additionalInformation = {};
+                for (var keys = Object.keys(object.additionalInformation), i = 0; i < keys.length; ++i) {
+                    if (typeof object.additionalInformation[keys[i]] !== "object")
+                        throw TypeError(".ownershippb.ActionRequestBundle.additionalInformation: object expected");
+                    message.additionalInformation[keys[i]] = $root.google.protobuf.Any.fromObject(object.additionalInformation[keys[i]]);
+                }
+            }
+            if (object.actionRequests) {
+                if (!Array.isArray(object.actionRequests))
+                    throw TypeError(".ownershippb.ActionRequestBundle.actionRequests: array expected");
+                message.actionRequests = [];
+                for (var i = 0; i < object.actionRequests.length; ++i) {
+                    if (typeof object.actionRequests[i] !== "object")
+                        throw TypeError(".ownershippb.ActionRequestBundle.actionRequests: object expected");
+                    message.actionRequests[i] = $root.ownershippb.ActionRequest.fromObject(object.actionRequests[i]);
+                }
+            }
+            if (object.metadata) {
+                if (typeof object.metadata !== "object")
+                    throw TypeError(".ownershippb.ActionRequestBundle.metadata: object expected");
+                message.metadata = {};
+                for (var keys = Object.keys(object.metadata), i = 0; i < keys.length; ++i) {
+                    if (typeof object.metadata[keys[i]] !== "object")
+                        throw TypeError(".ownershippb.ActionRequestBundle.metadata: object expected");
+                    message.metadata[keys[i]] = $root.ownershippb.ActionRequestMetadata.fromObject(object.metadata[keys[i]]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates an ActionRequestBundle message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link ownershippb.ActionRequestBundle.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.ActionRequestBundle} ActionRequestBundle
+         */
+        ActionRequestBundle.from = ActionRequestBundle.fromObject;
+
+        /**
+         * Creates a plain object from an ActionRequestBundle message. Also converts values to other types if specified.
+         * @param {ownershippb.ActionRequestBundle} message ActionRequestBundle
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ActionRequestBundle.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.actionRequests = [];
+            if (options.objects || options.defaults) {
+                object.additionalInformation = {};
+                object.metadata = {};
+            }
+            if (options.defaults)
+                object.name = "";
+            if (message.name != null && message.hasOwnProperty("name"))
+                object.name = message.name;
+            var keys2;
+            if (message.additionalInformation && (keys2 = Object.keys(message.additionalInformation)).length) {
+                object.additionalInformation = {};
+                for (var j = 0; j < keys2.length; ++j)
+                    object.additionalInformation[keys2[j]] = $root.google.protobuf.Any.toObject(message.additionalInformation[keys2[j]], options);
+            }
+            if (message.actionRequests && message.actionRequests.length) {
+                object.actionRequests = [];
+                for (var j = 0; j < message.actionRequests.length; ++j)
+                    object.actionRequests[j] = $root.ownershippb.ActionRequest.toObject(message.actionRequests[j], options);
+            }
+            if (message.metadata && (keys2 = Object.keys(message.metadata)).length) {
+                object.metadata = {};
+                for (var j = 0; j < keys2.length; ++j)
+                    object.metadata[keys2[j]] = $root.ownershippb.ActionRequestMetadata.toObject(message.metadata[keys2[j]], options);
+            }
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this ActionRequestBundle message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ActionRequestBundle.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this ActionRequestBundle to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        ActionRequestBundle.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return ActionRequestBundle;
     })();
 
     ownershippb.StringInfo = (function() {
@@ -15977,6 +16297,275 @@ $root.ownershippb = (function() {
         };
 
         return SequencerInfo;
+    })();
+
+    ownershippb.Usage = (function() {
+
+        /**
+         * Properties of a Usage.
+         * @typedef ownershippb.Usage$Properties
+         * @type {Object}
+         * @property {string} [reporter] Usage reporter.
+         * @property {string} [reporterOrganization] Usage reporterOrganization.
+         * @property {google.protobuf.Timestamp$Properties} [createdAt] Usage createdAt.
+         * @property {Object.<string,google.protobuf.Any$Properties>} [metadata] Usage metadata.
+         */
+
+        /**
+         * Constructs a new Usage.
+         * @exports ownershippb.Usage
+         * @constructor
+         * @param {ownershippb.Usage$Properties=} [properties] Properties to set
+         */
+        function Usage(properties) {
+            this.metadata = {};
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Usage reporter.
+         * @type {string}
+         */
+        Usage.prototype.reporter = "";
+
+        /**
+         * Usage reporterOrganization.
+         * @type {string}
+         */
+        Usage.prototype.reporterOrganization = "";
+
+        /**
+         * Usage createdAt.
+         * @type {(google.protobuf.Timestamp$Properties|null)}
+         */
+        Usage.prototype.createdAt = null;
+
+        /**
+         * Usage metadata.
+         * @type {Object.<string,google.protobuf.Any$Properties>}
+         */
+        Usage.prototype.metadata = $util.emptyObject;
+
+        /**
+         * Creates a new Usage instance using the specified properties.
+         * @param {ownershippb.Usage$Properties=} [properties] Properties to set
+         * @returns {ownershippb.Usage} Usage instance
+         */
+        Usage.create = function create(properties) {
+            return new Usage(properties);
+        };
+
+        /**
+         * Encodes the specified Usage message. Does not implicitly {@link ownershippb.Usage.verify|verify} messages.
+         * @param {ownershippb.Usage$Properties} message Usage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Usage.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.reporter != null && message.hasOwnProperty("reporter"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.reporter);
+            if (message.reporterOrganization != null && message.hasOwnProperty("reporterOrganization"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.reporterOrganization);
+            if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+                $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.metadata != null && message.hasOwnProperty("metadata"))
+                for (var keys = Object.keys(message.metadata), i = 0; i < keys.length; ++i) {
+                    writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                    $root.google.protobuf.Any.encode(message.metadata[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                }
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Usage message, length delimited. Does not implicitly {@link ownershippb.Usage.verify|verify} messages.
+         * @param {ownershippb.Usage$Properties} message Usage message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Usage.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Usage message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {ownershippb.Usage} Usage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Usage.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ownershippb.Usage(), key;
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.reporter = reader.string();
+                    break;
+                case 2:
+                    message.reporterOrganization = reader.string();
+                    break;
+                case 3:
+                    message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 4:
+                    reader.skip().pos++;
+                    if (message.metadata === $util.emptyObject)
+                        message.metadata = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.metadata[key] = $root.google.protobuf.Any.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Usage message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {ownershippb.Usage} Usage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Usage.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Usage message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        Usage.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.reporter != null && message.hasOwnProperty("reporter"))
+                if (!$util.isString(message.reporter))
+                    return "reporter: string expected";
+            if (message.reporterOrganization != null && message.hasOwnProperty("reporterOrganization"))
+                if (!$util.isString(message.reporterOrganization))
+                    return "reporterOrganization: string expected";
+            if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
+                var error = $root.google.protobuf.Timestamp.verify(message.createdAt);
+                if (error)
+                    return "createdAt." + error;
+            }
+            if (message.metadata != null && message.hasOwnProperty("metadata")) {
+                if (!$util.isObject(message.metadata))
+                    return "metadata: object expected";
+                var key = Object.keys(message.metadata);
+                for (var i = 0; i < key.length; ++i) {
+                    var error = $root.google.protobuf.Any.verify(message.metadata[key[i]]);
+                    if (error)
+                        return "metadata." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a Usage message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.Usage} Usage
+         */
+        Usage.fromObject = function fromObject(object) {
+            if (object instanceof $root.ownershippb.Usage)
+                return object;
+            var message = new $root.ownershippb.Usage();
+            if (object.reporter != null)
+                message.reporter = String(object.reporter);
+            if (object.reporterOrganization != null)
+                message.reporterOrganization = String(object.reporterOrganization);
+            if (object.createdAt != null) {
+                if (typeof object.createdAt !== "object")
+                    throw TypeError(".ownershippb.Usage.createdAt: object expected");
+                message.createdAt = $root.google.protobuf.Timestamp.fromObject(object.createdAt);
+            }
+            if (object.metadata) {
+                if (typeof object.metadata !== "object")
+                    throw TypeError(".ownershippb.Usage.metadata: object expected");
+                message.metadata = {};
+                for (var keys = Object.keys(object.metadata), i = 0; i < keys.length; ++i) {
+                    if (typeof object.metadata[keys[i]] !== "object")
+                        throw TypeError(".ownershippb.Usage.metadata: object expected");
+                    message.metadata[keys[i]] = $root.google.protobuf.Any.fromObject(object.metadata[keys[i]]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a Usage message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link ownershippb.Usage.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.Usage} Usage
+         */
+        Usage.from = Usage.fromObject;
+
+        /**
+         * Creates a plain object from a Usage message. Also converts values to other types if specified.
+         * @param {ownershippb.Usage} message Usage
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Usage.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.objects || options.defaults)
+                object.metadata = {};
+            if (options.defaults) {
+                object.reporter = "";
+                object.reporterOrganization = "";
+                object.createdAt = null;
+            }
+            if (message.reporter != null && message.hasOwnProperty("reporter"))
+                object.reporter = message.reporter;
+            if (message.reporterOrganization != null && message.hasOwnProperty("reporterOrganization"))
+                object.reporterOrganization = message.reporterOrganization;
+            if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+                object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
+            var keys2;
+            if (message.metadata && (keys2 = Object.keys(message.metadata)).length) {
+                object.metadata = {};
+                for (var j = 0; j < keys2.length; ++j)
+                    object.metadata[keys2[j]] = $root.google.protobuf.Any.toObject(message.metadata[keys2[j]], options);
+            }
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this Usage message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Usage.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this Usage to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        Usage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Usage;
     })();
 
     ownershippb.OwnershipDescription = (function() {
@@ -17141,6 +17730,327 @@ $root.ownershippb = (function() {
         };
 
         return RoleMembership;
+    })();
+
+    ownershippb.OwnershipMap = (function() {
+
+        /**
+         * Properties of an OwnershipMap.
+         * @typedef ownershippb.OwnershipMap$Properties
+         * @type {Object}
+         * @property {Array.<ownershippb.OwnershipDescription$Properties>} [descriptions] OwnershipMap descriptions.
+         * @property {Array.<ownershippb.Role$Properties>} [roles] OwnershipMap roles.
+         * @property {number|Long} [epoch] OwnershipMap epoch.
+         * @property {Uint8Array} [currentHash] OwnershipMap currentHash.
+         * @property {google.protobuf.Timestamp$Properties} [createdAt] OwnershipMap createdAt.
+         */
+
+        /**
+         * Constructs a new OwnershipMap.
+         * @exports ownershippb.OwnershipMap
+         * @constructor
+         * @param {ownershippb.OwnershipMap$Properties=} [properties] Properties to set
+         */
+        function OwnershipMap(properties) {
+            this.descriptions = [];
+            this.roles = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * OwnershipMap descriptions.
+         * @type {Array.<ownershippb.OwnershipDescription$Properties>}
+         */
+        OwnershipMap.prototype.descriptions = $util.emptyArray;
+
+        /**
+         * OwnershipMap roles.
+         * @type {Array.<ownershippb.Role$Properties>}
+         */
+        OwnershipMap.prototype.roles = $util.emptyArray;
+
+        /**
+         * OwnershipMap epoch.
+         * @type {number|Long}
+         */
+        OwnershipMap.prototype.epoch = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * OwnershipMap currentHash.
+         * @type {Uint8Array}
+         */
+        OwnershipMap.prototype.currentHash = $util.newBuffer([]);
+
+        /**
+         * OwnershipMap createdAt.
+         * @type {(google.protobuf.Timestamp$Properties|null)}
+         */
+        OwnershipMap.prototype.createdAt = null;
+
+        /**
+         * Creates a new OwnershipMap instance using the specified properties.
+         * @param {ownershippb.OwnershipMap$Properties=} [properties] Properties to set
+         * @returns {ownershippb.OwnershipMap} OwnershipMap instance
+         */
+        OwnershipMap.create = function create(properties) {
+            return new OwnershipMap(properties);
+        };
+
+        /**
+         * Encodes the specified OwnershipMap message. Does not implicitly {@link ownershippb.OwnershipMap.verify|verify} messages.
+         * @param {ownershippb.OwnershipMap$Properties} message OwnershipMap message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        OwnershipMap.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.descriptions != null && message.descriptions.length)
+                for (var i = 0; i < message.descriptions.length; ++i)
+                    $root.ownershippb.OwnershipDescription.encode(message.descriptions[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.roles != null && message.roles.length)
+                for (var i = 0; i < message.roles.length; ++i)
+                    $root.ownershippb.Role.encode(message.roles[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.epoch != null && message.hasOwnProperty("epoch"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.epoch);
+            if (message.currentHash != null && message.hasOwnProperty("currentHash"))
+                writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.currentHash);
+            if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+                $root.google.protobuf.Timestamp.encode(message.createdAt, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified OwnershipMap message, length delimited. Does not implicitly {@link ownershippb.OwnershipMap.verify|verify} messages.
+         * @param {ownershippb.OwnershipMap$Properties} message OwnershipMap message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        OwnershipMap.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an OwnershipMap message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {ownershippb.OwnershipMap} OwnershipMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        OwnershipMap.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ownershippb.OwnershipMap();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    if (!(message.descriptions && message.descriptions.length))
+                        message.descriptions = [];
+                    message.descriptions.push($root.ownershippb.OwnershipDescription.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    if (!(message.roles && message.roles.length))
+                        message.roles = [];
+                    message.roles.push($root.ownershippb.Role.decode(reader, reader.uint32()));
+                    break;
+                case 3:
+                    message.epoch = reader.uint64();
+                    break;
+                case 4:
+                    message.currentHash = reader.bytes();
+                    break;
+                case 5:
+                    message.createdAt = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an OwnershipMap message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {ownershippb.OwnershipMap} OwnershipMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        OwnershipMap.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an OwnershipMap message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        OwnershipMap.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.descriptions != null && message.hasOwnProperty("descriptions")) {
+                if (!Array.isArray(message.descriptions))
+                    return "descriptions: array expected";
+                for (var i = 0; i < message.descriptions.length; ++i) {
+                    var error = $root.ownershippb.OwnershipDescription.verify(message.descriptions[i]);
+                    if (error)
+                        return "descriptions." + error;
+                }
+            }
+            if (message.roles != null && message.hasOwnProperty("roles")) {
+                if (!Array.isArray(message.roles))
+                    return "roles: array expected";
+                for (var i = 0; i < message.roles.length; ++i) {
+                    var error = $root.ownershippb.Role.verify(message.roles[i]);
+                    if (error)
+                        return "roles." + error;
+                }
+            }
+            if (message.epoch != null && message.hasOwnProperty("epoch"))
+                if (!$util.isInteger(message.epoch) && !(message.epoch && $util.isInteger(message.epoch.low) && $util.isInteger(message.epoch.high)))
+                    return "epoch: integer|Long expected";
+            if (message.currentHash != null && message.hasOwnProperty("currentHash"))
+                if (!(message.currentHash && typeof message.currentHash.length === "number" || $util.isString(message.currentHash)))
+                    return "currentHash: buffer expected";
+            if (message.createdAt != null && message.hasOwnProperty("createdAt")) {
+                var error = $root.google.protobuf.Timestamp.verify(message.createdAt);
+                if (error)
+                    return "createdAt." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates an OwnershipMap message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.OwnershipMap} OwnershipMap
+         */
+        OwnershipMap.fromObject = function fromObject(object) {
+            if (object instanceof $root.ownershippb.OwnershipMap)
+                return object;
+            var message = new $root.ownershippb.OwnershipMap();
+            if (object.descriptions) {
+                if (!Array.isArray(object.descriptions))
+                    throw TypeError(".ownershippb.OwnershipMap.descriptions: array expected");
+                message.descriptions = [];
+                for (var i = 0; i < object.descriptions.length; ++i) {
+                    if (typeof object.descriptions[i] !== "object")
+                        throw TypeError(".ownershippb.OwnershipMap.descriptions: object expected");
+                    message.descriptions[i] = $root.ownershippb.OwnershipDescription.fromObject(object.descriptions[i]);
+                }
+            }
+            if (object.roles) {
+                if (!Array.isArray(object.roles))
+                    throw TypeError(".ownershippb.OwnershipMap.roles: array expected");
+                message.roles = [];
+                for (var i = 0; i < object.roles.length; ++i) {
+                    if (typeof object.roles[i] !== "object")
+                        throw TypeError(".ownershippb.OwnershipMap.roles: object expected");
+                    message.roles[i] = $root.ownershippb.Role.fromObject(object.roles[i]);
+                }
+            }
+            if (object.epoch != null)
+                if ($util.Long)
+                    (message.epoch = $util.Long.fromValue(object.epoch)).unsigned = true;
+                else if (typeof object.epoch === "string")
+                    message.epoch = parseInt(object.epoch, 10);
+                else if (typeof object.epoch === "number")
+                    message.epoch = object.epoch;
+                else if (typeof object.epoch === "object")
+                    message.epoch = new $util.LongBits(object.epoch.low >>> 0, object.epoch.high >>> 0).toNumber(true);
+            if (object.currentHash != null)
+                if (typeof object.currentHash === "string")
+                    $util.base64.decode(object.currentHash, message.currentHash = $util.newBuffer($util.base64.length(object.currentHash)), 0);
+                else if (object.currentHash.length)
+                    message.currentHash = object.currentHash;
+            if (object.createdAt != null) {
+                if (typeof object.createdAt !== "object")
+                    throw TypeError(".ownershippb.OwnershipMap.createdAt: object expected");
+                message.createdAt = $root.google.protobuf.Timestamp.fromObject(object.createdAt);
+            }
+            return message;
+        };
+
+        /**
+         * Creates an OwnershipMap message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link ownershippb.OwnershipMap.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ownershippb.OwnershipMap} OwnershipMap
+         */
+        OwnershipMap.from = OwnershipMap.fromObject;
+
+        /**
+         * Creates a plain object from an OwnershipMap message. Also converts values to other types if specified.
+         * @param {ownershippb.OwnershipMap} message OwnershipMap
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        OwnershipMap.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults) {
+                object.descriptions = [];
+                object.roles = [];
+            }
+            if (options.defaults) {
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.epoch = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.epoch = options.longs === String ? "0" : 0;
+                object.currentHash = options.bytes === String ? "" : [];
+                object.createdAt = null;
+            }
+            if (message.descriptions && message.descriptions.length) {
+                object.descriptions = [];
+                for (var j = 0; j < message.descriptions.length; ++j)
+                    object.descriptions[j] = $root.ownershippb.OwnershipDescription.toObject(message.descriptions[j], options);
+            }
+            if (message.roles && message.roles.length) {
+                object.roles = [];
+                for (var j = 0; j < message.roles.length; ++j)
+                    object.roles[j] = $root.ownershippb.Role.toObject(message.roles[j], options);
+            }
+            if (message.epoch != null && message.hasOwnProperty("epoch"))
+                if (typeof message.epoch === "number")
+                    object.epoch = options.longs === String ? String(message.epoch) : message.epoch;
+                else
+                    object.epoch = options.longs === String ? $util.Long.prototype.toString.call(message.epoch) : options.longs === Number ? new $util.LongBits(message.epoch.low >>> 0, message.epoch.high >>> 0).toNumber(true) : message.epoch;
+            if (message.currentHash != null && message.hasOwnProperty("currentHash"))
+                object.currentHash = options.bytes === String ? $util.base64.encode(message.currentHash, 0, message.currentHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.currentHash) : message.currentHash;
+            if (message.createdAt != null && message.hasOwnProperty("createdAt"))
+                object.createdAt = $root.google.protobuf.Timestamp.toObject(message.createdAt, options);
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this OwnershipMap message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        OwnershipMap.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this OwnershipMap to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        OwnershipMap.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return OwnershipMap;
     })();
 
     return ownershippb;
