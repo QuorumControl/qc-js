@@ -21,7 +21,7 @@ class Pool {
         try {
             forge.pki.verifyCertificateChain(this._pool, [simpcert.certificateObject]);
         } catch(e) {
-            console.error("Error validating chain: ", e);
+            console.log("Error validating chain: ", e);
             return false;
         }
         return true;
