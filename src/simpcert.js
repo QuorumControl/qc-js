@@ -49,7 +49,7 @@ class Simpcert {
         cert.publicKey = keys.publicKey;
 
         cert.serialNumber = '01';
-        cert.validity.notBefore = new Date();
+        cert.validity.notBefore = notBefore();
         cert.validity.notAfter = notAfter();
         var attrs = [{
             name: 'commonName',
@@ -148,7 +148,7 @@ class Simpcert {
         var cert = forge.pki.createCertificate();
         cert.serialNumber = new Buffer(forge.random.getBytesSync(16), 'binary').toString('hex');
         cert.publicKey = csr.publicKey;
-        cert.validity.notBefore = new Date();
+        cert.validity.notBefore = notBefore();
         cert.validity.notAfter = notAfter();
         cert.setSubject(csr.subject.attributes);
 
@@ -188,7 +188,13 @@ Simpcert.keyGeneratorFunc = pki.rsa.generateKeyPair;
 
 function notAfter() {
     "use strict";
-    return new Date(new Date().setFullYear(new Date().getFullYear() + 5))
+    return new Date(new Date().setFullYear(new Date().getFullYear() + 5));
+}
+
+function notBefore() {
+    var now = new Date();
+    now.setMinutes(now.getMinutes() - 5);
+    return now;
 }
 
 Simpcert.hash = function(bytes) {
