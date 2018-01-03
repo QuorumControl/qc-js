@@ -16578,6 +16578,7 @@ $root.ownershippb = (function() {
          * @property {string} [action] OwnershipDescription action.
          * @property {number} [ownersNeeded] OwnershipDescription ownersNeeded.
          * @property {Array.<identitypb.OwningIdentity$Properties>} [owners] OwnershipDescription owners.
+         * @property {ownershippb.OwnershipDescription.ModificationType} [modificationType] OwnershipDescription modificationType.
          */
 
         /**
@@ -16619,6 +16620,12 @@ $root.ownershippb = (function() {
         OwnershipDescription.prototype.owners = $util.emptyArray;
 
         /**
+         * OwnershipDescription modificationType.
+         * @type {ownershippb.OwnershipDescription.ModificationType}
+         */
+        OwnershipDescription.prototype.modificationType = 0;
+
+        /**
          * Creates a new OwnershipDescription instance using the specified properties.
          * @param {ownershippb.OwnershipDescription$Properties=} [properties] Properties to set
          * @returns {ownershippb.OwnershipDescription} OwnershipDescription instance
@@ -16645,6 +16652,8 @@ $root.ownershippb = (function() {
             if (message.owners != null && message.owners.length)
                 for (var i = 0; i < message.owners.length; ++i)
                     $root.identitypb.OwningIdentity.encode(message.owners[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.modificationType != null && message.hasOwnProperty("modificationType"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.modificationType);
             return writer;
         };
 
@@ -16686,6 +16695,9 @@ $root.ownershippb = (function() {
                     if (!(message.owners && message.owners.length))
                         message.owners = [];
                     message.owners.push($root.identitypb.OwningIdentity.decode(reader, reader.uint32()));
+                    break;
+                case 5:
+                    message.modificationType = reader.uint32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -16734,6 +16746,14 @@ $root.ownershippb = (function() {
                         return "owners." + error;
                 }
             }
+            if (message.modificationType != null && message.hasOwnProperty("modificationType"))
+                switch (message.modificationType) {
+                default:
+                    return "modificationType: enum value expected";
+                case 0:
+                case 1:
+                    break;
+                }
             return null;
         };
 
@@ -16761,6 +16781,16 @@ $root.ownershippb = (function() {
                         throw TypeError(".ownershippb.OwnershipDescription.owners: object expected");
                     message.owners[i] = $root.identitypb.OwningIdentity.fromObject(object.owners[i]);
                 }
+            }
+            switch (object.modificationType) {
+            case "MODIFY":
+            case 0:
+                message.modificationType = 0;
+                break;
+            case "DELETE":
+            case 1:
+                message.modificationType = 1;
+                break;
             }
             return message;
         };
@@ -16790,6 +16820,7 @@ $root.ownershippb = (function() {
                 object.assetPrefix = "";
                 object.action = "";
                 object.ownersNeeded = 0;
+                object.modificationType = options.enums === String ? "MODIFY" : 0;
             }
             if (message.assetPrefix != null && message.hasOwnProperty("assetPrefix"))
                 object.assetPrefix = message.assetPrefix;
@@ -16802,6 +16833,8 @@ $root.ownershippb = (function() {
                 for (var j = 0; j < message.owners.length; ++j)
                     object.owners[j] = $root.identitypb.OwningIdentity.toObject(message.owners[j], options);
             }
+            if (message.modificationType != null && message.hasOwnProperty("modificationType"))
+                object.modificationType = options.enums === String ? $root.ownershippb.OwnershipDescription.ModificationType[message.modificationType] : message.modificationType;
             return object;
         };
 
@@ -16821,6 +16854,21 @@ $root.ownershippb = (function() {
         OwnershipDescription.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
+
+        /**
+         * ModificationType enum.
+         * @name ModificationType
+         * @memberof ownershippb.OwnershipDescription
+         * @enum {number}
+         * @property {number} MODIFY=0 MODIFY value
+         * @property {number} DELETE=1 DELETE value
+         */
+        OwnershipDescription.ModificationType = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "MODIFY"] = 0;
+            values[valuesById[1] = "DELETE"] = 1;
+            return values;
+        })();
 
         return OwnershipDescription;
     })();
@@ -18054,6 +18102,695 @@ $root.ownershippb = (function() {
     })();
 
     return ownershippb;
+})();
+
+$root.configspb = (function() {
+
+    /**
+     * Namespace configspb.
+     * @exports configspb
+     * @namespace
+     */
+    var configspb = {};
+
+    configspb.Configuration = (function() {
+
+        /**
+         * Properties of a Configuration.
+         * @typedef configspb.Configuration$Properties
+         * @type {Object}
+         * @property {configspb.PublicConfiguration$Properties} [publicConfiguration] Configuration publicConfiguration.
+         * @property {configspb.PrivateConfiguration$Properties} [privateConfiguration] Configuration privateConfiguration.
+         */
+
+        /**
+         * Constructs a new Configuration.
+         * @exports configspb.Configuration
+         * @constructor
+         * @param {configspb.Configuration$Properties=} [properties] Properties to set
+         */
+        function Configuration(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Configuration publicConfiguration.
+         * @type {(configspb.PublicConfiguration$Properties|null)}
+         */
+        Configuration.prototype.publicConfiguration = null;
+
+        /**
+         * Configuration privateConfiguration.
+         * @type {(configspb.PrivateConfiguration$Properties|null)}
+         */
+        Configuration.prototype.privateConfiguration = null;
+
+        /**
+         * Creates a new Configuration instance using the specified properties.
+         * @param {configspb.Configuration$Properties=} [properties] Properties to set
+         * @returns {configspb.Configuration} Configuration instance
+         */
+        Configuration.create = function create(properties) {
+            return new Configuration(properties);
+        };
+
+        /**
+         * Encodes the specified Configuration message. Does not implicitly {@link configspb.Configuration.verify|verify} messages.
+         * @param {configspb.Configuration$Properties} message Configuration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Configuration.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.publicConfiguration != null && message.hasOwnProperty("publicConfiguration"))
+                $root.configspb.PublicConfiguration.encode(message.publicConfiguration, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.privateConfiguration != null && message.hasOwnProperty("privateConfiguration"))
+                $root.configspb.PrivateConfiguration.encode(message.privateConfiguration, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Configuration message, length delimited. Does not implicitly {@link configspb.Configuration.verify|verify} messages.
+         * @param {configspb.Configuration$Properties} message Configuration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Configuration.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Configuration message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {configspb.Configuration} Configuration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Configuration.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.configspb.Configuration();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.publicConfiguration = $root.configspb.PublicConfiguration.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.privateConfiguration = $root.configspb.PrivateConfiguration.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Configuration message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {configspb.Configuration} Configuration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Configuration.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Configuration message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        Configuration.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.publicConfiguration != null && message.hasOwnProperty("publicConfiguration")) {
+                var error = $root.configspb.PublicConfiguration.verify(message.publicConfiguration);
+                if (error)
+                    return "publicConfiguration." + error;
+            }
+            if (message.privateConfiguration != null && message.hasOwnProperty("privateConfiguration")) {
+                var error = $root.configspb.PrivateConfiguration.verify(message.privateConfiguration);
+                if (error)
+                    return "privateConfiguration." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates a Configuration message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {configspb.Configuration} Configuration
+         */
+        Configuration.fromObject = function fromObject(object) {
+            if (object instanceof $root.configspb.Configuration)
+                return object;
+            var message = new $root.configspb.Configuration();
+            if (object.publicConfiguration != null) {
+                if (typeof object.publicConfiguration !== "object")
+                    throw TypeError(".configspb.Configuration.publicConfiguration: object expected");
+                message.publicConfiguration = $root.configspb.PublicConfiguration.fromObject(object.publicConfiguration);
+            }
+            if (object.privateConfiguration != null) {
+                if (typeof object.privateConfiguration !== "object")
+                    throw TypeError(".configspb.Configuration.privateConfiguration: object expected");
+                message.privateConfiguration = $root.configspb.PrivateConfiguration.fromObject(object.privateConfiguration);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a Configuration message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link configspb.Configuration.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {configspb.Configuration} Configuration
+         */
+        Configuration.from = Configuration.fromObject;
+
+        /**
+         * Creates a plain object from a Configuration message. Also converts values to other types if specified.
+         * @param {configspb.Configuration} message Configuration
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Configuration.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.publicConfiguration = null;
+                object.privateConfiguration = null;
+            }
+            if (message.publicConfiguration != null && message.hasOwnProperty("publicConfiguration"))
+                object.publicConfiguration = $root.configspb.PublicConfiguration.toObject(message.publicConfiguration, options);
+            if (message.privateConfiguration != null && message.hasOwnProperty("privateConfiguration"))
+                object.privateConfiguration = $root.configspb.PrivateConfiguration.toObject(message.privateConfiguration, options);
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this Configuration message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Configuration.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this Configuration to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        Configuration.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Configuration;
+    })();
+
+    configspb.PublicConfiguration = (function() {
+
+        /**
+         * Properties of a PublicConfiguration.
+         * @typedef configspb.PublicConfiguration$Properties
+         * @type {Object}
+         * @property {boolean} [requireGoogleLogin] PublicConfiguration requireGoogleLogin.
+         * @property {string} [googleIosClientId] PublicConfiguration googleIosClientId.
+         * @property {string} [googleWebClientId] PublicConfiguration googleWebClientId.
+         */
+
+        /**
+         * Constructs a new PublicConfiguration.
+         * @exports configspb.PublicConfiguration
+         * @constructor
+         * @param {configspb.PublicConfiguration$Properties=} [properties] Properties to set
+         */
+        function PublicConfiguration(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * PublicConfiguration requireGoogleLogin.
+         * @type {boolean}
+         */
+        PublicConfiguration.prototype.requireGoogleLogin = false;
+
+        /**
+         * PublicConfiguration googleIosClientId.
+         * @type {string}
+         */
+        PublicConfiguration.prototype.googleIosClientId = "";
+
+        /**
+         * PublicConfiguration googleWebClientId.
+         * @type {string}
+         */
+        PublicConfiguration.prototype.googleWebClientId = "";
+
+        /**
+         * Creates a new PublicConfiguration instance using the specified properties.
+         * @param {configspb.PublicConfiguration$Properties=} [properties] Properties to set
+         * @returns {configspb.PublicConfiguration} PublicConfiguration instance
+         */
+        PublicConfiguration.create = function create(properties) {
+            return new PublicConfiguration(properties);
+        };
+
+        /**
+         * Encodes the specified PublicConfiguration message. Does not implicitly {@link configspb.PublicConfiguration.verify|verify} messages.
+         * @param {configspb.PublicConfiguration$Properties} message PublicConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PublicConfiguration.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.requireGoogleLogin != null && message.hasOwnProperty("requireGoogleLogin"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.requireGoogleLogin);
+            if (message.googleIosClientId != null && message.hasOwnProperty("googleIosClientId"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.googleIosClientId);
+            if (message.googleWebClientId != null && message.hasOwnProperty("googleWebClientId"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.googleWebClientId);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified PublicConfiguration message, length delimited. Does not implicitly {@link configspb.PublicConfiguration.verify|verify} messages.
+         * @param {configspb.PublicConfiguration$Properties} message PublicConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PublicConfiguration.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a PublicConfiguration message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {configspb.PublicConfiguration} PublicConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PublicConfiguration.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.configspb.PublicConfiguration();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.requireGoogleLogin = reader.bool();
+                    break;
+                case 2:
+                    message.googleIosClientId = reader.string();
+                    break;
+                case 3:
+                    message.googleWebClientId = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a PublicConfiguration message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {configspb.PublicConfiguration} PublicConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PublicConfiguration.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a PublicConfiguration message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        PublicConfiguration.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.requireGoogleLogin != null && message.hasOwnProperty("requireGoogleLogin"))
+                if (typeof message.requireGoogleLogin !== "boolean")
+                    return "requireGoogleLogin: boolean expected";
+            if (message.googleIosClientId != null && message.hasOwnProperty("googleIosClientId"))
+                if (!$util.isString(message.googleIosClientId))
+                    return "googleIosClientId: string expected";
+            if (message.googleWebClientId != null && message.hasOwnProperty("googleWebClientId"))
+                if (!$util.isString(message.googleWebClientId))
+                    return "googleWebClientId: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a PublicConfiguration message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {configspb.PublicConfiguration} PublicConfiguration
+         */
+        PublicConfiguration.fromObject = function fromObject(object) {
+            if (object instanceof $root.configspb.PublicConfiguration)
+                return object;
+            var message = new $root.configspb.PublicConfiguration();
+            if (object.requireGoogleLogin != null)
+                message.requireGoogleLogin = Boolean(object.requireGoogleLogin);
+            if (object.googleIosClientId != null)
+                message.googleIosClientId = String(object.googleIosClientId);
+            if (object.googleWebClientId != null)
+                message.googleWebClientId = String(object.googleWebClientId);
+            return message;
+        };
+
+        /**
+         * Creates a PublicConfiguration message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link configspb.PublicConfiguration.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {configspb.PublicConfiguration} PublicConfiguration
+         */
+        PublicConfiguration.from = PublicConfiguration.fromObject;
+
+        /**
+         * Creates a plain object from a PublicConfiguration message. Also converts values to other types if specified.
+         * @param {configspb.PublicConfiguration} message PublicConfiguration
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PublicConfiguration.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.requireGoogleLogin = false;
+                object.googleIosClientId = "";
+                object.googleWebClientId = "";
+            }
+            if (message.requireGoogleLogin != null && message.hasOwnProperty("requireGoogleLogin"))
+                object.requireGoogleLogin = message.requireGoogleLogin;
+            if (message.googleIosClientId != null && message.hasOwnProperty("googleIosClientId"))
+                object.googleIosClientId = message.googleIosClientId;
+            if (message.googleWebClientId != null && message.hasOwnProperty("googleWebClientId"))
+                object.googleWebClientId = message.googleWebClientId;
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this PublicConfiguration message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PublicConfiguration.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this PublicConfiguration to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        PublicConfiguration.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return PublicConfiguration;
+    })();
+
+    configspb.PrivateConfiguration = (function() {
+
+        /**
+         * Properties of a PrivateConfiguration.
+         * @typedef configspb.PrivateConfiguration$Properties
+         * @type {Object}
+         * @property {string} [roleAssumerFunction] PrivateConfiguration roleAssumerFunction.
+         * @property {string} [roleAssumerFunctionRegion] PrivateConfiguration roleAssumerFunctionRegion.
+         * @property {Object.<string,string>} [iamRoleAliases] PrivateConfiguration iamRoleAliases.
+         * @property {string} [defaultPathToQcFolder] PrivateConfiguration defaultPathToQcFolder.
+         */
+
+        /**
+         * Constructs a new PrivateConfiguration.
+         * @exports configspb.PrivateConfiguration
+         * @constructor
+         * @param {configspb.PrivateConfiguration$Properties=} [properties] Properties to set
+         */
+        function PrivateConfiguration(properties) {
+            this.iamRoleAliases = {};
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * PrivateConfiguration roleAssumerFunction.
+         * @type {string}
+         */
+        PrivateConfiguration.prototype.roleAssumerFunction = "";
+
+        /**
+         * PrivateConfiguration roleAssumerFunctionRegion.
+         * @type {string}
+         */
+        PrivateConfiguration.prototype.roleAssumerFunctionRegion = "";
+
+        /**
+         * PrivateConfiguration iamRoleAliases.
+         * @type {Object.<string,string>}
+         */
+        PrivateConfiguration.prototype.iamRoleAliases = $util.emptyObject;
+
+        /**
+         * PrivateConfiguration defaultPathToQcFolder.
+         * @type {string}
+         */
+        PrivateConfiguration.prototype.defaultPathToQcFolder = "";
+
+        /**
+         * Creates a new PrivateConfiguration instance using the specified properties.
+         * @param {configspb.PrivateConfiguration$Properties=} [properties] Properties to set
+         * @returns {configspb.PrivateConfiguration} PrivateConfiguration instance
+         */
+        PrivateConfiguration.create = function create(properties) {
+            return new PrivateConfiguration(properties);
+        };
+
+        /**
+         * Encodes the specified PrivateConfiguration message. Does not implicitly {@link configspb.PrivateConfiguration.verify|verify} messages.
+         * @param {configspb.PrivateConfiguration$Properties} message PrivateConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PrivateConfiguration.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.roleAssumerFunction != null && message.hasOwnProperty("roleAssumerFunction"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.roleAssumerFunction);
+            if (message.roleAssumerFunctionRegion != null && message.hasOwnProperty("roleAssumerFunctionRegion"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.roleAssumerFunctionRegion);
+            if (message.iamRoleAliases != null && message.hasOwnProperty("iamRoleAliases"))
+                for (var keys = Object.keys(message.iamRoleAliases), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.iamRoleAliases[keys[i]]).ldelim();
+            if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.defaultPathToQcFolder);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified PrivateConfiguration message, length delimited. Does not implicitly {@link configspb.PrivateConfiguration.verify|verify} messages.
+         * @param {configspb.PrivateConfiguration$Properties} message PrivateConfiguration message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PrivateConfiguration.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a PrivateConfiguration message from the specified reader or buffer.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {configspb.PrivateConfiguration} PrivateConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PrivateConfiguration.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.configspb.PrivateConfiguration(), key;
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.roleAssumerFunction = reader.string();
+                    break;
+                case 2:
+                    message.roleAssumerFunctionRegion = reader.string();
+                    break;
+                case 3:
+                    reader.skip().pos++;
+                    if (message.iamRoleAliases === $util.emptyObject)
+                        message.iamRoleAliases = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.iamRoleAliases[key] = reader.string();
+                    break;
+                case 4:
+                    message.defaultPathToQcFolder = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a PrivateConfiguration message from the specified reader or buffer, length delimited.
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {configspb.PrivateConfiguration} PrivateConfiguration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PrivateConfiguration.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a PrivateConfiguration message.
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {?string} `null` if valid, otherwise the reason why it is not
+         */
+        PrivateConfiguration.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.roleAssumerFunction != null && message.hasOwnProperty("roleAssumerFunction"))
+                if (!$util.isString(message.roleAssumerFunction))
+                    return "roleAssumerFunction: string expected";
+            if (message.roleAssumerFunctionRegion != null && message.hasOwnProperty("roleAssumerFunctionRegion"))
+                if (!$util.isString(message.roleAssumerFunctionRegion))
+                    return "roleAssumerFunctionRegion: string expected";
+            if (message.iamRoleAliases != null && message.hasOwnProperty("iamRoleAliases")) {
+                if (!$util.isObject(message.iamRoleAliases))
+                    return "iamRoleAliases: object expected";
+                var key = Object.keys(message.iamRoleAliases);
+                for (var i = 0; i < key.length; ++i)
+                    if (!$util.isString(message.iamRoleAliases[key[i]]))
+                        return "iamRoleAliases: string{k:string} expected";
+            }
+            if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
+                if (!$util.isString(message.defaultPathToQcFolder))
+                    return "defaultPathToQcFolder: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a PrivateConfiguration message from a plain object. Also converts values to their respective internal types.
+         * @param {Object.<string,*>} object Plain object
+         * @returns {configspb.PrivateConfiguration} PrivateConfiguration
+         */
+        PrivateConfiguration.fromObject = function fromObject(object) {
+            if (object instanceof $root.configspb.PrivateConfiguration)
+                return object;
+            var message = new $root.configspb.PrivateConfiguration();
+            if (object.roleAssumerFunction != null)
+                message.roleAssumerFunction = String(object.roleAssumerFunction);
+            if (object.roleAssumerFunctionRegion != null)
+                message.roleAssumerFunctionRegion = String(object.roleAssumerFunctionRegion);
+            if (object.iamRoleAliases) {
+                if (typeof object.iamRoleAliases !== "object")
+                    throw TypeError(".configspb.PrivateConfiguration.iamRoleAliases: object expected");
+                message.iamRoleAliases = {};
+                for (var keys = Object.keys(object.iamRoleAliases), i = 0; i < keys.length; ++i)
+                    message.iamRoleAliases[keys[i]] = String(object.iamRoleAliases[keys[i]]);
+            }
+            if (object.defaultPathToQcFolder != null)
+                message.defaultPathToQcFolder = String(object.defaultPathToQcFolder);
+            return message;
+        };
+
+        /**
+         * Creates a PrivateConfiguration message from a plain object. Also converts values to their respective internal types.
+         * This is an alias of {@link configspb.PrivateConfiguration.fromObject}.
+         * @function
+         * @param {Object.<string,*>} object Plain object
+         * @returns {configspb.PrivateConfiguration} PrivateConfiguration
+         */
+        PrivateConfiguration.from = PrivateConfiguration.fromObject;
+
+        /**
+         * Creates a plain object from a PrivateConfiguration message. Also converts values to other types if specified.
+         * @param {configspb.PrivateConfiguration} message PrivateConfiguration
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PrivateConfiguration.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.objects || options.defaults)
+                object.iamRoleAliases = {};
+            if (options.defaults) {
+                object.roleAssumerFunction = "";
+                object.roleAssumerFunctionRegion = "";
+                object.defaultPathToQcFolder = "";
+            }
+            if (message.roleAssumerFunction != null && message.hasOwnProperty("roleAssumerFunction"))
+                object.roleAssumerFunction = message.roleAssumerFunction;
+            if (message.roleAssumerFunctionRegion != null && message.hasOwnProperty("roleAssumerFunctionRegion"))
+                object.roleAssumerFunctionRegion = message.roleAssumerFunctionRegion;
+            var keys2;
+            if (message.iamRoleAliases && (keys2 = Object.keys(message.iamRoleAliases)).length) {
+                object.iamRoleAliases = {};
+                for (var j = 0; j < keys2.length; ++j)
+                    object.iamRoleAliases[keys2[j]] = message.iamRoleAliases[keys2[j]];
+            }
+            if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
+                object.defaultPathToQcFolder = message.defaultPathToQcFolder;
+            return object;
+        };
+
+        /**
+         * Creates a plain object from this PrivateConfiguration message. Also converts values to other types if specified.
+         * @param {$protobuf.ConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PrivateConfiguration.prototype.toObject = function toObject(options) {
+            return this.constructor.toObject(this, options);
+        };
+
+        /**
+         * Converts this PrivateConfiguration to JSON.
+         * @returns {Object.<string,*>} JSON object
+         */
+        PrivateConfiguration.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return PrivateConfiguration;
+    })();
+
+    return configspb;
 })();
 
 module.exports = $root;
