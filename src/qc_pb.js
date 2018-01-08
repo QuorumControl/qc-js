@@ -14576,7 +14576,7 @@ $root.ownershippb = (function() {
          * @property {google.protobuf.Timestamp$Properties} [createdAt] ActionRequestSignable createdAt.
          * @property {google.protobuf.Timestamp$Properties} [notBefore] ActionRequestSignable notBefore.
          * @property {google.protobuf.Timestamp$Properties} [notAfter] ActionRequestSignable notAfter.
-         * @property {google.protobuf.Timestamp$Properties} [maxUsages] ActionRequestSignable maxUsages.
+         * @property {number} [maxUsages] ActionRequestSignable maxUsages.
          * @property {string} [requesterOrganization] ActionRequestSignable requesterOrganization.
          */
 
@@ -14644,9 +14644,9 @@ $root.ownershippb = (function() {
 
         /**
          * ActionRequestSignable maxUsages.
-         * @type {(google.protobuf.Timestamp$Properties|null)}
+         * @type {number}
          */
-        ActionRequestSignable.prototype.maxUsages = null;
+        ActionRequestSignable.prototype.maxUsages = 0;
 
         /**
          * ActionRequestSignable requesterOrganization.
@@ -14692,7 +14692,7 @@ $root.ownershippb = (function() {
             if (message.notAfter != null && message.hasOwnProperty("notAfter"))
                 $root.google.protobuf.Timestamp.encode(message.notAfter, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
             if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
-                $root.google.protobuf.Timestamp.encode(message.maxUsages, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                writer.uint32(/* id 9, wireType 0 =*/72).int32(message.maxUsages);
             if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
                 writer.uint32(/* id 10, wireType 2 =*/82).string(message.requesterOrganization);
             return writer;
@@ -14753,7 +14753,7 @@ $root.ownershippb = (function() {
                     message.notAfter = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
                     break;
                 case 9:
-                    message.maxUsages = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    message.maxUsages = reader.int32();
                     break;
                 case 10:
                     message.requesterOrganization = reader.string();
@@ -14824,11 +14824,9 @@ $root.ownershippb = (function() {
                 if (error)
                     return "notAfter." + error;
             }
-            if (message.maxUsages != null && message.hasOwnProperty("maxUsages")) {
-                var error = $root.google.protobuf.Timestamp.verify(message.maxUsages);
-                if (error)
-                    return "maxUsages." + error;
-            }
+            if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
+                if (!$util.isInteger(message.maxUsages))
+                    return "maxUsages: integer expected";
             if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
                 if (!$util.isString(message.requesterOrganization))
                     return "requesterOrganization: string expected";
@@ -14877,11 +14875,8 @@ $root.ownershippb = (function() {
                     throw TypeError(".ownershippb.ActionRequestSignable.notAfter: object expected");
                 message.notAfter = $root.google.protobuf.Timestamp.fromObject(object.notAfter);
             }
-            if (object.maxUsages != null) {
-                if (typeof object.maxUsages !== "object")
-                    throw TypeError(".ownershippb.ActionRequestSignable.maxUsages: object expected");
-                message.maxUsages = $root.google.protobuf.Timestamp.fromObject(object.maxUsages);
-            }
+            if (object.maxUsages != null)
+                message.maxUsages = object.maxUsages | 0;
             if (object.requesterOrganization != null)
                 message.requesterOrganization = String(object.requesterOrganization);
             return message;
@@ -14916,7 +14911,7 @@ $root.ownershippb = (function() {
                 object.createdAt = null;
                 object.notBefore = null;
                 object.notAfter = null;
-                object.maxUsages = null;
+                object.maxUsages = 0;
                 object.requesterOrganization = "";
             }
             if (message.asset != null && message.hasOwnProperty("asset"))
@@ -14940,7 +14935,7 @@ $root.ownershippb = (function() {
             if (message.notAfter != null && message.hasOwnProperty("notAfter"))
                 object.notAfter = $root.google.protobuf.Timestamp.toObject(message.notAfter, options);
             if (message.maxUsages != null && message.hasOwnProperty("maxUsages"))
-                object.maxUsages = $root.google.protobuf.Timestamp.toObject(message.maxUsages, options);
+                object.maxUsages = message.maxUsages;
             if (message.requesterOrganization != null && message.hasOwnProperty("requesterOrganization"))
                 object.requesterOrganization = message.requesterOrganization;
             return object;

@@ -12,6 +12,9 @@ var signableBytes = fs.readFileSync("./fixtures/signable.protobuf");
 var aliceSigningBytes = fs.readFileSync('./fixtures/alice_signing.protobuf');
 var aliceBytes = fs.readFileSync('./fixtures/alice.protobuf');
 
+var withMaxUsagesBytes = fs.readFileSync('./fixtures/with_max_usages.protobuf');
+var withMaxUsagesSignable = fs.readFileSync('./fixtures/with_max_usages_signable.bytes');
+
 var alice = Identity.generate("alice", "insaasity");
 
 test('can generate same signable as golang', ()=> {
@@ -19,6 +22,11 @@ test('can generate same signable as golang', ()=> {
     var signable = ar.getSignable();
     var encoded = qcpb.ownershippb.ActionRequestSignable.encode(signable).finish();
     expect(encoded.toString()).toBe(signableBytes.toString());
+
+    var withMaxUsages = qcpb.ownershippb.ActionRequest.decode(withMaxUsagesBytes);
+    signable = withMaxUsages.getSignable();
+    encoded = qcpb.ownershippb.ActionRequestSignable.encode(signable).finish();
+    expect(encoded.toString()).toBe(withMaxUsagesSignable.toString());
 });
 
 test('can hash an action request', ()=> {

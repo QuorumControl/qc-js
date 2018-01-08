@@ -42,6 +42,11 @@ qcpb.ownershippb.ActionRequest.prototype.getSignable = function() {
     list.forEach((key)=> {
         signable[key] = this[key];
     });
+    // This is a hack because if you set this to 0 (default) then it won't match the go implementation
+    // There are tests that confirm this.
+    if (this.maxUsages) {
+        signable['maxUsages'] = this.maxUsages;
+    }
     return signable;
 };
 
