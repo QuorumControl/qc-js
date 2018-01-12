@@ -18320,8 +18320,7 @@ $root.configspb = (function() {
          * @typedef configspb.PublicConfiguration$Properties
          * @type {Object}
          * @property {boolean} [requireGoogleLogin] PublicConfiguration requireGoogleLogin.
-         * @property {string} [googleIosClientId] PublicConfiguration googleIosClientId.
-         * @property {string} [googleWebClientId] PublicConfiguration googleWebClientId.
+         * @property {Array.<string>} [allowedEmails] PublicConfiguration allowedEmails.
          */
 
         /**
@@ -18331,6 +18330,7 @@ $root.configspb = (function() {
          * @param {configspb.PublicConfiguration$Properties=} [properties] Properties to set
          */
         function PublicConfiguration(properties) {
+            this.allowedEmails = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -18344,16 +18344,10 @@ $root.configspb = (function() {
         PublicConfiguration.prototype.requireGoogleLogin = false;
 
         /**
-         * PublicConfiguration googleIosClientId.
-         * @type {string}
+         * PublicConfiguration allowedEmails.
+         * @type {Array.<string>}
          */
-        PublicConfiguration.prototype.googleIosClientId = "";
-
-        /**
-         * PublicConfiguration googleWebClientId.
-         * @type {string}
-         */
-        PublicConfiguration.prototype.googleWebClientId = "";
+        PublicConfiguration.prototype.allowedEmails = $util.emptyArray;
 
         /**
          * Creates a new PublicConfiguration instance using the specified properties.
@@ -18375,10 +18369,9 @@ $root.configspb = (function() {
                 writer = $Writer.create();
             if (message.requireGoogleLogin != null && message.hasOwnProperty("requireGoogleLogin"))
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.requireGoogleLogin);
-            if (message.googleIosClientId != null && message.hasOwnProperty("googleIosClientId"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.googleIosClientId);
-            if (message.googleWebClientId != null && message.hasOwnProperty("googleWebClientId"))
-                writer.uint32(/* id 3, wireType 2 =*/26).string(message.googleWebClientId);
+            if (message.allowedEmails != null && message.allowedEmails.length)
+                for (var i = 0; i < message.allowedEmails.length; ++i)
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.allowedEmails[i]);
             return writer;
         };
 
@@ -18410,11 +18403,10 @@ $root.configspb = (function() {
                 case 1:
                     message.requireGoogleLogin = reader.bool();
                     break;
-                case 2:
-                    message.googleIosClientId = reader.string();
-                    break;
-                case 3:
-                    message.googleWebClientId = reader.string();
+                case 4:
+                    if (!(message.allowedEmails && message.allowedEmails.length))
+                        message.allowedEmails = [];
+                    message.allowedEmails.push(reader.string());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -18448,12 +18440,13 @@ $root.configspb = (function() {
             if (message.requireGoogleLogin != null && message.hasOwnProperty("requireGoogleLogin"))
                 if (typeof message.requireGoogleLogin !== "boolean")
                     return "requireGoogleLogin: boolean expected";
-            if (message.googleIosClientId != null && message.hasOwnProperty("googleIosClientId"))
-                if (!$util.isString(message.googleIosClientId))
-                    return "googleIosClientId: string expected";
-            if (message.googleWebClientId != null && message.hasOwnProperty("googleWebClientId"))
-                if (!$util.isString(message.googleWebClientId))
-                    return "googleWebClientId: string expected";
+            if (message.allowedEmails != null && message.hasOwnProperty("allowedEmails")) {
+                if (!Array.isArray(message.allowedEmails))
+                    return "allowedEmails: array expected";
+                for (var i = 0; i < message.allowedEmails.length; ++i)
+                    if (!$util.isString(message.allowedEmails[i]))
+                        return "allowedEmails: string[] expected";
+            }
             return null;
         };
 
@@ -18468,10 +18461,13 @@ $root.configspb = (function() {
             var message = new $root.configspb.PublicConfiguration();
             if (object.requireGoogleLogin != null)
                 message.requireGoogleLogin = Boolean(object.requireGoogleLogin);
-            if (object.googleIosClientId != null)
-                message.googleIosClientId = String(object.googleIosClientId);
-            if (object.googleWebClientId != null)
-                message.googleWebClientId = String(object.googleWebClientId);
+            if (object.allowedEmails) {
+                if (!Array.isArray(object.allowedEmails))
+                    throw TypeError(".configspb.PublicConfiguration.allowedEmails: array expected");
+                message.allowedEmails = [];
+                for (var i = 0; i < object.allowedEmails.length; ++i)
+                    message.allowedEmails[i] = String(object.allowedEmails[i]);
+            }
             return message;
         };
 
@@ -18494,17 +18490,17 @@ $root.configspb = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.defaults) {
+            if (options.arrays || options.defaults)
+                object.allowedEmails = [];
+            if (options.defaults)
                 object.requireGoogleLogin = false;
-                object.googleIosClientId = "";
-                object.googleWebClientId = "";
-            }
             if (message.requireGoogleLogin != null && message.hasOwnProperty("requireGoogleLogin"))
                 object.requireGoogleLogin = message.requireGoogleLogin;
-            if (message.googleIosClientId != null && message.hasOwnProperty("googleIosClientId"))
-                object.googleIosClientId = message.googleIosClientId;
-            if (message.googleWebClientId != null && message.hasOwnProperty("googleWebClientId"))
-                object.googleWebClientId = message.googleWebClientId;
+            if (message.allowedEmails && message.allowedEmails.length) {
+                object.allowedEmails = [];
+                for (var j = 0; j < message.allowedEmails.length; ++j)
+                    object.allowedEmails[j] = message.allowedEmails[j];
+            }
             return object;
         };
 
@@ -18536,8 +18532,8 @@ $root.configspb = (function() {
          * @type {Object}
          * @property {string} [roleAssumerFunction] PrivateConfiguration roleAssumerFunction.
          * @property {string} [roleAssumerFunctionRegion] PrivateConfiguration roleAssumerFunctionRegion.
-         * @property {Object.<string,string>} [iamRoleAliases] PrivateConfiguration iamRoleAliases.
          * @property {string} [defaultPathToQcFolder] PrivateConfiguration defaultPathToQcFolder.
+         * @property {Array.<string>} [exemptedIdentitiyPrefixes] PrivateConfiguration exemptedIdentitiyPrefixes.
          */
 
         /**
@@ -18547,7 +18543,7 @@ $root.configspb = (function() {
          * @param {configspb.PrivateConfiguration$Properties=} [properties] Properties to set
          */
         function PrivateConfiguration(properties) {
-            this.iamRoleAliases = {};
+            this.exemptedIdentitiyPrefixes = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -18567,16 +18563,16 @@ $root.configspb = (function() {
         PrivateConfiguration.prototype.roleAssumerFunctionRegion = "";
 
         /**
-         * PrivateConfiguration iamRoleAliases.
-         * @type {Object.<string,string>}
-         */
-        PrivateConfiguration.prototype.iamRoleAliases = $util.emptyObject;
-
-        /**
          * PrivateConfiguration defaultPathToQcFolder.
          * @type {string}
          */
         PrivateConfiguration.prototype.defaultPathToQcFolder = "";
+
+        /**
+         * PrivateConfiguration exemptedIdentitiyPrefixes.
+         * @type {Array.<string>}
+         */
+        PrivateConfiguration.prototype.exemptedIdentitiyPrefixes = $util.emptyArray;
 
         /**
          * Creates a new PrivateConfiguration instance using the specified properties.
@@ -18600,11 +18596,11 @@ $root.configspb = (function() {
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.roleAssumerFunction);
             if (message.roleAssumerFunctionRegion != null && message.hasOwnProperty("roleAssumerFunctionRegion"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.roleAssumerFunctionRegion);
-            if (message.iamRoleAliases != null && message.hasOwnProperty("iamRoleAliases"))
-                for (var keys = Object.keys(message.iamRoleAliases), i = 0; i < keys.length; ++i)
-                    writer.uint32(/* id 3, wireType 2 =*/26).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.iamRoleAliases[keys[i]]).ldelim();
             if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.defaultPathToQcFolder);
+            if (message.exemptedIdentitiyPrefixes != null && message.exemptedIdentitiyPrefixes.length)
+                for (var i = 0; i < message.exemptedIdentitiyPrefixes.length; ++i)
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.exemptedIdentitiyPrefixes[i]);
             return writer;
         };
 
@@ -18629,7 +18625,7 @@ $root.configspb = (function() {
         PrivateConfiguration.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.configspb.PrivateConfiguration(), key;
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.configspb.PrivateConfiguration();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -18639,16 +18635,13 @@ $root.configspb = (function() {
                 case 2:
                     message.roleAssumerFunctionRegion = reader.string();
                     break;
-                case 3:
-                    reader.skip().pos++;
-                    if (message.iamRoleAliases === $util.emptyObject)
-                        message.iamRoleAliases = {};
-                    key = reader.string();
-                    reader.pos++;
-                    message.iamRoleAliases[key] = reader.string();
-                    break;
                 case 4:
                     message.defaultPathToQcFolder = reader.string();
+                    break;
+                case 5:
+                    if (!(message.exemptedIdentitiyPrefixes && message.exemptedIdentitiyPrefixes.length))
+                        message.exemptedIdentitiyPrefixes = [];
+                    message.exemptedIdentitiyPrefixes.push(reader.string());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -18685,17 +18678,16 @@ $root.configspb = (function() {
             if (message.roleAssumerFunctionRegion != null && message.hasOwnProperty("roleAssumerFunctionRegion"))
                 if (!$util.isString(message.roleAssumerFunctionRegion))
                     return "roleAssumerFunctionRegion: string expected";
-            if (message.iamRoleAliases != null && message.hasOwnProperty("iamRoleAliases")) {
-                if (!$util.isObject(message.iamRoleAliases))
-                    return "iamRoleAliases: object expected";
-                var key = Object.keys(message.iamRoleAliases);
-                for (var i = 0; i < key.length; ++i)
-                    if (!$util.isString(message.iamRoleAliases[key[i]]))
-                        return "iamRoleAliases: string{k:string} expected";
-            }
             if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
                 if (!$util.isString(message.defaultPathToQcFolder))
                     return "defaultPathToQcFolder: string expected";
+            if (message.exemptedIdentitiyPrefixes != null && message.hasOwnProperty("exemptedIdentitiyPrefixes")) {
+                if (!Array.isArray(message.exemptedIdentitiyPrefixes))
+                    return "exemptedIdentitiyPrefixes: array expected";
+                for (var i = 0; i < message.exemptedIdentitiyPrefixes.length; ++i)
+                    if (!$util.isString(message.exemptedIdentitiyPrefixes[i]))
+                        return "exemptedIdentitiyPrefixes: string[] expected";
+            }
             return null;
         };
 
@@ -18712,15 +18704,15 @@ $root.configspb = (function() {
                 message.roleAssumerFunction = String(object.roleAssumerFunction);
             if (object.roleAssumerFunctionRegion != null)
                 message.roleAssumerFunctionRegion = String(object.roleAssumerFunctionRegion);
-            if (object.iamRoleAliases) {
-                if (typeof object.iamRoleAliases !== "object")
-                    throw TypeError(".configspb.PrivateConfiguration.iamRoleAliases: object expected");
-                message.iamRoleAliases = {};
-                for (var keys = Object.keys(object.iamRoleAliases), i = 0; i < keys.length; ++i)
-                    message.iamRoleAliases[keys[i]] = String(object.iamRoleAliases[keys[i]]);
-            }
             if (object.defaultPathToQcFolder != null)
                 message.defaultPathToQcFolder = String(object.defaultPathToQcFolder);
+            if (object.exemptedIdentitiyPrefixes) {
+                if (!Array.isArray(object.exemptedIdentitiyPrefixes))
+                    throw TypeError(".configspb.PrivateConfiguration.exemptedIdentitiyPrefixes: array expected");
+                message.exemptedIdentitiyPrefixes = [];
+                for (var i = 0; i < object.exemptedIdentitiyPrefixes.length; ++i)
+                    message.exemptedIdentitiyPrefixes[i] = String(object.exemptedIdentitiyPrefixes[i]);
+            }
             return message;
         };
 
@@ -18743,8 +18735,8 @@ $root.configspb = (function() {
             if (!options)
                 options = {};
             var object = {};
-            if (options.objects || options.defaults)
-                object.iamRoleAliases = {};
+            if (options.arrays || options.defaults)
+                object.exemptedIdentitiyPrefixes = [];
             if (options.defaults) {
                 object.roleAssumerFunction = "";
                 object.roleAssumerFunctionRegion = "";
@@ -18754,14 +18746,13 @@ $root.configspb = (function() {
                 object.roleAssumerFunction = message.roleAssumerFunction;
             if (message.roleAssumerFunctionRegion != null && message.hasOwnProperty("roleAssumerFunctionRegion"))
                 object.roleAssumerFunctionRegion = message.roleAssumerFunctionRegion;
-            var keys2;
-            if (message.iamRoleAliases && (keys2 = Object.keys(message.iamRoleAliases)).length) {
-                object.iamRoleAliases = {};
-                for (var j = 0; j < keys2.length; ++j)
-                    object.iamRoleAliases[keys2[j]] = message.iamRoleAliases[keys2[j]];
-            }
             if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
                 object.defaultPathToQcFolder = message.defaultPathToQcFolder;
+            if (message.exemptedIdentitiyPrefixes && message.exemptedIdentitiyPrefixes.length) {
+                object.exemptedIdentitiyPrefixes = [];
+                for (var j = 0; j < message.exemptedIdentitiyPrefixes.length; ++j)
+                    object.exemptedIdentitiyPrefixes[j] = message.exemptedIdentitiyPrefixes[j];
+            }
             return object;
         };
 
