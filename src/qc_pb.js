@@ -18533,7 +18533,7 @@ $root.configspb = (function() {
          * @property {string} [roleAssumerFunction] PrivateConfiguration roleAssumerFunction.
          * @property {string} [roleAssumerFunctionRegion] PrivateConfiguration roleAssumerFunctionRegion.
          * @property {string} [defaultPathToQcFolder] PrivateConfiguration defaultPathToQcFolder.
-         * @property {Array.<string>} [exemptedIdentitiyPrefixes] PrivateConfiguration exemptedIdentitiyPrefixes.
+         * @property {Array.<string>} [exemptedIdentityPrefixes] PrivateConfiguration exemptedIdentityPrefixes.
          */
 
         /**
@@ -18543,7 +18543,7 @@ $root.configspb = (function() {
          * @param {configspb.PrivateConfiguration$Properties=} [properties] Properties to set
          */
         function PrivateConfiguration(properties) {
-            this.exemptedIdentitiyPrefixes = [];
+            this.exemptedIdentityPrefixes = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -18569,10 +18569,10 @@ $root.configspb = (function() {
         PrivateConfiguration.prototype.defaultPathToQcFolder = "";
 
         /**
-         * PrivateConfiguration exemptedIdentitiyPrefixes.
+         * PrivateConfiguration exemptedIdentityPrefixes.
          * @type {Array.<string>}
          */
-        PrivateConfiguration.prototype.exemptedIdentitiyPrefixes = $util.emptyArray;
+        PrivateConfiguration.prototype.exemptedIdentityPrefixes = $util.emptyArray;
 
         /**
          * Creates a new PrivateConfiguration instance using the specified properties.
@@ -18598,9 +18598,9 @@ $root.configspb = (function() {
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.roleAssumerFunctionRegion);
             if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.defaultPathToQcFolder);
-            if (message.exemptedIdentitiyPrefixes != null && message.exemptedIdentitiyPrefixes.length)
-                for (var i = 0; i < message.exemptedIdentitiyPrefixes.length; ++i)
-                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.exemptedIdentitiyPrefixes[i]);
+            if (message.exemptedIdentityPrefixes != null && message.exemptedIdentityPrefixes.length)
+                for (var i = 0; i < message.exemptedIdentityPrefixes.length; ++i)
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.exemptedIdentityPrefixes[i]);
             return writer;
         };
 
@@ -18639,9 +18639,9 @@ $root.configspb = (function() {
                     message.defaultPathToQcFolder = reader.string();
                     break;
                 case 5:
-                    if (!(message.exemptedIdentitiyPrefixes && message.exemptedIdentitiyPrefixes.length))
-                        message.exemptedIdentitiyPrefixes = [];
-                    message.exemptedIdentitiyPrefixes.push(reader.string());
+                    if (!(message.exemptedIdentityPrefixes && message.exemptedIdentityPrefixes.length))
+                        message.exemptedIdentityPrefixes = [];
+                    message.exemptedIdentityPrefixes.push(reader.string());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -18681,12 +18681,12 @@ $root.configspb = (function() {
             if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
                 if (!$util.isString(message.defaultPathToQcFolder))
                     return "defaultPathToQcFolder: string expected";
-            if (message.exemptedIdentitiyPrefixes != null && message.hasOwnProperty("exemptedIdentitiyPrefixes")) {
-                if (!Array.isArray(message.exemptedIdentitiyPrefixes))
-                    return "exemptedIdentitiyPrefixes: array expected";
-                for (var i = 0; i < message.exemptedIdentitiyPrefixes.length; ++i)
-                    if (!$util.isString(message.exemptedIdentitiyPrefixes[i]))
-                        return "exemptedIdentitiyPrefixes: string[] expected";
+            if (message.exemptedIdentityPrefixes != null && message.hasOwnProperty("exemptedIdentityPrefixes")) {
+                if (!Array.isArray(message.exemptedIdentityPrefixes))
+                    return "exemptedIdentityPrefixes: array expected";
+                for (var i = 0; i < message.exemptedIdentityPrefixes.length; ++i)
+                    if (!$util.isString(message.exemptedIdentityPrefixes[i]))
+                        return "exemptedIdentityPrefixes: string[] expected";
             }
             return null;
         };
@@ -18706,12 +18706,12 @@ $root.configspb = (function() {
                 message.roleAssumerFunctionRegion = String(object.roleAssumerFunctionRegion);
             if (object.defaultPathToQcFolder != null)
                 message.defaultPathToQcFolder = String(object.defaultPathToQcFolder);
-            if (object.exemptedIdentitiyPrefixes) {
-                if (!Array.isArray(object.exemptedIdentitiyPrefixes))
-                    throw TypeError(".configspb.PrivateConfiguration.exemptedIdentitiyPrefixes: array expected");
-                message.exemptedIdentitiyPrefixes = [];
-                for (var i = 0; i < object.exemptedIdentitiyPrefixes.length; ++i)
-                    message.exemptedIdentitiyPrefixes[i] = String(object.exemptedIdentitiyPrefixes[i]);
+            if (object.exemptedIdentityPrefixes) {
+                if (!Array.isArray(object.exemptedIdentityPrefixes))
+                    throw TypeError(".configspb.PrivateConfiguration.exemptedIdentityPrefixes: array expected");
+                message.exemptedIdentityPrefixes = [];
+                for (var i = 0; i < object.exemptedIdentityPrefixes.length; ++i)
+                    message.exemptedIdentityPrefixes[i] = String(object.exemptedIdentityPrefixes[i]);
             }
             return message;
         };
@@ -18736,7 +18736,7 @@ $root.configspb = (function() {
                 options = {};
             var object = {};
             if (options.arrays || options.defaults)
-                object.exemptedIdentitiyPrefixes = [];
+                object.exemptedIdentityPrefixes = [];
             if (options.defaults) {
                 object.roleAssumerFunction = "";
                 object.roleAssumerFunctionRegion = "";
@@ -18748,10 +18748,10 @@ $root.configspb = (function() {
                 object.roleAssumerFunctionRegion = message.roleAssumerFunctionRegion;
             if (message.defaultPathToQcFolder != null && message.hasOwnProperty("defaultPathToQcFolder"))
                 object.defaultPathToQcFolder = message.defaultPathToQcFolder;
-            if (message.exemptedIdentitiyPrefixes && message.exemptedIdentitiyPrefixes.length) {
-                object.exemptedIdentitiyPrefixes = [];
-                for (var j = 0; j < message.exemptedIdentitiyPrefixes.length; ++j)
-                    object.exemptedIdentitiyPrefixes[j] = message.exemptedIdentitiyPrefixes[j];
+            if (message.exemptedIdentityPrefixes && message.exemptedIdentityPrefixes.length) {
+                object.exemptedIdentityPrefixes = [];
+                for (var j = 0; j < message.exemptedIdentityPrefixes.length; ++j)
+                    object.exemptedIdentityPrefixes[j] = message.exemptedIdentityPrefixes[j];
             }
             return object;
         };
